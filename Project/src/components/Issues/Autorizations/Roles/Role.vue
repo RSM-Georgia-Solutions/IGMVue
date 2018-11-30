@@ -1,13 +1,62 @@
 <template>
-    <h1>Role</h1>
+
+            <v-flex xs4>
+    
+                <v-avatar size="80" >
+    
+                    <img :src=Role.image @click="NavigateToRole">
+    
+                </v-avatar>
+    
+                <p style="font-size:140%;margin-left: 5%;">{{Role.role}}</p>                
+    
+            </v-flex>
+       
+
 </template>
-
+ 
 <script>
-export default {
+    export default {
+    
+        props: ['Role'],
 
-}
+         methods: {
+    
+            NavigateToRole() {
+    
+                 
+    
+                if (this.Role.role == 'New Role') {
+    
+                    this.$router.push({
+    
+                        name: 'NewRole'
+    
+                    });
+    
+                } else {
+                 
+                    this.$router.push({
+    
+                        name: 'Role'                        
+                       
+                    });
+    
+                }
+    
+            }
+    
+        }
+
+          
+    
+        }
+    
+    
+    // @click="NavigateToRole(rol.role)"
 </script>
-
+ 
 <style>
-
+    
 </style>
+ 

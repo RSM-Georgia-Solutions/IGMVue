@@ -198,7 +198,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/NewRole.vue')
     },
     {
-      path: '/Issues/Autorizations/Roles/Role',
+      path: '/Issues/Autorizations/Roles/Role/:id/',
       name: 'Role',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route

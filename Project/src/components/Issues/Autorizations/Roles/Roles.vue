@@ -1,161 +1,52 @@
 <template>
-    <div>
+    <v-container fluid>
     
-        <v-toolbar flat color="white">
-    
-            <v-toolbar-title>Roles</v-toolbar-title>
-    
-            <v-divider class="mx-2" inset vertical></v-divider>
-    
-            <v-spacer></v-spacer>
+        <v-layout row wrap>
 
-            <v-btn small fab color="success" :to="{name:'NewRole'}">
-                 <v-icon dark>add</v-icon>
-            </v-btn>
+            <role v-for="rol in roles" :Role=rol :key="rol.Role" ></role>
     
-        </v-toolbar>
+        </v-layout>
     
-        <v-data-table :headers="headers" :items="Roles" :search="search">
-    
-            <template slot="items" slot-scope="props"> 
-    
-                     <td  @click="NavigateToRoles"  class="text-xs-left">{{ props.item.id }}</td>
-    
-                     <td  @click="NavigateToRoles" class="text-xs-left">{{ props.item.role }}</td>
-    
-                    <td class="justify-center layout px-0">
-    
-              
-
-                        <v-icon
-    
-                         small
-    
-                         @click="deleteItem(props.item)"
-    
-                       >
-    
-                        delete
-    
-                      </v-icon>
-    
-                     </td>
-</template>
-
-      <v-alert slot="no-results" :value="true" color="error" icon="warning">
-        Your search for "{{ search }}" found no results.
-      </v-alert>
-       </v-data-table>
- </v-card>
- </div>
+    </v-container>
 </template>
 
 <script>
-    import axios from 'axios';
-    
+    import Role from './Role.vue';
     export default {
-    
-        created() {
-    
-            axios.get('https://localhost:44317/api/Roles')
-    
-                .then(res => {
-                  
-                    const RolesRes = res.data
-                    
 
-                    for (let key in RolesRes) {
+          components: {
     
-                        const RolerRes = RolesRes[key]
-                           
-                        this.Roles.push(RolerRes)
-    
-                    }
-                       console.log(this.Roles)
-                })
-    
-                .catch(error => console.log(error))
+            Role,
     
         },
     
-        data() {
+        methods: {
     
-            return {
+            // NavigateToRole(role) {
     
-                search: '',
+            //     console.log(role)
     
-                editedIndex: -1,
+            //     if (role == 'New Role') {
     
-                editedItem: {
+            //         this.$router.push({
     
-                    Id: '',
+            //             name: 'NewRole'
     
-                    Role: ''
+            //         });
     
-                },
+            //     } else {
+                 
+            //         this.$router.push({
     
-                headers: [{
+            //             name: 'Role',
+            //             id : 1
+                       
+            //         });
     
-                        text: 'კოდი',
+            //     }
     
-                        value: 'Code',
+            // }
     
-                    },
-    
-                    {
-    
-                        text: 'როლი',
-    
-                        value: 'Role'
-    
-                    }
-    
-                ],
-    
-                Roles: [],
-    
-            }
-    
-        },
-
-        methods : {
-             deleteItem(item) {
-    
-                const index = this.Roles.indexOf(item)
-                console.log(item.id)
-    
-                var confirmed = confirm('Are you sure you want to delete this item?') && this.Roles.splice(index, 1)
-    
-                if (confirmed) {
-    
-                    axios.delete('https://localhost:44317/api/Roles', {
-    
-                            params: {
-    
-                                id: item.id
-    
-                            }
-    
-                        })
-    
-                        .then(res => console.log(res))
-    
-                        .catch(error => console.log('error'))
-    
-                }
-    
-            },
-
-            
-      NavigateToRoles() {
-          console.log('aaa')
-        this.$router.push({
-  
-          name: 'Role'
-  
-        });
-  
-      }
         }
     
     }
