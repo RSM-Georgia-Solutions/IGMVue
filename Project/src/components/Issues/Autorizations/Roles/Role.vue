@@ -1,30 +1,29 @@
-<template>
-
-            <v-flex xs4>
+<template>    
     
-                <v-avatar size="80" >
+        <v-flex xs4>
     
-                    <img :src=Role.image @click="NavigateToRole">
+            <v-avatar size="80">
     
-                </v-avatar>
+                <img :src=Role.image @click="NavigateToRole(Role.role)">
     
-                <p style="font-size:140%;margin-left: 5%;">{{Role.role}}</p>                
+            </v-avatar>
     
-            </v-flex>
-       
-
+            <p style="font-size:140%;margin-left: 5%;">{{Role.role}}</p>
+    
+        </v-flex>
+    
+  
 </template>
  
 <script>
-    export default {
+    export default { 
     
         props: ['Role'],
-
-         methods: {
+    
+        methods: {
     
             NavigateToRole() {
-    
-                 
+                
     
                 if (this.Role.role == 'New Role') {
     
@@ -35,23 +34,22 @@
                     });
     
                 } else {
-                 
+    
                     this.$router.push({
     
-                        name: 'Role'                        
-                       
-                    });
+                        name: 'RoleSingle',
+                        params: {id:this.Role.id}
+                        
     
+                    });
+                
                 }
     
             }
     
         }
-
-          
     
-        }
-    
+    }
     
     // @click="NavigateToRole(rol.role)"
 </script>

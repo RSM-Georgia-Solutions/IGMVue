@@ -198,12 +198,22 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/NewRole.vue')
     },
     {
-      path: '/Issues/Autorizations/Roles/Role/:id/',
+      path: '/Issues/Autorizations/Roles/Role/',
       name: 'Role',
+      props: true,
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/Role.vue')
+    },
+    {
+      path: '/Issues/Autorizations/Roles/RoleSingle/:id/',
+      name: 'RoleSingle',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/RoleSingle.vue')
     }
   ]
 })

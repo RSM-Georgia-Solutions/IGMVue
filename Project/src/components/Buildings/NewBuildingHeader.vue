@@ -11,19 +11,7 @@
     
                     <v-text-field label="Adress" placeholder="Adress"></v-text-field>
     
-                </v-flex>
-
-
-                
-
-                <!-- <v-flex xs12 sm6 md6>
-
-
-                    <v-text-field label="Select Image"   prepend-icon='attach_file'></v-text-field>
-
-                    <input type="file" style="display: none" ref="image" accept="image/*" >
-
-                </v-flex> -->
+                </v-flex> 
     
             </v-layout>
 </template>
