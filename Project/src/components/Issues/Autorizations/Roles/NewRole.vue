@@ -7,17 +7,18 @@
     
         </v-flex>
     
-        <v-flex v-for="perm in permissions" :key=perm.id xs3 ml-4>
+        <v-flex v-for="perm in permissions" :key=perm.id xs3 ml-4 >
     
-            <v-checkbox :label="perm.permission" v-model="selected" :value="perm.id"></v-checkbox>
+            <v-checkbox :label="perm.permission" v-model="selected" :value="perm.id" ></v-checkbox>
     
         </v-flex>
     
         
     <v-flex xs6 offset-xs4>
-            <v-btn color="blue" class="mt-5" right @click="SaveRole">დამახსოვრება</v-btn>  
+            <v-btn color="blue" class="mt-5" right @click="sendreq">დამახსოვრება</v-btn>  
               
             <p>{{this.selected}}</p>       
+            <p>{{this.postItem.role}}</p>       
     </v-flex>
     
       
@@ -39,11 +40,7 @@
 
                 postItem: {
                     role: '',
-                    permissionRoles:[
-                        {
-                            permissionId : ''
-                        }
-                    ]
+                    permissionRoles:[]
                 }
     
             }
@@ -51,9 +48,42 @@
         },
 
         methods: {
-            SaveRole(){
-                console.log(this.postItem)
-                axios.post(this.$store.state.baseUrl, )
+
+            sendreq(){
+                this.AddPermission()
+                this.SaveRole()
+            },
+           
+            SaveRole(){ 
+                 console.log(this.postItem)
+                axios.post(this.$store.state.baseUrl + '/Roles', this.postItem)
+                .then(res=>{
+                    console.log(res)
+                            this.postItem.permissionRoles = null
+                            this.selected = null
+                            this.postItem.role = null
+                })
+                .catch(err=>{
+                    console.log(err)
+                           this.postItem.permissionRoles = null
+                           this.selected = null
+                           this.postItem.role = null
+                })
+
+         
+            },
+
+            AddPermission(){                 
+               
+                for(i=0; i<this.selected.length; i++){
+                   let item = {
+                        permissionId : this.selected[i]
+                    }
+              
+                    this.postItem.permissionRoles.push(item)
+                }
+
+                 console.log(this.postItem)
             }
         },
     

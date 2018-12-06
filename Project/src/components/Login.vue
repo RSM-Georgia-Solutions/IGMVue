@@ -33,7 +33,7 @@
     
     export default {
     
-      
+  
 
         data() {
     
@@ -65,7 +65,15 @@
     
         },
     
+           mutations : {
+                storeToken(state, token){
+                    state.token = token
+                }
+            },
+
         methods: {
+
+         
     
             authenticate() {
     
@@ -75,10 +83,7 @@
     
                         res => {
     
-                            this.$store.state.token = res.data.token
-    
-                             console.log(this.$store.state.token)
-    
+                            localStorage.token = res.data.token
                             this.$router.push({
     
                                 name: 'Accidents'

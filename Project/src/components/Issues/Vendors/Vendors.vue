@@ -199,25 +199,30 @@
     
                     v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) || 'E-mail must be valid'
     
-                ],
+                ], 
+                 vendorNameRules: [
     
-                mobileRules: [
+                    v => !!v || 'Name is required'
+                ],
+
+                vendorCodeRules: [    
+                    v => !!v || 'Code is required'
+                ],
+
+                 mobileRules: [
     
                     v => !!v || 'Mobile is required',
     
                     v =>  /^(5)\d{8}?$/.test(v) || 'Mobile number must be valid'
     
                 ],
-                vendorCodeRules: [
-    
-                    v => !!v || 'Code is required'
-                ],
 
-                 vendorNameRules: [
+                 passwordRule: [
     
                     v => !!v || 'Name is required'
                 ],
     
+
                 search: '',
     
                 dialog: false,
@@ -320,15 +325,7 @@
     
                 if (confirmed) {
     
-                    axios.delete('https://localhost:44387/api/vendors', {
-    
-                            params: {
-    
-                                id: item.vendorCode
-    
-                            }
-    
-                        })
+                    axios.delete(this.$store.state.baseUrl +'/vendors/' + item.id)
     
                         .then(res => console.log(res))
     
@@ -355,7 +352,7 @@
             save() {
     
                 if (this.editedIndex > -1) {
-    
+                    console.log(this.editedItem)
                     axios.put('https://localhost:44317/api/vendors', this.editedItem)
     
                         .then(res => {

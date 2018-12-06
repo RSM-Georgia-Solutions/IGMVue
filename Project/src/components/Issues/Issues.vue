@@ -14,10 +14,10 @@
             <v-btn color="cyan" class="mt-4" :to="{name:'Inventory'}">მარაგები</v-btn>
     
             <v-btn color="pink" class="mt-4" :to="{name:'Vendors'}">ვენოდრები</v-btn>
-
-            <v-btn color="purple" class="mt-4" :to="{name:'Users'}">მომხმარებლები</v-btn>
     
             <v-btn color="teal accent-3" class="mt-4" :to="{name:'Report'}" dark>რეპორტები</v-btn>
+            
+            <v-btn color="purple" class="mt-4" :to="{name:'Users'}">მომხმარებლები</v-btn>
 
             <v-btn color="blue accent-3" class="mt-4" :to="{name:'Autorizations'}" dark>ავტორიზაციები</v-btn>
     
@@ -31,8 +31,7 @@
     
     export default {
     
-        created() {
-    
+        created() { 
             axios.get(this.$store.state.baseUrl + '/Users',
     
                     {
@@ -41,7 +40,7 @@
     
                             Authorization:
     
-                                'Bearer ' + this.$store.state.token
+                                'Bearer ' + localStorage.token
     
                         }
     
@@ -55,11 +54,11 @@
     
                     console.log('error = ' + error)
     
-                    // this.$router.push({
+                    this.$router.push({
     
-                    //     name: 'Login'
+                        name: 'Login'
     
-                    // })
+                    })
     
                 })
     
