@@ -38,13 +38,13 @@
                                     <v-text-field v-model="editedItem.lastName" placeholder="გვარი" label="გვარი" required :rules="userLastNameRule"></v-text-field>
     
                                 </v-flex>
-
+    
                                 <v-flex xs12 sm6 md4>
     
                                     <v-text-field v-model="editedItem.username" placeholder="username" label="username" required :rules="userRule"></v-text-field>
     
                                 </v-flex>
-
+    
                                 <v-flex xs12 sm6 md4>
     
                                     <v-text-field v-model="editedItem.password" type="password" placeholder="პაროლი" label="პაროლი" required :rules="passwordRule"></v-text-field>
@@ -54,20 +54,19 @@
                                 <v-flex xs12 sm6 md4>
     
                                     <v-text-field v-model="editedItem.position" placeholder="პოზიცია" label="პოზიცია"></v-text-field>
-    
-                                </v-flex>
 
-                                <v-flex xs12 sm6 md4>
-
-                                      <v-autocomplete v-model="editedItem.roles.id" :items="roles" item-text="role" item-value="id" label="როლი" placeholder="არჩევა..." required></v-autocomplete>
-                                    <!-- <v-text-field v-model="editedItem.roles.id"  placeholder="როლი" label="როლი"></v-text-field> -->
-    
                                 </v-flex>
-     
     
                                 <v-flex xs12 sm6 md4>
     
-                                    <v-text-field v-model="editedItem.email" placeholder="email" label="email" :rules="emailRules" required ></v-text-field>
+                                    <v-autocomplete v-model="editedItem.roles.id" :items="roles" item-text="role" item-value="id" label="როლი" placeholder="არჩევა..." required></v-autocomplete>
+                            
+    
+                                </v-flex>
+    
+                                <v-flex xs12 sm6 md4>
+    
+                                    <v-text-field v-model="editedItem.email" placeholder="email" label="email" :rules="emailRules" required></v-text-field>
     
                                 </v-flex>
     
@@ -97,47 +96,47 @@
     
             <template slot="items" slot-scope="props"> 
     
-                                                                                                    <td  class="text-xs-left">{{ props.item.firstName }}</td>
+                                                                                                        <td  class="text-xs-left">{{ props.item.firstName }}</td>
     
-                                                                                                    <td    class="text-xs-left">{{ props.item.lastName }}</td>
-
-                                                                                                    <td    class="text-xs-left">{{ props.item.username }}</td>
+                                                                                                        <td    class="text-xs-left">{{ props.item.lastName }}</td>
     
-                                                                                                    <td   class="text-xs-left">{{ props.item.position }}</td>
+                                                                                                        <td    class="text-xs-left">{{ props.item.username }}</td>
     
-                                                                                                    <td   class="text-xs-left">{{ props.item.roles.role }}</td>
+                                                                                                        <td   class="text-xs-left">{{ props.item.position }}</td>
     
-                                                                                                    <td   class="text-xs-left">{{ props.item.email }}</td>
+                                                                                                        <td   class="text-xs-left">{{ props.item.roles.role }}</td>
     
-                                                                                                            <td class="justify-center layout px-0">
+                                                                                                        <td   class="text-xs-left">{{ props.item.email }}</td>
     
-                                                  <v-icon
+                                                                                                                <td class="justify-center layout px-0">
     
-                                                    small
+                                                      <v-icon
     
-                                                    class="mr-2"
+                                                        small
     
-                                                    @click="editItem(props.item)"
+                                                        class="mr-2"
     
-                                                  >
+                                                        @click="editItem(props.item)"
     
-                                                    edit
+                                                      >
     
-                                                  </v-icon>
+                                                        edit
     
-                                                  <v-icon
+                                                      </v-icon>
     
-                                                    small
+                                                      <v-icon
     
-                                                    @click="deleteItem(props.item)"
+                                                        small
     
-                                                  >
+                                                        @click="deleteItem(props.item)"
     
-                                                    delete
+                                                      >
     
-                                                  </v-icon>
+                                                        delete
     
-                                                </td>
+                                                      </v-icon>
+    
+                                                    </td>
 </template>
 
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -153,41 +152,62 @@
     export default {
     
         created() {
-             
-             
-            axios.get(this.$store.state.baseUrl +'/users')
+    
+            axios.get(this.$store.state.baseUrl + '/users', {
+    
+                    'headers': {
+    
+                        Authorization:
+    
+                            'Bearer ' + localStorage.token
+    
+                    }
+    
+                })
     
                 .then(res => {
     
-                    const UsersRes = res.data 
+                    const UsersRes = res.data
+    
                     for (let key in UsersRes) {
     
                         const UserRes = UsersRes[key]
     
                         this.Users.push(UserRes)
-                 
+    
                     }
-                    
+    
                 })
     
                 .catch(error => console.log(error))
-
-
-            axios.get(this.$store.state.baseUrl +'/roles')
-            .then(
-                res=>{
-                    const rolesData = res.data
-                    for(let key in rolesData){
-                        const role = {
-                            id : rolesData[key].id,
-                            role : rolesData[key].role,
+    
+            axios.get(this.$store.state.baseUrl + '/roles')
+    
+                .then(
+    
+                    res => {
+    
+                        const rolesData = res.data
+    
+                        for (let key in rolesData) {
+    
+                            const role = {
+    
+                                id: rolesData[key].id,
+    
+                                role: rolesData[key].role,
+    
+                            }
+    
+                            this.roles.push(role)
+    
                         }
-                        this.roles.push(role)
+    
                     }
-                     
-                }
-            )
-            .catch(err=>console.log(err))
+    
+                )
+    
+                .catch(err => console.log(err))
     
         },
     
@@ -198,17 +218,27 @@
                 return this.editedIndex === -1 ? 'მომხმარებლის დამატება' : 'მომხმარებლის კორეკტირება'
     
             },
-
-            formIsValid(){
-                return(
+    
+            formIsValid() {
+    
+                return (
+    
                     this.editedItem.firstName,
+    
                     this.editedItem.lastName,
+    
                     this.editedItem.username,
+    
                     this.editedItem.password,
+    
                     this.editedItem.position,
-                    this.editedItem.role,                 
-                    this.editedItem.email            
+    
+                    this.editedItem.role,
+    
+                    this.editedItem.email
+    
                 )
+    
             }
     
         },
@@ -226,8 +256,8 @@
         data() {
     
             return {
-
-                roles : [],
+    
+                roles: [],
     
                 emailRules: [
     
@@ -237,25 +267,28 @@
     
                 ],
     
-               
                 userNameRule: [
     
                     v => !!v || 'Code is required'
+    
                 ],
-
-                 userLastNameRule: [
+    
+                userLastNameRule: [
     
                     v => !!v || 'Name is required'
+    
                 ],
-
+    
                 userRule: [
     
                     v => !!v || 'Name is required'
+    
                 ],
-
+    
                 passwordRule: [
     
                     v => !!v || 'Name is required'
+    
                 ],
     
                 search: '',
@@ -273,34 +306,33 @@
                     position: '',
     
                     roles: {
-                        id : ''
+    
+                        id: '',
+                        role:''    
                     },
     
                     email: '',
-
-                     
     
                 },
-
+    
                 defaultItem: {
     
                     firstName: '',
     
-                     lastName: '',
+                    lastName: '',
     
-                     position: '',
+                    position: '',
     
-                     roles: {
-                        id : ''
+                    roles: {
+    
+                        id: '',
+                        role:''
+    
                     },
     
-    
                     email: '',
-
-                     
-                },
     
-                 
+                },
     
                 headers: [{
     
@@ -317,7 +349,7 @@
                         value: 'lastName'
     
                     },
-
+    
                     {
     
                         text: 'username',
@@ -333,7 +365,7 @@
                         value: 'position'
     
                     },
-
+    
                     {
     
                         text: 'როლი',
@@ -341,8 +373,6 @@
                         value: 'role'
     
                     },
-    
-             
     
                     {
     
@@ -373,16 +403,14 @@
             },
     
             deleteItem(item) {
-                
-                
-             
+    
                 const index = this.Users.indexOf(item)
     
                 var confirmed = confirm('Are you sure you want to delete this item?') && this.Users.splice(index, 1)
     
                 if (confirmed) {
-              
-                    axios.delete(this.$store.state.baseUrl +'/users/' + item.id)
+    
+                    axios.delete(this.$store.state.baseUrl + '/users/' + item.id)
     
                         .then(res => console.log(res))
     
@@ -407,15 +435,21 @@
             },
     
             save() {
-
-                
-
+    
                 if (this.editedIndex > -1) {
-                    
-                    
-
-                    axios.put(this.$store.state.baseUrl +'/users', this.editedItem)
-                        
+                    console.log(this.editedItem)
+                    axios.put(this.$store.state.baseUrl + '/users', this.editedItem,{
+    
+                        'headers': {
+    
+                            Authorization:
+    
+                                'Bearer ' + localStorage.token
+    
+                        }
+    
+                    })
+    
                         .then(res => {
     
                             Object.assign(this.Vendors[this.editedIndex], this.editedItem)
@@ -425,17 +459,31 @@
                         .catch(error => console.log(error))
     
                 } else {
-                       
-                      axios.post(this.$store.state.baseUrl +'/users/register', this.editedItem)
     
-                        .then(res => { 
+                    axios.post(this.$store.state.baseUrl + '/users/register', this.editedItem,{
+    
+                        'headers': {
+    
+                            Authorization:
+    
+                                'Bearer ' + localStorage.token
+    
+                        }
+    
+                    })
+    
+                        .then(res => {
+    
                             if (res.data.isSuccess == 'false') {
     
                                 console.log(res.data)
     
                             } else {
+    
                                 this.Vendors.push(this.editedItem)
+    
                                 this.close()
+    
                             }
     
                         })
@@ -443,8 +491,6 @@
                         .catch(error => console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error))
     
                 }
-    
-                
     
             },
     

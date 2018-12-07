@@ -48,11 +48,11 @@
     
                 )
     
-                .then(res => console.log(res))
+                .then(res => console.log('GetUsers'))
     
                 .catch(error => {
     
-                    console.log('error = ' + error)
+                    console.log('error = GetUsers ' + error)
     
                     this.$router.push({
     
@@ -60,7 +60,9 @@
     
                     })
     
-                })
+                });
+
+ 
     
         },
     
