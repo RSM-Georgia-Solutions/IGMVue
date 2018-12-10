@@ -480,7 +480,7 @@
     
                             } else {
     
-                                this.Vendors.push(this.editedItem)
+                                this.Users.push(this.editedItem)
     
                                 this.close()
     

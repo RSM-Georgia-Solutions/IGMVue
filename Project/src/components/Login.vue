@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-xs>
+    <v-container @keyup.enter="authenticate" grid-list-xs >
     
         <v-layout row wrap>
     
@@ -15,7 +15,7 @@
     
             <v-flex xs8 offset-xs2 text-xs-center mt-3>
     
-                <v-btn class="success" @click="authenticate" dark align-center>
+                <v-btn class="success" @click="authenticate"  dark align-center>
     
                     <v-icon left>account_circle</v-icon>
     

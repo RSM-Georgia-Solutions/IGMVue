@@ -139,7 +139,14 @@
     
         created() {
     
-            axios.get('https://localhost:44317/api/vendors')
+            axios.get(this.$store.state.baseUrl + '/vendors', {
+                'headers':{
+                    Authorization:
+    
+                            'Bearer ' + localStorage.token
+    
+                } 
+            })
     
                 .then(res => {
     
@@ -173,7 +180,6 @@
                     this.editedItem.mobile,
                     this.editedItem.vendorName,
                     this.editedItem.Email
-                 
                 )
             }
     

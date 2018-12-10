@@ -13,7 +13,7 @@
     
             <v-autocomplete :items="Priority" item-text="Name" item-value="id" v-model="Accident.Priority" label="პრიორიტეტი" placeholder="არჩევა..." required></v-autocomplete>
     
-            <v-autocomplete label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
+            <v-autocomplete :items="users" item-text="username" item-value="id" label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
     
             <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
     
@@ -71,12 +71,12 @@
     
         created() {
     
-            axios.get('https://localhost:44387/api/buildings')
+            axios.get(this.$store.state.baseUrl + '/buildings')
     
                 .then(res => {
-    
-                    const BuildingsRes = res.data.object
-    
+                   
+                    const BuildingsRes = res.data
+                     console.log(BuildingsRes)
                     for (let key in BuildingsRes) {
     
                         const BuildingRes = BuildingsRes[key]
@@ -88,6 +88,32 @@
                 })
     
                 .catch(error => console.log(error))
+
+
+                axios.get(this.$store.state.baseUrl + '/users', {
+                    headers : {
+                        Authorization : 'Bearer ' + localStorage.token
+                    }
+                })
+    
+                .then(res => {
+                   
+                    const UsersRes = res.data
+                     console.log(UsersRes)
+                    for (let key in UsersRes) {
+    
+                        const UserRes = UsersRes[key]
+    
+                        this.users.push(UserRes)
+    
+                    }
+
+                    console.log(this.users , 'aaaaaaaaaaa')
+    
+                })
+    
+                .catch(error => console.log(error))
+    
     
         },
     
@@ -109,7 +135,7 @@
     
                     Name: 'მაღალი',
     
-                    Id: 1
+                    id: 1
     
                 },
     
@@ -117,7 +143,7 @@
     
                     Name: 'საშუალო',
     
-                    Id: 2
+                    id: 2
     
                 },
     
@@ -125,7 +151,7 @@
     
                     Name: 'დაბალი',
     
-                    Id: 23
+                    id: 23
     
                 }
     
@@ -136,6 +162,8 @@
             dialog: false,
     
             buildings: [],
+
+            users: [],
     
             Accident: {
     
@@ -192,16 +220,16 @@
         methods: {
     
             AddAccident() {
-    
-                axios.post('https://localhost:44387/api/accidents', this.Accident)
+               console.log(this.Accident)
+             var x =  JSON.stringify(this.Accident)
+             console.log(x)
+                axios.post(this.$store.state.baseUrl + '/accidents', this.Accident)
     
                     .then(res => {
     
-                        console.log('res');
+                        console.log(res);
     
-                        if (res.status == '200') {
-    
-                            // this.ShowAlertVar = "Success"
+                        if (res.status == '202') { 
     
                             console.log('abc1')
     
