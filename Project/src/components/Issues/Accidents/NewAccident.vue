@@ -13,7 +13,7 @@
     
             <v-autocomplete :items="Priority" item-text="Name" item-value="id" v-model="Accident.Priority" label="პრიორიტეტი" placeholder="არჩევა..." required></v-autocomplete>
     
-            <v-autocomplete :items="users" item-text="username" item-value="id" label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
+            <v-autocomplete :items="users" item-text="username" item-value="id" v-model="Accident.userId" label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
     
             <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
     
@@ -174,6 +174,8 @@
                 Priority: '',
     
                 Technician: 'გოჩა',
+
+                userId : null,
     
                 Comment: ''
     

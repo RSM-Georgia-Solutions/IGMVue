@@ -1,4 +1,4 @@
-<template>
+<template> 
   <v-card>
   
     <v-card-title>
@@ -15,19 +15,19 @@
   
       <template slot="items" slot-scope="props">
   
-            <td>{{ props.item.Building }}</td>
+                <td>{{ props.item.Building }}</td>
   
-            <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.Building }}</td>
+                <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.Building }}</td>
   
-            <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.floor }}</td>
+                <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.floor }}</td>
   
-            <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.sector }}</td>
+                <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.sector }}</td>
   
-            <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.type }}</td>
+                <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.type }}</td>
   
-            <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.priority }}</td>
+                <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.priority }}</td>
   
-            <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.Owner }} </td>
+                <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.Owner }} </td>
 </template>
 
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -38,7 +38,42 @@
 </template>
 
 <script>
+  import axios from 'axios';
+  
   export default {
+  
+    created() {
+  
+      axios.get(this.$store.state.baseUrl + '/accidents', {
+  
+        'headers': {
+  
+          Authorization:
+  
+            'Bearer ' + localStorage.token
+  
+        }
+  
+      }).then(res => {
+  
+        const accidentsRes = res.data
+        for (let key in accidentsRes) {
+    
+          const accidentRes = accidentsRes[key]
+    
+          this.Accidents.push(accidentRes)
+    
+          }
+    
+        console.log(res.data)
+
+      }).catch(err => {
+  
+        console.log(err)
+  
+      })
+  
+    },
   
     data() {
   
@@ -46,119 +81,7 @@
   
         search: '',
   
-        Accidents: [{
-  
-            priority: 'Hige',
-  
-            floor: 1,
-  
-            type: 'ნათურა დამწვარია',
-  
-            Building: 'ვაჟა',
-  
-            sector: 'A',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-          {
-  
-            priority: 'Hige',
-  
-            floor: 2,
-  
-            type: 'კანდინციონერია დამწვარია',
-  
-            Building: 'ქავთარაძე',
-  
-            sector: 'c',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-          {
-  
-            priority: 'Hige',
-  
-            floor: 4,
-  
-            type: 'შენობას სახე აეხა',
-  
-            Building: 'ვაჟა',
-  
-            sector: 'x',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-          {
-  
-            priority: 'Low',
-  
-            floor: 16,
-  
-            type: 'ფანჯრები გაწმინდეთ ბლინ',
-  
-            Building: 'ვაჟა',
-  
-            sector: 'z',
-  
-            Owner: 'Temo'
-  
-          },
-  
-          {
-  
-            priority: 'Hige',
-  
-            floor: 1,
-  
-            type: 'ჩასარეცხია',
-  
-            Building: 'ქავთარაძე',
-  
-            sector: 'b',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-          {
-  
-            priority: 'Medium',
-  
-            floor: 1,
-  
-            type: 'ჩასარეცხია',
-  
-            Building: 'ქავთარაძე',
-  
-            sector: 'b',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-          {
-  
-            priority: 'Hige',
-  
-            floor: 13,
-  
-            type: 'ჩასარეცხია',
-  
-            Building: 'ქავთარაძე',
-  
-            sector: 'b',
-  
-            Owner: 'Beqa'
-  
-          },
-  
-        ],
+        Accidents: [],
   
         headers: [{
   
