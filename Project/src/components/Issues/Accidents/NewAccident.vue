@@ -15,7 +15,9 @@
     
             <v-autocomplete :items="users" item-text="username" item-value="id" v-model="Accident.userId" label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
     
-            <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
+           
+    
+            <v-textarea placeholder="კომენტარი" v-model="Accident.DueDate"></v-textarea>
     
             <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
     
@@ -74,9 +76,9 @@
             axios.get(this.$store.state.baseUrl + '/buildings')
     
                 .then(res => {
-                   
+    
                     const BuildingsRes = res.data
-                     console.log(BuildingsRes)
+    
                     for (let key in BuildingsRes) {
     
                         const BuildingRes = BuildingsRes[key]
@@ -85,21 +87,28 @@
     
                     }
     
+                    console.log(this.buildings)
+    
                 })
     
                 .catch(error => console.log(error))
-
-
-                axios.get(this.$store.state.baseUrl + '/users', {
-                    headers : {
-                        Authorization : 'Bearer ' + localStorage.token
+    
+            axios.get(this.$store.state.baseUrl + '/users', {
+    
+                    headers: {
+    
+                        Authorization: 'Bearer ' + localStorage.token
+    
                     }
+    
                 })
     
                 .then(res => {
-                   
+    
                     const UsersRes = res.data
-                     console.log(UsersRes)
+    
+                    console.log(UsersRes)
+    
                     for (let key in UsersRes) {
     
                         const UserRes = UsersRes[key]
@@ -107,13 +116,12 @@
                         this.users.push(UserRes)
     
                     }
-
-                    console.log(this.users , 'aaaaaaaaaaa')
+    
+                    console.log(this.users, 'aaaaaaaaaaa')
     
                 })
     
                 .catch(error => console.log(error))
-    
     
         },
     
@@ -162,7 +170,7 @@
             dialog: false,
     
             buildings: [],
-
+    
             users: [],
     
             Accident: {
@@ -174,10 +182,16 @@
                 Priority: '',
     
                 Technician: 'გოჩა',
-
-                userId : null,
     
-                Comment: ''
+                userId: null,
+    
+                Comment: '',
+    
+                CreateDate: '',
+    
+                DueDate: '',
+    
+                Status: ''
     
             },
     
@@ -222,16 +236,20 @@
         methods: {
     
             AddAccident() {
-               console.log(this.Accident)
-             var x =  JSON.stringify(this.Accident)
-             console.log(x)
+    
+                console.log(this.Accident)
+    
+                var x = JSON.stringify(this.Accident)
+    
+                console.log(x)
+    
                 axios.post(this.$store.state.baseUrl + '/accidents', this.Accident)
     
                     .then(res => {
     
                         console.log(res);
     
-                        if (res.status == '202') { 
+                        if (res.status == '202') {
     
                             console.log('abc1')
     
