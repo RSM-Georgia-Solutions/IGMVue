@@ -15,9 +15,17 @@
     
             <v-autocomplete :items="users" item-text="username" item-value="id" v-model="Accident.userId" label="პასუხისმგებელი პირი" placeholder="არჩევა..." required></v-autocomplete>
     
-           
+            <v-autocomplete :items="Status" v-model="Accident.Status" label="სტატუსი" placeholder="არჩევა..." required></v-autocomplete>
     
-            <v-textarea placeholder="კომენტარი" v-model="Accident.DueDate"></v-textarea>
+            <v-menu :close-on-content-click="false" v-model="menu2" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+    
+                <v-text-field slot="activator" v-model="Accident.CreateDate" label="შესრულების თარიღი" readonly></v-text-field>
+    
+                <v-date-picker v-model="Accident.CreateDate" @input="menu2 = false"></v-date-picker>
+    
+            </v-menu>
+    
+            <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
     
             <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
     
@@ -72,6 +80,45 @@
     export default {
     
         created() {
+
+            axios.get(this.$store.state.baseUrl + '/Helper/GetPriorities')
+            .then(res=>{
+
+                const PrioritiesRes = res.data
+    
+                    for (let key in PrioritiesRes) {
+    
+                        const priority = PrioritiesRes[key]
+    
+                        this.Priority.push(priority)
+    
+                    }
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    
+            axios.get(this.$store.state.baseUrl + '/Helper/GetStatuses')
+    
+                .then(res => {
+    
+                    const statusesRes = res.data
+    
+                    for (let key in statusesRes) {
+    
+                        const status = statusesRes[key]
+    
+                        this.Status.push(status)
+    
+                    }
+    
+                })
+    
+                .catch(err => {
+    
+                    console.log(err)
+    
+                })
     
             axios.get(this.$store.state.baseUrl + '/buildings')
     
@@ -127,6 +174,8 @@
     
         data: () => ({
     
+            menu2: false,
+    
             dialog: false,
     
             dialogText: '',
@@ -139,31 +188,9 @@
     
             Types: ['ნათურა გადაიწვა', 'დასვრილია', 'გატეხილია'],
     
-            Priority: [{
+            Status: [],
     
-                    Name: 'მაღალი',
-    
-                    id: 1
-    
-                },
-    
-                {
-    
-                    Name: 'საშუალო',
-    
-                    id: 2
-    
-                },
-    
-                {
-    
-                    Name: 'დაბალი',
-    
-                    id: 23
-    
-                }
-    
-            ],
+            Priority: [],
     
             title: "Image Upload",
     
@@ -181,15 +208,13 @@
     
                 Priority: '',
     
-                Technician: 'გოჩა',
-    
                 userId: null,
     
                 Comment: '',
     
-                CreateDate: '',
+                CreateDate: new Date().toISOString().substr(0, 10),
     
-                DueDate: '',
+                DueDate: new Date().toISOString().substr(0, 10),
     
                 Status: ''
     

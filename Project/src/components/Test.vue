@@ -12,7 +12,7 @@
             </v-menu>
     
         </v-flex>
-    
+   
     </v-layout>
 </template>
 <script>
@@ -24,7 +24,13 @@
     
             menu2: false
     
-        })
+        }),
+
+        methods:{
+            xz(){
+                console.log(this.date)
+            }
+        }
     
     }
 </script>
