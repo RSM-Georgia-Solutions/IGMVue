@@ -11,7 +11,7 @@
     
             <v-btn color="info" class="mt-4" :to="{name:'PlannedWorks'}">გეგმიური სამუშაოები</v-btn>
     
-            <v-btn color="cyan" class="mt-4" :to="{name:'Inventory'}">მარაგები</v-btn>
+            <v-btn color="cyan" class="mt-4" :to="{name:'Inventory'}">მარაგები/საწყობები</v-btn>
     
             <v-btn color="pink" class="mt-4" :to="{name:'Vendors'}">ვენოდრები</v-btn>
     

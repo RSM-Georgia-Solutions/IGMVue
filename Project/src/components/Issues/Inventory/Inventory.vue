@@ -45,7 +45,7 @@
     
                         name: 'მარაგის ჩამოწერა ',
     
-                        route: ''
+                        route: 'GoodsIssue'
     
                     },
     
@@ -53,15 +53,23 @@
     
                         name: 'ტრანზაქციების ისტორია',
     
-                        route: ''
+                        route: 'WhsJournal'
     
-                    },
+                    }, 
     
                     {
     
-                        name: 'მარაგების სია',
+                        name: 'საქონლის სია',
     
-                        route: 'InventoryItems'
+                        route: 'ItemsMasterData'
+    
+                    },
+
+                      {
+    
+                        name: 'საწყობები',
+    
+                        route: 'WareHouses'
     
                     }
     

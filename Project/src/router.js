@@ -132,14 +132,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Tasks/NewTask.vue')
     },
     {
-      path: '/Issues/Inventory/InventoryItems',
-      name: 'InventoryItems',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/InventoryItems.vue')
-    },
-    {
       path: '/Issues/Vendors/',
       name: 'Vendors',
       // route level code-splitting
@@ -214,6 +206,42 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/RoleSingle.vue')
+    },
+    {
+      path: '/Issues/Inventory/ItemMasterData',
+      name: 'ItemsMasterData',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/ItemMasterData.vue')
+    },
+    {
+      path: '/Issues/Inventory/WareHouses',
+      name: 'WareHouses',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/WareHouse.vue')
+    },
+    {
+      path: '/Issues/Inventory/WhsJournal',
+      name: 'WhsJournal',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/WhsJournal.vue')
+    },
+    {
+      path: '/Issues/Inventory/GoodsIssue',
+      name: 'GoodsIssue',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsIssue.vue')
     }
   ]
 })
