@@ -29,15 +29,15 @@
     
                         name: 'მარაგის შეძენის მოთხოვნა',
     
-                        route: ''
+                        route: 'GoodsIssueRequest'
     
                     },
     
                     {
     
-                        name: 'მარაგის მიღება ',
+                        name: 'მარაგის მიღება',
     
-                        route: ''
+                        route: 'GoodsReciept'
     
                     },
     
@@ -71,7 +71,8 @@
     
                         route: 'WareHouses'
     
-                    }
+                    },
+                    
     
                 ]
     

@@ -11,7 +11,7 @@
     
         </v-toolbar>
     
-        <v-data-table :headers="headers" :items="whsJournal" :search="search">
+        <v-data-table :headers="headers" :items="whsJournal" :search="search" :rows-per-page-items="rowsPerPageItems">
     
             <template slot="items" slot-scope="props"> 
     
@@ -42,7 +42,7 @@
      
     export default {
         created() {
-            axios.get(this.$store.state.baseUrl  + '/WareHouseJournal', {
+            axios.get(this.$store.state.baseUrl  + '/WareHouseJournal/GetEntryes', {
                 'headers': {
     
                         Authorization:
@@ -71,6 +71,7 @@
 
         data(){
             return{
+                rowsPerPageItems:[ 10, 5,  25, { "text": "$vuetify.dataIterator.rowsPerPageAll", "value": -1 } ],
                 search: '',
                 whsJournal: [],
                 headers: [

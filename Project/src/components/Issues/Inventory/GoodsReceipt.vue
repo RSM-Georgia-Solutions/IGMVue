@@ -3,9 +3,9 @@
     
         <v-layout align-space-around justify-space-around column fill-height>
     
-            <v-autocomplete :items="itemMasterData" item-text="itemName" item-value="itemCode" label="საქონელი" placeholder="არჩევა..." v-model="JournalEntry.itemMasterDataId" required @change="onItemChange"></v-autocomplete>
+            <v-autocomplete :items="itemMasterData" item-text="itemName" item-value="itemCode" label="საქონელი" placeholder="არჩევა..." v-model="JournalEntry.itemMasterDataId" required></v-autocomplete>
     
-            <v-autocomplete :items="wareHouses" item-text="code" item-value="code" label="საწყობი" placeholder="არჩევა..." v-model="JournalEntry.wareHosueId" required @change="onItemChange"></v-autocomplete>
+            <v-autocomplete :items="wareHouses" item-text="code" item-value="code" label="საწყობი" placeholder="არჩევა..." v-model="JournalEntry.wareHosueId" required></v-autocomplete>
     
             <v-text-field label="რაოდენობა" placeholder="რაოდენობა" v-model="JournalEntry.quantity" :rules="quantityRule"></v-text-field>
 
@@ -13,7 +13,7 @@
     
             <v-flex xs4 offset-xs4 offset-lg6>
     
-                <v-btn color="success" @click="IssueItem"  >ჩამოწერა</v-btn>
+                <v-btn color="success" @click="IssueItem">მიღება</v-btn>
     
             </v-flex>
     
@@ -51,7 +51,36 @@
     
                     console.log(err)
     
-                })
+                }),
+
+                 axios.get(this.$store.state.baseUrl + '/WareHouse', {
+    
+                        headers: {
+    
+                            Authorization: 'Bearer ' + localStorage.token
+    
+                        }, 
+                    })
+    
+                    .then(res => {
+    
+                        const wareHousesRes = res.data
+    
+                        for (let key in wareHousesRes) {
+    
+                            const whs = wareHousesRes[key]
+    
+                            this.wareHouses.push(whs)
+    
+                        }
+    
+                    })
+    
+                    .catch(err => {
+    
+                        console.log(err)
+    
+                    })
     
         },
     
@@ -111,50 +140,9 @@
     
         },
     
-        methods: {
+        methods: { 
     
-            onItemChange(itemId) {
-    
-                axios.get(this.$store.state.baseUrl + '/WareHouseJournal/GetWareHousesByItem', {
-    
-                        headers: {
-    
-                            Authorization: 'Bearer ' + localStorage.token
-    
-                        },
-    
-                        params: {
-    
-                            item: itemId
-    
-                        }
-    
-                    })
-    
-                    .then(res => {
-    
-                        const wareHousesRes = res.data
-    
-                        for (let key in wareHousesRes) {
-    
-                            const whs = wareHousesRes[key]
-    
-                            this.wareHouses.push(whs)
-    
-                        }
-    
-                    })
-    
-                    .catch(err => {
-    
-                        console.log(err)
-    
-                    })
-    
-            },
-    
-            IssueItem() {
-                 this.JournalEntry.quantity = -this.JournalEntry.quantity
+            IssueItem() { 
                 axios.post(this.$store.state.baseUrl + '/WareHouseJournal/CreateEntry', this.JournalEntry,{
                     headers : {
                         Authorization: 'Bearer ' + localStorage.token

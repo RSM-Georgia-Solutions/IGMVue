@@ -242,6 +242,24 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsIssue.vue')
+    },
+    {
+      path: '/Issues/Inventory/GoodsReciept',
+      name: 'GoodsReciept',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsReceipt.vue')
+    },
+    {
+      path: '/Issues/Inventory/GoodsIssueRequest',
+      name: 'GoodsIssueRequest',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsIssueRequest.vue')
     }
   ]
 })
