@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-Vue.use(Router)
+import Vue from 'vue';
+import Router from 'vue-router';
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -10,7 +10,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Buildings/Building.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Buildings/Building.vue')
     },
     {
       path: '/Buildings',
@@ -18,7 +19,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Buildings/Buildings.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Buildings/Buildings.vue')
     },
     {
       path: '/Issues',
@@ -26,7 +28,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Issues.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Issues.vue')
     },
 
     {
@@ -35,7 +38,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Accidents/Accident.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Accidents/Accident.vue')
     },
 
     {
@@ -44,7 +48,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Buildings/NewBuilding.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Buildings/NewBuilding.vue')
     },
     {
       path: '/Issues/Tasks',
@@ -52,7 +57,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Tasks/Tasks.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/Tasks.vue')
     },
     {
       path: '/Issues/NewAccident',
@@ -60,7 +66,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Accidents/NewAccident.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Accidents/NewAccident.vue')
     },
     {
       path: '/Issues/OpenAccidents',
@@ -68,7 +75,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Accidents/OpenedAccidents.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Accidents/OpenedAccidents.vue')
     },
     {
       path: '/Issues/PlannedWorks',
@@ -76,7 +84,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/PlannedWorks/PlanedWorks.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/PlanedWorks.vue')
     },
     {
       path: '/Issues/Report',
@@ -84,7 +93,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Reports/Report.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Reports/Report.vue')
     },
 
     {
@@ -93,7 +103,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/Inventory.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/Inventory.vue')
     },
 
     {
@@ -102,7 +113,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Tasks/HVAC/HVAC.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/HVAC/HVAC.vue')
     },
 
     {
@@ -111,7 +123,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Notifications.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Notifications.vue')
     },
 
     {
@@ -120,7 +133,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Test.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Test.vue')
     },
 
     {
@@ -129,7 +143,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Tasks/NewTask.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/NewTask.vue')
     },
     {
       path: '/Issues/Vendors/',
@@ -137,7 +152,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Vendors/Vendors.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Vendors/Vendors.vue')
     },
     {
       path: '/',
@@ -145,7 +161,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Login.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Login.vue')
     },
 
     {
@@ -154,7 +171,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Users/Users.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Users/Users.vue')
     },
 
     {
@@ -163,7 +181,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Autorizations.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Autorizations.vue')
     },
     {
       path: '/Issues/Autorizations/Roles',
@@ -171,7 +190,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/Roles.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Roles/Roles.vue')
     },
     {
       path: '/Issues/Autorizations/Permissions',
@@ -179,7 +199,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Permissions/Permissions.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Permissions/Permissions.vue')
     },
     {
       path: '/Issues/Autorizations/Roles/NewRole',
@@ -187,7 +208,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/NewRole.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Roles/NewRole.vue')
     },
     {
       path: '/Issues/Autorizations/Roles/Role/',
@@ -196,7 +218,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/Role.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Roles/Role.vue')
     },
     {
       path: '/Issues/Autorizations/Roles/RoleSingle/:id/',
@@ -205,7 +228,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Autorizations/Roles/RoleSingle.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Autorizations/Roles/RoleSingle.vue')
     },
     {
       path: '/Issues/Inventory/ItemMasterData',
@@ -214,7 +238,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/ItemMasterData.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/ItemMasterData.vue')
     },
     {
       path: '/Issues/Inventory/WareHouses',
@@ -223,7 +248,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/WareHouse.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/WareHouse.vue')
     },
     {
       path: '/Issues/Inventory/WhsJournal',
@@ -232,7 +258,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/WhsJournal.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/WhsJournal.vue')
     },
     {
       path: '/Issues/Inventory/GoodsIssue',
@@ -241,7 +268,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsIssue.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/GoodsIssue.vue')
     },
     {
       path: '/Issues/Inventory/GoodsReciept',
@@ -250,7 +278,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsReceipt.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/GoodsReceipt.vue')
     },
     {
       path: '/Issues/Inventory/GoodsIssueRequest',
@@ -259,7 +288,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/Issues/Inventory/GoodsIssueRequest.vue')
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/GoodsIssueRequest.vue')
     }
   ]
-})
+});
