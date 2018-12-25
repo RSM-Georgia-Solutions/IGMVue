@@ -1,9 +1,15 @@
 <template>
   <v-app>
     <v-container grid-list-md>
-      <v-layout v-for="task in Tasks" :key="task.name" ustify-space-around>
+      <v-layout v-for="task in Tasks" :key="task.groupName" ustify-space-around>
         <v-flex xs12>
-          <v-btn :to="{name:'HVAC'}" block :color="task.color" light class="mt-4;">{{task.Name}}</v-btn>
+          <v-btn
+            :to="{name:'HVAC'}"
+            block
+            :color="task.color"
+            light
+            class="mt-4;"
+          >{{task.groupName}}</v-btn>
         </v-flex>
 
         <v-flex xs2>
@@ -21,10 +27,11 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      Tasks: [
+      Tasksxx: [
         {
           Name: "HVAC",
 
@@ -84,8 +91,30 @@ export default {
 
           colorH1: "color : grey"
         }
-      ]
+      ],
+
+      Tasks: []
     };
+  },
+
+  created() {
+    axios
+      .get(this.$store.state.baseUrl + "/taskgroups", {
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(res => {
+        const tasksRes = res.data;
+        for (let key in tasksRes) {
+          const taskRes = tasksRes[key];
+          taskRes.color = "grey";
+          this.Tasks.push(taskRes);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   methods: {

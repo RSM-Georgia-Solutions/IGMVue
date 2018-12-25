@@ -21,7 +21,7 @@
   
                     <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.floorNumber }}</td>
   
-                    <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.id }}</td>
+                    <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.sectorName }}</td>
   
                     <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.priority }}</td>
   
@@ -65,7 +65,7 @@
           this.Accidents.push(accidentRes)
   
         }
-  
+      // console.log(this.Accidents)
         // this.wtf()
   
       }).catch(err => {
