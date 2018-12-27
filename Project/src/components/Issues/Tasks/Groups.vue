@@ -4,7 +4,8 @@
       <v-layout v-for="task in Tasks" :key="task.groupName" ustify-space-around>
         <v-flex xs12>
           <v-btn
-            :to="{name:'HVAC'}"
+            
+            :to="{name:'Group', params:{id:task.id}}"
             block
             :color="task.color"
             light
@@ -17,11 +18,17 @@
         </v-flex>
       </v-layout>
 
-      <v-layout align-end justify-space-around>
-        <v-btn color="warning" class="mt-5" right>ისტორია</v-btn>
-
-        <v-btn :to="{name:'NewTask'}" color="success" class="mt-5" right>ახალი</v-btn>
+      <v-layout grid-list-md>
+        <v-flex>
+          <v-btn color="warning" class="mt-4">ისტორია</v-btn>
+        </v-flex>
+        <v-flex xs6 offset-lg8>
+          <v-btn :to="{name:'NewGroup'}" color="success" class="mt-4 pa-1">ახალი ჯგუფი</v-btn>
+        </v-flex>
       </v-layout>
+      <v-flex xs3 offset-xs5 offset-lg9>
+        <v-btn :to="{name:'NewTask'}" color="success" class="mt-4 pa-1">ახალი დავალება</v-btn>
+      </v-flex>
     </v-container>
   </v-app>
 </template>
@@ -29,6 +36,7 @@
 <script>
 import axios from "axios";
 export default {
+  
   data() {
     return {
       Tasksxx: [
@@ -109,6 +117,7 @@ export default {
         for (let key in tasksRes) {
           const taskRes = tasksRes[key];
           taskRes.color = "grey";
+          taskRes.binding = "one";
           this.Tasks.push(taskRes);
         }
       })

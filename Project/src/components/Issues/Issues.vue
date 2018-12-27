@@ -3,7 +3,7 @@
     
         <v-layout column>
     
-            <v-btn color="teal darken-2" dark class="mt-5" :to="{name:'Tasks'}">დავალებები</v-btn>
+            <v-btn color="teal darken-2" dark class="mt-5" :to="{name:'Groups'}">დავალებები</v-btn>
     
             <v-btn color="success" class="mt-4" :to="{name:'NewAccident'}">ინციდენტის დამატება</v-btn>
     

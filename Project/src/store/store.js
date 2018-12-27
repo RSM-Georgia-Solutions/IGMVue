@@ -7,15 +7,12 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {    
-    baseUrl: 'https://localhost:44317/api',
+    baseUrl: 'http://192.168.7.247:8000/api',
     counter: 0
   },
   plugins: [
     createPersistedState({
       token: ''
     })
-  ],
-  mutations: {
-    increment: state => state.token++
-  }
+  ]
 })

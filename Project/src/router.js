@@ -52,13 +52,22 @@ export default new Router({
         import(/* webpackChunkName: 'about' */ './components/Buildings/NewBuilding.vue')
     },
     {
-      path: '/Issues/Tasks',
-      name: 'Tasks',
+      path: '/Issues/Groups/',
+      name: 'Groups',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/Tasks.vue')
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/Groups.vue')
+    },
+    {
+      path: '/Issues/Groups/Group:id/',
+      name: 'Group',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/Group.vue')
     },
     {
       path: '/Issues/NewAccident',
@@ -138,13 +147,22 @@ export default new Router({
     },
 
     {
-      path: '/Issues/Tasks/New',
+      path: '/Issues/Tasks/NewTask',
       name: 'NewTask',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/NewTask.vue')
+    },
+    {
+      path: '/Issues/Tasks/NewGroup',
+      name: 'NewGroup',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Tasks/NewGroup.vue')
     },
     {
       path: '/Issues/Vendors/',

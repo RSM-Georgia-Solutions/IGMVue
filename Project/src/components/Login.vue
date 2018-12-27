@@ -77,7 +77,7 @@
     
             authenticate() {
     
-                axios.post('https://localhost:44317/api/Users/authenticate', this.credentials)
+                axios.post(this.$store.state.baseUrl +"/Users/authenticate", this.credentials)
     
                     .then(
     
