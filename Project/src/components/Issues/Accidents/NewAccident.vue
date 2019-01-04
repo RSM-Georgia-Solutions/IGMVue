@@ -87,24 +87,34 @@
 
       <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
 
-      <v-text-field
-        label="Select Image"
-        @click="pickFile"
-        v-model="imageName"
-        prepend-icon="attach_file"
-      ></v-text-field>
-
-      <input type="file" style="display: none" ref="image" accept="image/" @change="mounted">
-
-      <v-dialog v-model="dialog" max-width="290">
-        <v-card>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-content>
+        <v-container fluid>
+          <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+            <img :src="imageUrl" height="150" v-if="imageUrl">
+            <v-text-field
+              label="Select Image"
+              @click="pickFile"
+              v-model="imageName"
+              prepend-icon="attach_file"
+            ></v-text-field>
+            <input
+              type="file"
+              style="display: none"
+              ref="image"
+              accept="image/*"
+              @change="onFilePicked"
+            >
+          </v-flex>
+          <v-dialog v-model="dialog" max-width="290">
+            <v-card>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-container>
+      </v-content>
 
       <v-btn color="success" @click="AddAccident() ; dialog = true">ინციდენტის დამატება</v-btn>
 
@@ -222,6 +232,12 @@ export default {
 
     dialog: false,
 
+    imageName: "",
+
+    imageUrl: "",
+
+    imageFile: "",
+
     buildings: [],
 
     users: [],
@@ -243,8 +259,6 @@ export default {
 
       Status: ""
     },
-
-    imageName: "",
 
     ShowAlertVar: "None"
   }),
@@ -273,12 +287,17 @@ export default {
     AddAccident() {
       console.log(this.Accident);
 
-      var x = JSON.stringify(this.Accident);
+      // var x = JSON.stringify(this.Accident);
 
-      console.log(x);
-
+      // console.log(x);
+      var formData = new FormData();
+      formData.append("image", this.imageFile); 
       axios
-        .post(this.$store.state.baseUrl + "/accidents", this.Accident)
+        .post(this.$store.state.baseUrl + "/accidents", this.Accident, {
+          headers: {
+            Authorization: "Bearer " + localStorage.token
+          }
+        })
 
         .then(res => {
           console.log(res);

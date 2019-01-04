@@ -248,14 +248,14 @@ export default {
 
     deleteItem(item) {
       const index = this.Vendors.indexOf(item);
-
+    console.log(item)
       var confirmed =
         confirm("Are you sure you want to delete this item?") &&
         this.Vendors.splice(index, 1);
 
       if (confirmed) {
         axios
-          .delete(this.$store.state.baseUrl + "/vendors/" + item.id)
+          .delete(this.$store.state.baseUrl + "/vendors/" + item.vendorCode)
 
           .then(res => console.log(res))
 
@@ -277,7 +277,7 @@ export default {
       if (this.editedIndex > -1) {
         console.log(this.editedItem);
         axios
-          .put("https://localhost:44317/api/vendors", this.editedItem)
+          .put(this.$store.state.baseUrl + "/vendors", this.editedItem)
 
           .then(res => {
             Object.assign(this.Vendors[this.editedIndex], this.editedItem);
@@ -286,7 +286,7 @@ export default {
           .catch(error => console.log(error));
       } else {
         axios
-          .post("https://localhost:44317/api/vendors", this.editedItem)
+          .post(this.$store.state.baseUrl + "/vendors", this.editedItem)
 
           .then(res => {
             console.log(this.editedItem.vendorCode);
