@@ -159,7 +159,6 @@ export default {
 
         for (let key in statusesRes) {
           const status = statusesRes[key];
-
           this.Status.push(status);
         }
       })
@@ -253,6 +252,8 @@ export default {
 
       Comment: "",
 
+      Base64Image: "",
+
       CreateDate: new Date().toISOString().substr(0, 10),
 
       DueDate: new Date().toISOString().substr(0, 10),
@@ -284,18 +285,30 @@ export default {
   },
 
   methods: {
+    getFiles(files) {
+      console.log(files);
+    },
     AddAccident() {
-      console.log(this.Accident);
+      // console.log(this.Accident.Status);
+      // var formData = new FormData();
+      // formData.append("file", this.imageFile);
+      // formData.append("Type", this.Accident.Type);
+      // formData.append("SectorId", this.Accident.SectorId);
+      // formData.append("Priority", this.Accident.priority);
+      // formData.append("Comment", this.Accident.Comment);
+      // formData.append("CreateDate", this.Accident.CreateDate);
+      // formData.append("DueDate", this.Accident.DueDate);
+      // formData.append("Status", this.Accident.Status);
+      // formData.append("Base64Image", this.imageUrl);
+      // console.log(formData);
 
-      // var x = JSON.stringify(this.Accident);
-
-      // console.log(x);
-      var formData = new FormData();
-      formData.append("image", this.imageFile); 
+      console.log(this.Accident)
       axios
         .post(this.$store.state.baseUrl + "/accidents", this.Accident, {
           headers: {
-            Authorization: "Bearer " + localStorage.token
+            Authorization: "Bearer " + localStorage.token,
+            // "Content-Type": "multipart/form-data",
+            // accept: "application/json"
           }
         })
 
@@ -319,6 +332,8 @@ export default {
           this.dialogColor = "error";
 
           // this.ShowAlertVar = "Error"
+
+          console.log(error);
         });
     },
 
@@ -366,7 +381,7 @@ export default {
 
         fr.addEventListener("load", () => {
           this.imageUrl = fr.result;
-
+          this.Accident.Base64Image = fr.result;
           this.imageFile = files[0]; // this is an image file that can be sent to server...
         });
       } else {
