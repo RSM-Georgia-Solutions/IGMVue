@@ -17,17 +17,17 @@
   
                     <!-- <td>{{ props.item.Building }}</td> -->
   
-                    <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.buildingBranch }}</td>
+                    <td @click.native="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.buildingBranch }}</td>
   
-                    <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.floorNumber }}</td>
+                    <td  @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.floorNumber }}</td>
   
-                    <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.sectorName }}</td>
+                    <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.sectorName }}</td>
   
-                    <td @click="NavigateToAccident" class="text-xs-left">{{ props.item.priority }}</td>
+                    <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.priority }}</td>
   
-                    <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.type }}</td>
+                    <td  @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.type }}</td>
   
-                    <td  @click="NavigateToAccident" class="text-xs-left">{{ props.item.username }} </td>
+                    <td  @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.username }} </td>
 </template>
 
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -173,11 +173,11 @@
   
       // },
   
-      NavigateToAccident() {
-  
+      NavigateToAccident(picked) {
+        console.log(picked)
         this.$router.push({
-  
-          name: 'Accident'
+          name: 'Accident',
+          params:{id:picked}
   
         });
   

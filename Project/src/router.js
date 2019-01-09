@@ -33,7 +33,7 @@ export default new Router({
     },
 
     {
-      path: '/Issues/Accidents/Accident',
+      path: '/Issues/Accidents/Accident:id/',
       name: 'Accident',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
