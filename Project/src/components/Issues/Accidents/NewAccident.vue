@@ -77,12 +77,12 @@
       >
         <v-text-field
           slot="activator"
-          v-model="Accident.CreateDate"
+          v-model="Accident.DueDate"
           label="შესრულების თარიღი"
           readonly
         ></v-text-field>
 
-        <v-date-picker v-model="Accident.CreateDate" @input="menu2 = false"></v-date-picker>
+        <v-date-picker v-model="Accident.DueDate" @input="menu2 = false"></v-date-picker>
       </v-menu>
 
       <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>

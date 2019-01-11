@@ -41,8 +41,8 @@
                 <v-flex xs12 sm6 md4>
                   <v-text-field
                     v-model="editedItem.contactPerson"
-                    placeholder="საკონტაკტო პირი"
-                    label="საკონტაკტო პირი"
+                    placeholder="საკონტაქტო პირი"
+                    label="საკონტაქტო პირი"
                   ></v-text-field>
                 </v-flex>
 
@@ -57,7 +57,7 @@
 
                 <v-flex xs12 sm6 md4>
                   <v-text-field
-                    v-model="editedItem.Email"
+                    v-model="editedItem.email"
                     placeholder="Email"
                     :rules="emailRules"
                     required
@@ -130,7 +130,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1
         ? "ვენდორის დამატება"
-        : "ვენდორის კორეკტირება";
+        : "ვენდორის კორექტირება";
     },
 
     formIsValid() {
@@ -138,7 +138,7 @@ export default {
         this.editedItem.vendorCode,
         this.editedItem.mobile,
         this.editedItem.vendorName,
-        this.editedItem.Email
+        this.editedItem.email
       );
     }
   },
@@ -186,7 +186,7 @@ export default {
 
         mobile: "",
 
-        Email: ""
+        email: ""
       },
 
       defaultItem: {
@@ -215,7 +215,7 @@ export default {
         },
 
         {
-          text: "საკონტაკტო პირი",
+          text: "საკონტაქტო პირი",
 
           value: "contactPerson"
         },
@@ -227,9 +227,9 @@ export default {
         },
 
         {
-          text: "Email",
+          text: "email",
 
-          value: "Email"
+          value: "email"
         }
       ],
 

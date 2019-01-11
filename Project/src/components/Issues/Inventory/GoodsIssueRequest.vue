@@ -47,9 +47,26 @@
                     label="რაოდენობა"
                   ></v-text-field>
                 </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-autocomplete
+                    :items="WareHouses"
+                    item-text="code"
+                    item-value="code"
+                    v-model="editedItem.wareHouseCode"
+                    placeholder="საწყობი"
+                    label="საწყობი"
+                  ></v-autocomplete>
+                </v-flex>
 
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.comment" placeholder="კომენტარი"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.comment"
+                    label="კომენტარი"
+                    placeholder="კომენტარი"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.email" label="Email" placeholder="Email"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -78,6 +95,8 @@
 
         <td class="text-xs-left">{{ props.item.comment }}</td>
 
+        <td class="text-xs-left">{{ props.item.wareHouseCode }}</td>
+
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
 
@@ -95,42 +114,26 @@ import axios from "axios";
 
 export default {
   created() {
+    this.getReq();
+    ////////////////////////////////////////////////////////////////////////////////
     axios
-      .get(this.$store.state.baseUrl + "/GoodsIssueRequest", {
+      .get(this.$store.state.baseUrl + "/itemmasterdata", {
         headers: {
           Authorization: "Bearer " + localStorage.token
         }
       })
 
       .then(res => {
-        const RequestsRes = res.data;
+        const ItemsRes = res.data;
 
-        for (let key in RequestsRes) {
-          const RequestRes = RequestsRes[key];
+        for (let key in ItemsRes) {
+          const ItemRes = ItemsRes[key];
 
-          this.Requests.push(RequestRes);
+          this.Items.push(ItemRes);
         }
       })
-      ////////////////////////////////////////////////////////////////////////////////
-      .catch(error => console.log(error)),
-      axios
-        .get(this.$store.state.baseUrl + "/itemmasterdata", {
-          headers: {
-            Authorization: "Bearer " + localStorage.token
-          }
-        })
 
-        .then(res => {
-          const ItemsRes = res.data;
-
-          for (let key in ItemsRes) {
-            const ItemRes = ItemsRes[key];
-
-            this.Items.push(ItemRes);
-          }
-        })
-
-        .catch(error => console.log(error));
+      .catch(error => console.log(error));
     ////////////////////////////////////////////////////
     axios
       .get(this.$store.state.baseUrl + "/Vendors", {
@@ -147,10 +150,27 @@ export default {
 
           this.Vendors.push(VendorRes);
         }
-
         console.log(this.Vendors);
       })
       .catch(error => console.log(error));
+    ////////////////////////////////////////////////
+
+    axios
+      .get(this.$store.state.baseUrl + "/WareHouse", {
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(res => {
+        const wareHousesRes = res.data;
+        for (let key in wareHousesRes) {
+          const wareHouseres = wareHousesRes[key];
+          this.WareHouses.push(wareHouseres);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   computed: {
@@ -214,9 +234,10 @@ export default {
         vendorCode: {
           type: String
         },
-        Email: "",
+        email: "",
         quantity: 0,
-        comment: ""
+        comment: "",
+        wareHouseCode: ""
       },
 
       defaultItem: {
@@ -224,14 +245,15 @@ export default {
         itemCode: "",
         vendorName: "",
         vendorCode: "",
-        Email: "",
+        email: "",
         quantity: 0,
-        comment: ""
+        comment: "",
+        wareHouseCode: ""
       },
 
       headers: [
         {
-          text: "სქონლის დასახელება",
+          text: "საქონლის დასახელება",
 
           value: "itemName"
         },
@@ -245,7 +267,7 @@ export default {
         {
           text: "Email",
 
-          value: "Email"
+          value: "email"
         },
 
         {
@@ -258,16 +280,41 @@ export default {
           text: "კომენტარი",
 
           value: "comment"
+        },
+        {
+          text: "საწყობი",
+
+          value: "wareHouseCode"
         }
       ],
 
       Requests: [],
       Items: [],
-      Vendors: []
+      Vendors: [],
+      WareHouses: []
     };
   },
 
   methods: {
+    getReq() {
+      axios
+        .get(this.$store.state.baseUrl + "/GoodsIssueRequest", {
+          headers: {
+            Authorization: "Bearer " + localStorage.token
+          }
+        })
+        .then(res => {
+          const RequestsRes = res.data;
+
+          for (let key in RequestsRes) {
+            const RequestRes = RequestsRes[key];
+            this.Requests.push(RequestRes);
+          }
+          console.log(this.Requests);
+        })
+        .catch(error => console.log(error));
+    },
+
     editItem(item) {
       this.editedIndex = this.Requests.indexOf(item);
 
@@ -285,9 +332,13 @@ export default {
 
       if (confirmed) {
         axios
-          .delete(this.$store.state.baseUrl + "/vendors/" + item.id)
+          .delete(this.$store.state.baseUrl + "/GoodsIssueRequest/", {
+            params: {
+              id: item.id
+            }
+          })
 
-          .then(res => console.log(res))
+          .then(res => {})
 
           .catch(error => console.log("error"));
       }
@@ -305,9 +356,10 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
+        console.log(this.editedItem)
         axios
           .put(
-            "https://localhost:44317/api/GoodsIssueRequest",
+            this.$store.state.baseUrl + "/GoodsIssueRequest/",
             this.editedItem,
             {
               headers: {
@@ -318,15 +370,14 @@ export default {
 
           .then(res => {
             Object.assign(this.Requests[this.editedIndex], this.editedItem);
+            this.close()
           })
 
           .catch(error => console.log(error));
       } else {
-        console.log(this.editedItem, "aaaaaa");
-
         axios
           .post(
-            "https://localhost:44317/api/GoodsIssueRequest",
+            this.$store.state.baseUrl + "/GoodsIssueRequest",
             this.editedItem,
             {
               headers: {
@@ -334,19 +385,10 @@ export default {
               }
             }
           )
-
           .then(res => {
-            console.log(this.editedItem);
-
-            if (res.data.isSuccess == "false") {
-              console.log(res.data);
-            } else {
-              this.Requests.push(this.editedItem);
-
-              this.close();
-            }
+            this.Requests.push(this.editedItem);
+            this.close();
           })
-
           .catch(error =>
             console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
           );

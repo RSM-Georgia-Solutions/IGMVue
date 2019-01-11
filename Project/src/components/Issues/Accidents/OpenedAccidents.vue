@@ -3,7 +3,7 @@
   
     <v-card-title>
   
-      Accidents
+      ინციდენტები
   
       <v-spacer></v-spacer>
   

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-toolbar-title>ItemMasterData</v-toolbar-title>
+      <v-toolbar-title>საქონლის ცნობარი</v-toolbar-title>
 
       <v-divider class="mx-2" inset vertical></v-divider>
 
@@ -100,7 +100,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1
         ? "საქონლის დამატება"
-        : "საქონლის კორეკტირება";
+        : "საქონლის კორექტირება";
     },
 
     formIsValid() {

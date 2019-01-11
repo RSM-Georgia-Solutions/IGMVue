@@ -3,7 +3,7 @@
     
         <v-toolbar flat color="white">
     
-            <v-toolbar-title>WareHouses</v-toolbar-title>
+            <v-toolbar-title>საწყობები</v-toolbar-title>
     
             <v-divider class="mx-2" inset vertical></v-divider>
     
@@ -133,7 +133,7 @@
     
             formTitle() {
     
-                return this.editedIndex === -1 ? 'საქონლის დამატება' : 'საქონლის კორეკტირება'
+                return this.editedIndex === -1 ? 'საწყობის დამატება' : 'საწყობის კორექტირება'
     
             },
     
