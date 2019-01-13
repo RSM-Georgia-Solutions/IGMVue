@@ -7,10 +7,10 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    baseUrlTmp: 'https://localhost:44315/api',
-    baseUrlImageTmp: 'https://localhost:44315/',
-    baseUrlImage: 'http://192.168.7.247:8000/',
-    baseUrl: 'http://192.168.7.247:8000/api',
+    baseUrl: 'https://localhost:44315/api',
+    baseUrlImage: 'https://localhost:44315/',
+    baseUrlImageTmp: 'http://192.168.7.247:8000/',
+    baseUrlTmp: 'http://192.168.7.247:8000/api',
     counter: 0
   },
   plugins: [

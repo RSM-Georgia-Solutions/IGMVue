@@ -281,6 +281,7 @@ export default {
 
           .then(res => {
             Object.assign(this.Vendors[this.editedIndex], this.editedItem);
+            this.close()
           })
 
           .catch(error => console.log(error));

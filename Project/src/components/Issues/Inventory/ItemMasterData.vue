@@ -1,5 +1,13 @@
 <template>
   <div>
+        <v-snackbar
+      v-model="isSuccess" 
+      :timeout="6000"
+      color="success"
+      :left="true"
+    >
+    საქონელი წარმატებით დაემატა
+    </v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>საქონლის ცნობარი</v-toolbar-title>
 
@@ -63,6 +71,7 @@
         </td>
       </template>
     </v-data-table>
+
   </div>
 </template>
  
@@ -80,8 +89,6 @@ export default {
       })
 
       .then(res => {
-        console.log(res);
-
         const itemsRes = res.data;
 
         for (let key in itemsRes) {
@@ -89,11 +96,23 @@ export default {
 
           this.ItemMasterData.push(itemRes);
         }
-
-        console.log(this.ItemMasterData);
       })
 
       .catch(error => console.log(error));
+
+    axios
+      .get(this.$store.state.baseUrl + "/itemMasterData", {
+        headers: {
+          Authorization: "Bearer " + localStorage.token
+        }
+      })
+      .then(response => {
+        console.log('aaaaaaaaaaa')
+        self.message = "Data is entered";
+      })
+      .catch(error => {
+        self.message = "Error";
+      });
   },
 
   computed: {
@@ -119,6 +138,8 @@ export default {
       itemNameRules: [v => !!v || "Name is required"],
 
       itemCodeRules: [v => !!v || "Code is required"],
+
+      isSuccess : false,
 
       search: "",
 
@@ -187,6 +208,9 @@ export default {
               this.ItemMasterData[this.editedIndex],
               this.editedItem
             );
+            self.message = "Data is entered";
+            console.log("aaaaaaaaaaaa");
+            this.close();
           })
 
           .catch(error => console.log(error));
@@ -201,7 +225,7 @@ export default {
               console.log(res.data);
             } else {
               this.ItemMasterData.push(this.editedItem);
-
+              this.isSuccess = true
               this.close();
             }
           })

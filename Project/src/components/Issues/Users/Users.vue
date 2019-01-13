@@ -343,7 +343,8 @@ export default {
             }
           })
           .then(res => {
-            Object.assign(this.Vendors[this.editedIndex], this.editedItem);
+           Object.assign(this.Vendors[this.editedIndex], this.editedItem.id);
+            this.close()
           })
           .catch(error => console.log(error));
       } else {

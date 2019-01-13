@@ -64,7 +64,7 @@ export default {
 
   methods: {
     authenticate() {
-      console.log("aaaaaa");
+      console.log(this.credentials);
       axios
         .post(
           this.$store.state.baseUrl + "/Users/authenticate",

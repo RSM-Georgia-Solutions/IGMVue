@@ -1,5 +1,6 @@
 <template>
     <div>
+   
     
         <v-toolbar flat color="white">
     
@@ -26,14 +27,13 @@
                         <v-container grid-list-md>
     
                             <v-layout wrap>
-                                
-                             
+    
                                 <v-flex xs12 sm12 md12>
     
-                                    <v-text-field v-model="editedItem.code" placeholder="კოდი" label="კოდი"  :disabled="editedIndex != -1"></v-text-field>
+                                    <v-text-field v-model="editedItem.code" placeholder="კოდი" label="კოდი" :disabled="editedIndex != -1"></v-text-field>
     
                                 </v-flex>
-                             
+    
                                 <v-flex xs12 sm12 md12>
     
                                     <v-text-field v-model="editedItem.branch" placeholder="დასახელება" label="დასახელება" required :rules="itemNameRules"></v-text-field>
@@ -66,236 +66,188 @@
     
             <template slot="items" slot-scope="props"> 
     
-                     <td  class="text-xs-left">{{ props.item.code }}</td>
+                             <td  class="text-xs-left">{{ props.item.code }}</td>
     
-                     <td    class="text-xs-left">{{ props.item.branch }}</td> 
+                             <td    class="text-xs-left">{{ props.item.branch }}</td> 
     
-                     <td class="justify-center layout px-0">
+                             <td class="justify-center layout px-0">
     
-           <v-icon small class="mr-2" @click="editItem(props.item)">
+                      <v-icon small class="mr-2" @click="editItem(props.item)">
     
-            edit
+                    edit
     
-            </v-icon>
+                    </v-icon>
     
-            </td>
+                    </td>
 </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
       </v-alert>
        </v-data-table>
  </v-card>
+ <v-container justify-end mt-5>
+ <v-alert  :value="isSuccess"
+      type="success">
+      საწყობი წარმათებით დაემატა.
+    </v-alert>
+     </v-container>
+     <v-alert  :value="isSuccess"
+      type="success">
+      საწყობი ვერ დაემატა.
+    </v-alert>
+     </v-container>
  </div>
 </template>
 
 <script>
-    import axios from 'axios';
-    
-    export default {
-    
-        created() {
-    
-            axios.get(this.$store.state.baseUrl + '/warehouse', {
-    
-                    'headers': {
-    
-                        Authorization:
-    
-                            'Bearer ' + localStorage.token
-    
-                    }
-    
-                })
-    
-                .then(res => {
-    
-                    console.log(res)
-    
-                    const itemsRes = res.data
-    
-                    for (let key in itemsRes) {
-    
-                        const itemRes = itemsRes[key]
-    
-                        this.WareHouses.push(itemRes)
-    
-                    }
-    
-                    console.log(this.WareHouses)
-    
-                })
-    
-                .catch(error => console.log(error))
-    
-        },
-    
-        computed: {
-    
-            formTitle() {
-    
-                return this.editedIndex === -1 ? 'საწყობის დამატება' : 'საწყობის კორექტირება'
-    
-            },
-    
-            formIsValid() {
-    
-                return (
-    
-                    this.editedItem.branch
-    
-                )
-    
-            }
-    
-        },
-    
-        watch: {
-    
-            dialog(val) {
-    
-                val || this.close()
-    
-            }
-    
-        },
-    
-        data() {
-    
-            return {
-    
-                itemNameRules: [
-    
-                    v => !!v || 'branch is required'
-    
-                ],
-    
-                itemCodeRules: [
-    
-                    v => !!v || 'Code is required'
-    
-                ],
-    
-                search: '',
-    
-                dialog: false,
-    
-                editedIndex: -1,
-    
-                editedItem: {
-    
-                    branch: '',
-    
-                    code: ''
-    
-                },
-    
-                defaultItem: {
-    
-                     branch: '',
-    
-                     code: ''
-    
-                },
-    
-                headers: [{
-    
-                        text: 'საწყობის კოდი',
-    
-                        value: 'code',
-    
-                    },
-    
-                    {
-    
-                        text: 'საწყობის ფილიალი',
-    
-                        value: 'branch'
-    
-                    }
-    
-                ],
-    
-                WareHouses: [],
-    
-            }
-    
-        },
-    
-        methods: {
-    
-            editItem(item) {
-    
-                this.editedIndex = this.WareHouses.indexOf(item)
-    
-                this.editedItem = Object.assign({}, item)
-    
-                this.dialog = true
-    
-            },
-    
-            close() {
-    
-                this.dialog = false
-    
-                setTimeout(() => {
-    
-                    this.editedItem = Object.assign({}, this.editItem)
-    
-                    this.editedIndex = -1
-    
-                }, 300)
-    
-            },
-    
-            save() {
-    
-                if (this.editedIndex > -1) {
-    
-                    
-    
-                    axios.put(this.$store.state.baseUrl + '/WareHouse/', this.editedItem)
-    
-                        .then(res => {
-    
-                            Object.assign(this.WareHouses[this.editedIndex], this.editedItem)
-                            this.close()
-                        })
-    
-                        .catch(error => console.log(error))
-    
-                } else {
-    
-                    axios.post(this.$store.state.baseUrl + '/WareHouse/', this.editedItem)
-    
-                        .then(res => {
-    
-                            console.log(res.status == '200')
-    
-                            if (res.data.isSuccess == 'false') {
-    
-                                console.log(res.data)
-    
-                            } else {
-    
-                                this.WareHouses.push(this.editedItem)
-    
-                                this.close()
-    
-                            }
-    
-                        })
-    
-                        .catch(error => console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error))
-    
-                }
-    
-            },
-    
+import axios from "axios";
+
+export default {
+  created() {
+    axios
+
+      .get(this.$store.state.baseUrl + "/warehouse", {
+        headers: {
+          Authorization: "Bearer " + localStorage.token
         }
-    
+      })
+
+      .then(res => {
+        console.log(res);
+
+        const itemsRes = res.data;
+
+        for (let key in itemsRes) {
+          const itemRes = itemsRes[key];
+
+          this.WareHouses.push(itemRes);
+        }
+
+        console.log(this.WareHouses);
+      })
+
+      .catch(error => console.log(error));
+  },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1
+        ? "საწყობის დამატება"
+        : "საწყობის კორექტირება";
+    },
+
+    formIsValid() {
+      return this.editedItem.branch;
     }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  data() {
+    return {
+      itemNameRules: [v => !!v || "branch is required"],
+
+      itemCodeRules: [v => !!v || "Code is required"],
+
+      search: "",
+
+      dialog: false,
+
+      editedIndex: -1,
+
+      isSuccess: false,
+
+      editedItem: {
+        branch: "",
+
+        code: ""
+      },
+
+      defaultItem: {
+        branch: "",
+
+        code: ""
+      },
+
+      headers: [
+        {
+          text: "საწყობის კოდი",
+
+          value: "code"
+        },
+
+        {
+          text: "საწყობის ფილიალი",
+
+          value: "branch"
+        }
+      ],
+
+      WareHouses: []
+    };
+  },
+
+  methods: {
+    editItem(item) {
+      this.editedIndex = this.WareHouses.indexOf(item);
+
+      this.editedItem = Object.assign({}, item);
+
+      this.dialog = true;
+    },
+
+    close() {
+      this.dialog = false;
+
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.editItem);
+
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        axios
+
+          .put(this.$store.state.baseUrl + "/WareHouse/", this.editedItem)
+
+          .then(res => {
+            Object.assign(this.WareHouses[this.editedIndex], this.editedItem);
+
+            this.close();
+          })
+
+          .catch(error => console.log(error));
+      } else {
+        axios
+
+          .post(this.$store.state.baseUrl + "/WareHouse/", this.editedItem)
+
+          .then(res => {
+            console.log(res, "RESPONSE ");
+
+            if (res.data.isSuccess == "false") {
+              console.log(res.data);
+            } else {
+              this.WareHouses.push(this.editedItem);
+              this.isSuccess = true;
+              this.close();
+            }
+          })
+
+          .catch(error =>
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
+          );
+      }
+    }
+  }
+};
 </script>
 
 <style>
-    
 </style>
