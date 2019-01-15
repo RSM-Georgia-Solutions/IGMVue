@@ -64,21 +64,20 @@ export default {
 
   methods: {
     authenticate() {
-      console.log(this.credentials);
-      axios
+      this.axios
         .post(
           this.$store.state.baseUrl + "/Users/authenticate",
           this.credentials
         )
 
         .then(res => {
-            console.log('bbb')
+          console.log("bbb");
           localStorage.token = res.data.token;
           this.$router.push({
             name: "Accidents"
           });
         })
-        .catch(err => console.log('error : ', err));
+        .catch(err => console.log("error : ", err));
     }
   }
 };

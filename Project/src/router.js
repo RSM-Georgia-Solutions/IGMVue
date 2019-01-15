@@ -3,6 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/Building',
@@ -310,4 +311,4 @@ export default new Router({
         import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/GoodsIssueRequest.vue')
     }
   ]
-});
+})

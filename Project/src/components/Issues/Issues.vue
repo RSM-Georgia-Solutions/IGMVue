@@ -23,26 +23,13 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   created() {
     this.axios
-      .get(
-        this.$store.state.baseUrl + "/Users",
-
-        // {
-        //   headers: {
-        //     Authorization: "Bearer " + localStorage.token
-        //   }
-        // }
-      )
-
-      .then(res => console.log("GetUsers"))
-
+      .get(this.$store.state.baseUrl + "/Users")
+      .then(res => console.log(res))
       .catch(error => {
         console.log("error = GetUsers " + error);
-
         this.$router.push({
           name: "Login"
         });
