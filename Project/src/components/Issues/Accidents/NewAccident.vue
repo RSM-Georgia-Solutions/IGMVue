@@ -3,6 +3,8 @@
     <v-layout align-space-around justify-space-around column fill-height>
       <v-autocomplete
         :items="Types"
+        item-text="task"
+        item-value="id"
         v-model="Accident.type"
         label="ტიპი"
         placeholder="არჩევა..."
@@ -132,10 +134,23 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import axios from 'axios'
 export default {
   created() {
+    axios
+      .get(this.$store.state.baseUrl + "/TasksDaily")
+      .then(res => {
+        const tasksRes = res.data
+        for(let key in tasksRes){
+          const task = tasksRes[key];
+          this.Types.push(task)
+        }
+        console.log(this.Types)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     axios
       .get(this.$store.state.baseUrl + "/Helper/GetPriorities")
       .then(res => {
@@ -178,8 +193,6 @@ export default {
 
           this.buildings.push(BuildingRes);
         }
-
-        console.log(this.buildings);
       })
 
       .catch(error => console.log(error));
@@ -194,15 +207,11 @@ export default {
       .then(res => {
         const UsersRes = res.data;
 
-        console.log(UsersRes);
-
         for (let key in UsersRes) {
           const UserRes = UsersRes[key];
 
           this.users.push(UserRes);
         }
-
-        console.log(this.users, "aaaaaaaaaaa");
       })
 
       .catch(error => console.log(error));
@@ -221,7 +230,7 @@ export default {
 
     activeFloor: null,
 
-    Types: ["ნათურა გადაიწვა", "დასვრილია", "გატეხილია"],
+    Types: [],
 
     Status: [],
 
@@ -302,19 +311,16 @@ export default {
       // formData.append("Base64Image", this.imageUrl);
       // console.log(formData);
 
-      console.log(this.Accident)
       axios
         .post(this.$store.state.baseUrl + "/accidents", this.Accident, {
           headers: {
-            Authorization: "Bearer " + localStorage.token,
+            Authorization: "Bearer " + localStorage.token
             // "Content-Type": "multipart/form-data",
             // accept: "application/json"
           }
         })
 
         .then(res => {
-          console.log(res);
-
           if (res.status == "202") {
             console.log("abc1");
 

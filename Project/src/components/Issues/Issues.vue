@@ -11,7 +11,7 @@
 
       <v-btn color="cyan" class="mt-4" :to="{name:'Inventory'}">მარაგები/საწყობები</v-btn>
 
-      <v-btn color="pink" class="mt-4" :to="{name:'Vendors'}">ვენოდრები</v-btn>
+      <v-btn color="pink" class="mt-4" :to="{name:'Vendors'}">ვენდორები</v-btn>
 
       <v-btn color="teal accent-3" class="mt-4" :to="{name:'Report'}" dark>რეპორტები</v-btn>
 

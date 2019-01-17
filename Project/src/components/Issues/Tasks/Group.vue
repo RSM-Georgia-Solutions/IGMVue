@@ -3,38 +3,60 @@
     <v-layout row wrap v-for="task in tasks" :key="task.id">
       <v-flex xs7 lg10 mt-3>
         <v-card
-          @click.native="NavigateToAccident(task.Binding)"
+          @click.native="NavigateToAccident(task.taskStatus)"
           dark
-          :class="[task.Binding == 'Two' ? 'success' : task.Binding == 'Three'? 'error' : 'grey']"
+          :class="[task.taskStatus == 'უპრობლემო' ? 'success' : task.taskStatus == 'პრობლემური'? 'error' : 'grey']"
         >
           <v-card-text class="px-2">{{task.task}}</v-card-text>
         </v-card>
       </v-flex>
       <v-layout column xs5 lg2 mt-3>
-        <v-radio-group v-model="task.Binding" row>
+        <v-radio-group v-model="task.taskStatus" row>
           <v-flex xs4 ml-2>
-            <v-radio color="success" label="✓" value="Two"></v-radio>
+            <v-radio color="success" label="✓" value="უპრობლემო"></v-radio>
           </v-flex>
           <v-flex ml-2>
-            <v-radio color="error" label="X" value="Three"></v-radio>
-          </v-flex> 
+            <v-radio color="error" label="X" value="პრობლემური"></v-radio>
+          </v-flex>
         </v-radio-group>
       </v-layout>
     </v-layout>
+    <v-flex xs1 offset-xs4>
+      <v-btn color="success" @click="SaveToHistory">შენახვა</v-btn>
+    </v-flex>
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import Vue from 'vue'
 export default {
-  
   data() {
     return {
-      tasks: []
+      tasks: [],
+      tasksHistory: []
     };
   },
 
   methods: {
+    SaveToHistory() {
+      console.log("taskHistory =>", this.tasksHistory);
+      console.log("tasks =>", this.tasks);
+      for (let key in this.tasks) {
+        var taskHistory = this.tasks[key];
+        Vue.delete(taskHistory, "postingDate");
+        Vue.delete(taskHistory, "id");
+        console.log(taskHistory);
+        this.axios
+          .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
     NavigateToAccident(picked) {
       if (picked == "Three") {
         this.$router.push({
@@ -53,11 +75,15 @@ export default {
       })
       .then(res => {
         const tasksRes = res.data.tasks;
+        console.log(res.data.tasks);
         for (let key in tasksRes) {
-          const taskRes = tasksRes[key];
+          const taskRes = tasksRes[key];         
+          taskRes.createDate = new Date().toISOString().substr(0, 10);
+          taskRes.taskDailyId = taskRes.id;
+          taskRes.taskGroupId = this.$route.params.id;
           this.tasks.push(taskRes);
         }
-        console.log(this.tasks);
+        console.log('Tasks',this.tasks)
       })
       .catch(err => {
         console.log(err);

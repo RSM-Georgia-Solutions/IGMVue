@@ -4,17 +4,12 @@
       <v-layout v-for="task in Tasks" :key="task.groupName" ustify-space-around>
         <v-flex xs12>
           <v-btn
-            
             :to="{name:'Group', params:{id:task.id}}"
             block
             :color="task.color"
             light
             class="mt-4;"
           >{{task.groupName}}</v-btn>
-        </v-flex>
-
-        <v-flex xs2>
-          <h1 :style="task.colorH1">{{task.Progress}}</h1>
         </v-flex>
       </v-layout>
 
@@ -36,60 +31,9 @@
 <script>
 import axios from "axios";
 export default {
-  
   data() {
     return {
       Tasksxx: [
-        {
-          Name: "HVAC",
-
-          Progress: "10/9",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        },
-
-        {
-          Name: "სახანძრო სისტმები",
-
-          Progress: "0/6",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        },
-
-        {
-          Name: "ინტერიერი",
-
-          Progress: "4/9",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        },
-
-        {
-          Name: "გარე ტეროტპროა",
-
-          Progress: "1/7",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        },
-
-        {
-          Name: "საპირფარეშო",
-
-          Progress: "4/9",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        },
-
         {
           Name: "შლაგბაუმის სისტემა",
 
@@ -118,8 +62,12 @@ export default {
           const taskRes = tasksRes[key];
           taskRes.color = "grey";
           taskRes.binding = "one";
+          for (let key in taskRes.tasks) {
+            taskRes.tasks[key].binding = "one";
+          }
           this.Tasks.push(taskRes);
         }
+        console.log('Tasks =>' , this.Tasks);
       })
       .catch(err => {
         console.log(err);

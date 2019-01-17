@@ -30,37 +30,7 @@
 export default {
   data() {
     return {
-      hvacs: [
-        {
-          Name: "რეფუტოპის ტემპერატურა",
-
-          Binding: "picked1"
-        },
-
-        {
-          Name: "ქვაბების წნევვა",
-
-          Binding: "picked2"
-        },
-
-        {
-          Name: "ქვაბების ტემპერატურა",
-
-          Binding: "picked3"
-        },
-
-        {
-          Name: "ფანკოლის შემოწმება (ზაფხ)",
-
-          Binding: "picked4"
-        },
-
-        {
-          Name: "ავზის გაყვანილობა",
-
-          Binding: "picked5"
-        }
-      ],
+      hvacs: [],
 
       picked1: "One",
 
