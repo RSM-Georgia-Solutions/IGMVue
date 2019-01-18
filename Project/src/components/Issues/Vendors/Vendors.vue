@@ -248,7 +248,7 @@ export default {
 
     deleteItem(item) {
       const index = this.Vendors.indexOf(item);
-    console.log(item)
+      console.log(item);
       var confirmed =
         confirm("Are you sure you want to delete this item?") &&
         this.Vendors.splice(index, 1);
@@ -281,7 +281,7 @@ export default {
 
           .then(res => {
             Object.assign(this.Vendors[this.editedIndex], this.editedItem);
-            this.close()
+            this.close();
           })
 
           .catch(error => console.log(error));
@@ -290,16 +290,15 @@ export default {
           .post(this.$store.state.baseUrl + "/vendors", this.editedItem)
 
           .then(res => {
-            console.log(this.editedItem.vendorCode);
+            console.log(res);
 
             if (res.data.isSuccess == "false") {
-              console.log(res.data);
+              console.log(res);
             } else {
               this.Vendors.push(this.editedItem);
               this.close();
             }
           })
-
           .catch(error =>
             console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
           );

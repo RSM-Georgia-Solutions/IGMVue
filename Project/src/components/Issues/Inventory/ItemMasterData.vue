@@ -1,13 +1,11 @@
 <template>
   <div>
-        <v-snackbar
-      v-model="isSuccess" 
+    <v-snackbar
+      v-model="isSuccess"
       :timeout="6000"
       color="success"
-      :left="true"
-    >
-    საქონელი წარმატებით დაემატა
-    </v-snackbar>
+      :bottom="true"
+    >საქონელი წარმატებით დაემატა</v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>საქონლის ცნობარი</v-toolbar-title>
 
@@ -71,7 +69,6 @@
         </td>
       </template>
     </v-data-table>
-
   </div>
 </template>
  
@@ -107,7 +104,7 @@ export default {
         }
       })
       .then(response => {
-        console.log('aaaaaaaaaaa')
+        console.log("aaaaaaaaaaa");
         self.message = "Data is entered";
       })
       .catch(error => {
@@ -139,7 +136,7 @@ export default {
 
       itemCodeRules: [v => !!v || "Code is required"],
 
-      isSuccess : false,
+      isSuccess: true,
 
       search: "",
 
@@ -225,7 +222,7 @@ export default {
               console.log(res.data);
             } else {
               this.ItemMasterData.push(this.editedItem);
-              this.isSuccess = true
+              this.isSuccess = true;
               this.close();
             }
           })

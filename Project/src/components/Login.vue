@@ -1,5 +1,12 @@
 <template>
   <v-container @keyup.enter="authenticate" grid-list-xs>
+    <v-snackbar
+      mt-3
+      v-model="isError"
+      :timeout="4000"
+      color="error"
+      :bottom="true"
+    >არასწორი მომხმარებელი/პაროლი</v-snackbar>
     <v-layout row wrap>
       <v-flex xs8 offset-xs2 mt-5>
         <h1>Login</h1>
@@ -43,6 +50,8 @@ export default {
         password: ""
       },
 
+      isError: false,
+
       emailRules: [
         v => !!v || "E-mail is required",
 
@@ -69,15 +78,18 @@ export default {
           this.$store.state.baseUrl + "/Users/authenticate",
           this.credentials
         )
-
         .then(res => {
-          console.log("bbb");
           localStorage.token = res.data.token;
           this.$router.push({
             name: "Accidents"
           });
         })
-        .catch(err => console.log("error : ", err));
+        .catch(err => {
+          console.log(err.response.status)
+          if (err.response.status = 401) {
+            this.isError = true;
+          }
+        });
     }
   }
 };

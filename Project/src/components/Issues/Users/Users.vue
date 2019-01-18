@@ -1,5 +1,12 @@
 <template>
   <div>
+    <v-snackbar
+      mt-3
+      v-model="isShown"
+      :timeout="4000"
+      color="success"
+      :bottom="true"
+    >მომხმარებელი წარმატებით დაემატა</v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>მომხმარებლები</v-toolbar-title>
 
@@ -197,7 +204,7 @@ export default {
   data() {
     return {
       roles: [],
-
+      isShown: false,
       emailRules: [
         v => !!v || "E-mail is required",
 
@@ -335,7 +342,6 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
         axios
           .put(this.$store.state.baseUrl + "/users", this.editedItem, {
             headers: {
@@ -343,8 +349,8 @@ export default {
             }
           })
           .then(res => {
-           Object.assign(this.Vendors[this.editedIndex], this.editedItem.id);
-            this.close()
+            Object.assign(this.Users[this.editedIndex], this.editedItem);
+            this.close();
           })
           .catch(error => console.log(error));
       } else {
@@ -360,6 +366,10 @@ export default {
           )
 
           .then(res => {
+            console.log(res.status);
+            if (res.status == 202) {
+              this.isShown = true;
+            }
             axios
               .get(this.$store.state.baseUrl + "/users/" + res.data, {
                 headers: {

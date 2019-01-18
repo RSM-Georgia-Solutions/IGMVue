@@ -58,7 +58,7 @@ export default {
       }
     },
     NavigateToAccident(picked) {
-      if (picked == "Three") {
+      if (picked == "პრობლემური") {
         this.$router.push({
           name: "NewAccident"
         });
