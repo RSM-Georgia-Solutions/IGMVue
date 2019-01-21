@@ -89,15 +89,6 @@ export default new Router({
         import(/* webpackChunkName: 'about' */ './components/Issues/Accidents/OpenedAccidents.vue')
     },
     {
-      path: '/Issues/PlannedWorks',
-      name: 'PlannedWorks',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/PlanedWorks.vue')
-    },
-    {
       path: '/Issues/Report',
       name: 'Report',
       // route level code-splitting
@@ -309,6 +300,35 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: 'about' */ './components/Issues/Inventory/GoodsIssueRequest.vue')
+    },
+    {
+      path: '/Issues/PlannedWorks/AddPlannedWorks',
+      name: 'AddPlannedWork',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/AddPlannedWork')
+    },
+    {
+      path: '/Issues/PlannedWorks/PlannedWork:id/',
+      name: 'PlannedWork',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/PlannedWork')
+    },
+    {
+      path: '/Issues/PlannedWorks',
+      name: 'PlannedWorks',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/PlannedWorks.vue')
     }
   ]
 })

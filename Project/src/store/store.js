@@ -11,8 +11,8 @@ export const store = new Vuex.Store({
     baseUrlImage: 'https://localhost:44315/',
     baseUrlImageTmp: 'http://192.168.7.247:8000/',
     baseUrlTmp: 'http://192.168.7.247:8000/api',
-    baseUrlig: 'http://192.168.1.125:8000/api',
-    baseUrlImageig: 'http://192.168.1.125:8000/',
+    // baseUrl: 'http://192.168.1.125:8001/api',
+    // baseUrlImage: 'http://192.168.1.125:8001/',
     counter: 0
   },
   plugins: [
