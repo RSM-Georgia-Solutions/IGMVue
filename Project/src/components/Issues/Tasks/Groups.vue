@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-container grid-list-md>
-      <v-layout v-for="task in Tasks" :key="task.groupName" ustify-space-around>
-        <v-flex xs12>
+    <v-container row wrap>
+      <v-layout v-for="task in Tasks" :key="task.groupName">
+        <v-flex>
           <v-btn
             :to="{name:'Group', params:{id:task.id}}"
             block
@@ -13,17 +13,15 @@
         </v-flex>
       </v-layout>
 
-      <v-layout grid-list-md>
-        <v-flex>
-          <v-btn color="warning" class="mt-4">ისტორია</v-btn>
+      <v-layout>
+        <v-flex xs12>
+          <v-btn :to="{name:'NewGroup'}" color="primary" class="mt-4 pa-1" >ახალი ჯგუფი</v-btn>
         </v-flex>
+
         <v-flex xs6 offset-lg8>
-          <v-btn :to="{name:'NewGroup'}" color="success" class="mt-4 pa-1">ახალი ჯგუფი</v-btn>
+          <v-btn :to="{name:'NewTask'}"  color="primary" class="mt-4 pa-1">ახალი დავალება</v-btn>
         </v-flex>
       </v-layout>
-      <v-flex xs3 offset-xs5 offset-lg9>
-        <v-btn :to="{name:'NewTask'}" color="success" class="mt-4 pa-1">ახალი დავალება</v-btn>
-      </v-flex>
     </v-container>
   </v-app>
 </template>
@@ -67,7 +65,7 @@ export default {
           }
           this.Tasks.push(taskRes);
         }
-        console.log('Tasks =>' , this.Tasks);
+        console.log("Tasks =>", this.Tasks);
       })
       .catch(err => {
         console.log(err);

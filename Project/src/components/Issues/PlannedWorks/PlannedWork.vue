@@ -1,5 +1,11 @@
 <template>
   <v-container grid-list-md text-xs-center>
+    <v-snackbar
+      v-model="isSuccess"
+      :timeout="4000"
+      :color="snackbarData.color"
+      :bottom="true"
+    >{{snackbarData.text}}</v-snackbar>
     <v-flex xs10 offset-xs1 mt-3>
       <v-text-field
         label="გეგმიური სამუშაო"
@@ -52,11 +58,7 @@
       </v-menu>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
-      <v-text-field
-        label="სიხშირე"
-        placeholder="სიხშირე"
-        v-model="plannedWorks.frequency"
-      ></v-text-field>
+      <v-text-field label="სიხშირე" placeholder="სიხშირე" v-model="plannedWorks.frequency"></v-text-field>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
       <v-autocomplete
@@ -93,7 +95,16 @@ export default {
       .then(res => {
         const plannedWorksRes = res.data;
         this.plannedWorks = plannedWorksRes;
-        console.log(this.plannedWorks);
+        (this.plannedWorks.plannedWorksSettings.activeTo = new Date(
+          this.plannedWorks.plannedWorksSettings.activeTo
+        )
+          .toISOString()
+          .substr(0, 10)),
+          (this.plannedWorks.plannedWorksSettings.activeFrom = new Date(
+            this.plannedWorks.plannedWorksSettings.activeFrom
+          )
+            .toISOString()
+            .substr(0, 10));
       })
       .catch(err => {
         console.log(err);
@@ -108,12 +119,27 @@ export default {
       },
       users: [],
       menuFrom: false,
-      menuTo: false
+      menuTo: false,
+      snackbarData: {},
+      isSuccess: false
     };
   },
   methods: {
     save() {
-      console.log("save");
+      console.log(this.plannedWorks);
+      this.axios
+        .put(this.$store.state.baseUrl + "/PlannedWorks", this.plannedWorks)
+        .then(res => {
+          this.snackbarData.color = "success";
+          this.snackbarData.text = "გეგმიური სამუშაო წარმატებით დაემატა";
+          this.isSuccess = true;
+          console.log(this.isSuccess);
+        })
+        .catch(err => {
+          this.snackbarData.color = "error";
+          this.snackbarData.text = "გეგმიური სამუშაო ვერ დაემატა";
+          console.log(this.isSuccess);
+        });
     }
   }
 };

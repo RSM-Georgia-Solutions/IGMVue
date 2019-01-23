@@ -123,6 +123,7 @@ export default {
         .then(res => {
           this.snackbarData.color = "success";
           this.snackbarData.text = "გეგმიური სამუშაო წარმატებით დაემატა";
+          this.isSuccess = true;
         })
         .catch(err => {
           this.snackbarData.color = "error";

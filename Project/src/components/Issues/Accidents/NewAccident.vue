@@ -4,7 +4,7 @@
       <v-autocomplete
         :items="Types"
         item-text="task"
-        item-value="id"
+        item-value="task"
         v-model="Accident.type"
         label="ტიპი"
         placeholder="არჩევა..."
@@ -107,14 +107,6 @@
               @change="onFilePicked"
             >
           </v-flex>
-          <v-dialog v-model="dialog" max-width="290">
-            <v-card>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
         </v-container>
       </v-content>
 
@@ -125,7 +117,7 @@
           <v-card-title :class="dialogColor">{{dialogText}}</v-card-title>
 
           <v-card-actions>
-            <v-btn :color="dialogColor" flat @click="dialog = false">OK</v-btn>
+            <v-btn :color="dialogColor" flat @click.native="dialog = false">OK</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -134,18 +126,34 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   created() {
     axios
       .get(this.$store.state.baseUrl + "/TasksDaily")
       .then(res => {
-        const tasksRes = res.data
-        for(let key in tasksRes){
+        const tasksRes = res.data;
+        for (let key in tasksRes) {
           const task = tasksRes[key];
-          this.Types.push(task)
+          this.Types.push(task);
         }
-        console.log(this.Types)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    axios
+      .get(this.$store.state.baseUrl + "/PlannedWorks")
+      .then(res => {
+        const PlannedWorksRes = res.data;
+        for (let key in PlannedWorksRes) {
+          const PlannedWoksRes = PlannedWorksRes[key];
+          const taskx = {};
+          taskx.id = PlannedWoksRes.id;
+          taskx.task = PlannedWoksRes.name;
+          this.Types.push(taskx);
+        }
+        console.log(this.Types);
       })
       .catch(err => {
         console.log(err);
