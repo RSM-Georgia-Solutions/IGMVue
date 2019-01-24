@@ -58,7 +58,7 @@
       </v-menu>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
-      <v-text-field label="სიხშირე" placeholder="სიხშირე" v-model="plannedWorks.frequency"></v-text-field>
+      <v-text-field label="სიხშირე" placeholder="სიხშირე" v-model="plannedWorks.plannedWorksSettings.frequency"></v-text-field>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
       <v-autocomplete
@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   created() {
     this.axios
@@ -95,16 +97,20 @@ export default {
       .then(res => {
         const plannedWorksRes = res.data;
         this.plannedWorks = plannedWorksRes;
-        (this.plannedWorks.plannedWorksSettings.activeTo = new Date(
-          this.plannedWorks.plannedWorksSettings.activeTo
-        )
-          .toISOString()
-          .substr(0, 10)),
-          (this.plannedWorks.plannedWorksSettings.activeFrom = new Date(
-            this.plannedWorks.plannedWorksSettings.activeFrom
-          )
-            .toISOString()
-            .substr(0, 10));
+        console.log(this.plannedWorks.plannedWorksSettings.activeFrom);
+
+        console.log(
+          moment(
+            String(this.plannedWorks.plannedWorksSettings.activeFrom)
+          ).format("MM/DD/YYYY hh:mm")
+        );
+
+        this.plannedWorks.plannedWorksSettings.activeTo = moment(
+          String(this.plannedWorks.plannedWorksSettings.activeTo)
+        ).format("YYYY-MM-DD");
+        this.plannedWorks.plannedWorksSettings.activeFrom = moment(
+          String(this.plannedWorks.plannedWorksSettings.activeFrom)
+        ).format("YYYY-MM-DD");
       })
       .catch(err => {
         console.log(err);

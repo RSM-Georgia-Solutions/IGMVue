@@ -23,7 +23,7 @@
                     :items="Items"
                     item-text="itemName"
                     item-value="itemCode"
-                    v-model="editedItem.itemCode"
+                    v-model="editedItem.itemCode"                    
                     label="საქონელი"
                     placeholder="საქონელი"
                   ></v-autocomplete>
@@ -147,10 +147,9 @@ export default {
 
         for (let key in VendorsRes) {
           const VendorRes = VendorsRes[key];
-
+          console.log(this.Vendors)
           this.Vendors.push(VendorRes);
         }
-        console.log(this.Vendors);
       })
       .catch(error => console.log(error));
     ////////////////////////////////////////////////
@@ -310,7 +309,6 @@ export default {
             const RequestRes = RequestsRes[key];
             this.Requests.push(RequestRes);
           }
-          console.log(this.Requests);
         })
         .catch(error => console.log(error));
     },
@@ -355,8 +353,8 @@ export default {
     },
 
     save() {
+      console.log(this.editedItem)
       if (this.editedIndex > -1) {
-        console.log(this.editedItem)
         axios
           .put(
             this.$store.state.baseUrl + "/GoodsIssueRequest/",
@@ -370,7 +368,7 @@ export default {
 
           .then(res => {
             Object.assign(this.Requests[this.editedIndex], this.editedItem);
-            this.close()
+            this.close();
           })
 
           .catch(error => console.log(error));

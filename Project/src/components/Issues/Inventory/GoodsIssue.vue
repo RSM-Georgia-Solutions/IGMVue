@@ -110,6 +110,7 @@ export default {
 
   methods: {
     onItemChange(itemId) {
+      this.wareHouses = [];
       axios
         .get(
           this.$store.state.baseUrl + "/WareHouseJournal/GetWareHousesByItem",
@@ -129,7 +130,6 @@ export default {
 
           for (let key in wareHousesRes) {
             const whs = wareHousesRes[key];
-
             this.wareHouses.push(whs);
           }
         })
