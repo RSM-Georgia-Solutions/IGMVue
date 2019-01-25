@@ -32,7 +32,7 @@
         >{{ props.item.priority }}</td>
 
         <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.type }}</td>
-
+        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.status }}</td>
         <td
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
@@ -116,6 +116,12 @@ export default {
           text: "ტიპი",
 
           value: "type"
+        },
+
+        {
+          text: "სტატუსი",
+
+          value: "status"
         },
 
         {

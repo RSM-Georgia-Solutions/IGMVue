@@ -179,7 +179,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1
         ? "მომხმარებლის დამატება"
-        : "მომხმარებლის კორეკტირება";
+        : "მომხმარებლის კორექტირება";
     },
 
     formIsValid() {
@@ -272,7 +272,7 @@ export default {
         },
 
         {
-          text: "username",
+          text: "მომხმარებელი",
 
           value: "username"
         },
@@ -290,7 +290,7 @@ export default {
         },
 
         {
-          text: "email",
+          text: "ელ-ფოსტა",
 
           value: "email"
         }

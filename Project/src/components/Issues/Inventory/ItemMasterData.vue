@@ -136,7 +136,7 @@ export default {
 
       itemCodeRules: [v => !!v || "Code is required"],
 
-      isSuccess: true,
+      isSuccess: false,
 
       search: "",
 

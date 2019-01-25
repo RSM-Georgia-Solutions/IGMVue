@@ -51,7 +51,7 @@
         <v-text-field
           slot="activator"
           v-model="plannedWorks.plannedWorksSettings.activeTo"
-          label="დასტრულების თარიღი"
+          label="დასრულების თარიღი"
           readonly
         ></v-text-field>
         <v-date-picker v-model="plannedWorks.plannedWorksSettings.activeTo" @input="menuTo = false"></v-date-picker>

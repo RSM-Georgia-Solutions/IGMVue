@@ -29,7 +29,7 @@
 
 <script>
 import axios from "axios";
-import Vue from 'vue'
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -39,14 +39,37 @@ export default {
   },
 
   methods: {
+    getHistory() {
+      this.tasks = [];
+      axios
+        .get(
+          this.$store.state.baseUrl + "/TaskGroups/" + this.$route.params.id,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.token
+            }
+          }
+        )
+        .then(res => {
+          const tasksRes = res.data.tasks;
+          console.log(res.data.tasks);
+          for (let key in tasksRes) {
+            const taskRes = tasksRes[key];
+            taskRes.createDate = new Date().toISOString().substr(0, 10);
+            taskRes.taskDailyId = taskRes.id;
+            taskRes.taskGroupId = this.$route.params.id;
+            this.tasks.push(taskRes);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     SaveToHistory() {
-      console.log("taskHistory =>", this.tasksHistory);
-      console.log("tasks =>", this.tasks);
       for (let key in this.tasks) {
         var taskHistory = this.tasks[key];
         Vue.delete(taskHistory, "postingDate");
         Vue.delete(taskHistory, "id");
-        console.log(taskHistory);
         this.axios
           .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
           .then(res => {
@@ -56,6 +79,7 @@ export default {
             console.log(err);
           });
       }
+      this.getHistory();
     },
     NavigateToAccident(picked) {
       if (picked == "პრობლემური") {
@@ -67,27 +91,7 @@ export default {
   },
 
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/TaskGroups/" + this.$route.params.id, {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
-      .then(res => {
-        const tasksRes = res.data.tasks;
-        console.log(res.data.tasks);
-        for (let key in tasksRes) {
-          const taskRes = tasksRes[key];         
-          taskRes.createDate = new Date().toISOString().substr(0, 10);
-          taskRes.taskDailyId = taskRes.id;
-          taskRes.taskGroupId = this.$route.params.id;
-          this.tasks.push(taskRes);
-        }
-        console.log('Tasks',this.tasks)
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.getHistory();
   }
 };
 </script>

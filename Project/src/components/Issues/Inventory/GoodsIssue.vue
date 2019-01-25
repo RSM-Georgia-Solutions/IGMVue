@@ -20,7 +20,7 @@
         placeholder="არჩევა..."
         v-model="JournalEntry.wareHosueId"
         required
-        @change="onItemChange"
+    
       ></v-autocomplete>
 
       <v-text-field

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-toolbar-title>Vendors</v-toolbar-title>
+      <v-toolbar-title>ვენდორები</v-toolbar-title>
 
       <v-divider class="mx-2" inset vertical></v-divider>
 
@@ -136,7 +136,6 @@ export default {
     formIsValid() {
       return (
         this.editedItem.vendorCode,
-        this.editedItem.mobile,
         this.editedItem.vendorName,
         this.editedItem.email
       );
