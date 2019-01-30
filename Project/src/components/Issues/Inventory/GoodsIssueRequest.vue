@@ -384,6 +384,9 @@ export default {
             }
           )
           .then(res => {
+            this.editedItem.itemName = res.data.itemName;
+            this.editedItem.vendorName = res.data.vendorName;
+            console.log('Res===>' , res.data , 'EditItem', this.editedItem)
             this.Requests.push(this.editedItem);
             this.close();
           })

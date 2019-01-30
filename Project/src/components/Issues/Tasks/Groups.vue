@@ -15,11 +15,11 @@
 
       <v-layout>
         <v-flex xs12>
-          <v-btn :to="{name:'NewGroup'}" color="primary" class="mt-4 pa-1" >ახალი ჯგუფი</v-btn>
+          <v-btn :to="{name:'NewGroup'}" color="primary" class="mt-4 pa-1">ახალი ჯგუფი</v-btn>
         </v-flex>
 
         <v-flex xs6 offset-lg8>
-          <v-btn :to="{name:'NewTask'}"  color="primary" class="mt-4 pa-1">ახალი დავალება</v-btn>
+          <v-btn :to="{name:'NewTask'}" color="primary" class="mt-4 pa-1">ახალი დავალება</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -48,12 +47,8 @@ export default {
   },
 
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/taskgroups", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
+    this.axios
+      .get(this.$store.state.baseUrl + "/taskgroups")
       .then(res => {
         const tasksRes = res.data;
         for (let key in tasksRes) {
@@ -68,7 +63,7 @@ export default {
         console.log("Tasks =>", this.Tasks);
       })
       .catch(err => {
-        console.log(err);
+        //  console.log(err.response.status);
       });
   },
 

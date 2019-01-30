@@ -28,12 +28,7 @@ export default {
     this.axios
       .get(this.$store.state.baseUrl + "/Users")
       .then(res => console.log(res))
-      .catch(error => {
-        console.log("error = GetUsers " + error);
-        this.$router.push({
-          name: "Login"
-        });
-      });
+      .catch(error => {});
   },
 
   data() {

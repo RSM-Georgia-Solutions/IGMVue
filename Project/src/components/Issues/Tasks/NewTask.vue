@@ -24,16 +24,16 @@ export default {
   data() {
     return {
       taskGroups: [],
-      TaskModel:{
-      task: "",
-      groupid: ""
+      TaskModel: {
+        task: "",
+        groupid: ""
       }
     };
   },
 
   methods: {
     SaveTask() {
-      console.log(this.TaskModel)
+      console.log(this.TaskModel);
       axios
         .post(this.$store.state.baseUrl + "/TasksDaily", this.TaskModel, {
           headers: {
@@ -42,6 +42,7 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.$router.push({ name: "Groups" });
         })
         .catch(err => {
           console.log(err);

@@ -1,114 +1,116 @@
 <template>
   <v-container fluid>
     <v-layout align-space-around justify-space-around column fill-height>
-      <v-autocomplete
-        :items="Types"
-        item-text="task"
-        item-value="task"
-        v-model="Accident.type"
-        label="ტიპი"
-        placeholder="არჩევა..."
-        required
-      ></v-autocomplete>
+      <v-form ref="form">
+        <v-autocomplete
+          :items="Types"
+          item-text="task"
+          item-value="task"
+          v-model="Accident.type"
+          label="ტიპი"
+          placeholder="არჩევა..."
+          required
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="buildings"
-        item-text="branch"
-        item-value="id"
-        label="შენობა"
-        placeholder="არჩევა..."
-        required
-        @change="onBuildingChange"
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="buildings"
+          item-text="branch"
+          item-value="id"
+          label="შენობა"
+          placeholder="არჩევა..."
+          required
+          @change="onBuildingChange"
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="buildingFloors"
-        label="სართული"
-        placeholder="არჩევა..."
-        required
-        @change="onFloorChange"
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="buildingFloors"
+          label="სართული"
+          placeholder="არჩევა..."
+          required
+          @change="onFloorChange"
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="floorSectors"
-        item-text="name"
-        item-value="id"
-        v-model="Accident.SectorId"
-        label="სექტორი"
-        placeholder="არჩევა..."
-        required
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="floorSectors"
+          item-text="name"
+          item-value="id"
+          v-model="Accident.SectorId"
+          label="სექტორი"
+          placeholder="არჩევა..."
+          required
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="Priority"
-        item-text="Name"
-        item-value="id"
-        v-model="Accident.Priority"
-        label="პრიორიტეტი"
-        placeholder="არჩევა..."
-        required
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="Priority"
+          item-text="Name"
+          item-value="id"
+          v-model="Accident.Priority"
+          label="პრიორიტეტი"
+          placeholder="არჩევა..."
+          required
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="users"
-        item-text="username"
-        item-value="id"
-        v-model="Accident.userId"
-        label="პასუხისმგებელი პირი"
-        placeholder="არჩევა..."
-        required
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="users"
+          item-text="username"
+          item-value="id"
+          v-model="Accident.userId"
+          label="პასუხისმგებელი პირი"
+          placeholder="არჩევა..."
+          required
+        ></v-autocomplete>
 
-      <v-autocomplete
-        :items="Status"
-        v-model="Accident.Status"
-        label="სტატუსი"
-        placeholder="არჩევა..."
-        required
-      ></v-autocomplete>
+        <v-autocomplete
+          :items="Status"
+          v-model="Accident.Status"
+          label="სტატუსი"
+          placeholder="არჩევა..."
+          required
+        ></v-autocomplete>
 
-      <v-menu
-        :close-on-content-click="false"
-        v-model="menu2"
-        :nudge-right="40"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          v-model="Accident.DueDate"
-          label="შესრულების თარიღი"
-          readonly
-        ></v-text-field>
+        <v-menu
+          :close-on-content-click="false"
+          v-model="menu2"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px"
+        >
+          <v-text-field
+            slot="activator"
+            v-model="Accident.DueDate"
+            label="შესრულების თარიღი"
+            readonly
+          ></v-text-field>
 
-        <v-date-picker v-model="Accident.DueDate" @input="menu2 = false"></v-date-picker>
-      </v-menu>
+          <v-date-picker v-model="Accident.DueDate" @input="menu2 = false"></v-date-picker>
+        </v-menu>
 
-      <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
+        <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
 
-      <v-content>
-        <v-container fluid>
-          <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <img :src="imageUrl" height="150" v-if="imageUrl">
-            <v-text-field
-              label="Select Image"
-              @click="pickFile"
-              v-model="imageName"
-              prepend-icon="attach_file"
-            ></v-text-field>
-            <input
-              type="file"
-              style="display: none"
-              ref="image"
-              accept="image/*"
-              @change="onFilePicked"
-            >
-          </v-flex>
-        </v-container>
-      </v-content>
+        <v-content>
+          <v-container fluid>
+            <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+              <img :src="imageUrl" height="150" v-if="imageUrl">
+              <v-text-field
+                label="Select Image"
+                @click="pickFile"
+                v-model="imageName"
+                prepend-icon="attach_file"
+              ></v-text-field>
+              <input
+                type="file"
+                style="display: none"
+                ref="image"
+                accept="image/*"
+                @change="onFilePicked"
+              >
+            </v-flex>
+          </v-container>
+        </v-content>
+      </v-form>
 
       <v-btn color="success" @click="AddAccident() ; dialog = true">ინციდენტის დამატება</v-btn>
 
@@ -302,23 +304,16 @@ export default {
   },
 
   methods: {
+    reset() {
+      this.$refs.form.reset();
+      this.imageFile = null;
+      this.imageUrl = null;
+      this.Accident.Base64Image = null;
+    },
     getFiles(files) {
       console.log(files);
     },
     AddAccident() {
-      // console.log(this.Accident.Status);
-      // var formData = new FormData();
-      // formData.append("file", this.imageFile);
-      // formData.append("Type", this.Accident.Type);
-      // formData.append("SectorId", this.Accident.SectorId);
-      // formData.append("Priority", this.Accident.priority);
-      // formData.append("Comment", this.Accident.Comment);
-      // formData.append("CreateDate", this.Accident.CreateDate);
-      // formData.append("DueDate", this.Accident.DueDate);
-      // formData.append("Status", this.Accident.Status);
-      // formData.append("Base64Image", this.imageUrl);
-      // console.log(formData);
-
       axios
         .post(this.$store.state.baseUrl + "/accidents", this.Accident, {
           headers: {
@@ -335,6 +330,7 @@ export default {
             this.dialogText = "ინციდენტი წარმატებით დაემატა";
 
             this.dialogColor = "success";
+            this.reset();
           } else {
             console.log("abc");
           }

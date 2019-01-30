@@ -7,7 +7,6 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 
 import { store } from './store/store'
-// import VueBase64FileUpload from 'vue-base64-file-upload'
 
 Vue.config.productionTip = false
 
@@ -22,6 +21,21 @@ Vue.axios.interceptors.request.use(function (config) {
   return config
 }, function (error) {
   // Do something with request error
+  return Promise.reject(error)
+})
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+  // Do something with response data
+  return response
+}, function (error) {
+  // Do something with response error
+  if (error.response.status === 401) {
+    console.log('yes')
+    router.push({
+      name: 'Login'
+    })
+  }
   return Promise.reject(error)
 })
 

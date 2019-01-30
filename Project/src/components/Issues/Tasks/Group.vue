@@ -40,7 +40,6 @@ export default {
 
   methods: {
     getHistory() {
-      this.tasks = [];
       axios
         .get(
           this.$store.state.baseUrl + "/TaskGroups/" + this.$route.params.id,
@@ -68,18 +67,18 @@ export default {
     SaveToHistory() {
       for (let key in this.tasks) {
         var taskHistory = this.tasks[key];
-        Vue.delete(taskHistory, "postingDate");
-        Vue.delete(taskHistory, "id");
+        console.log(taskHistory);
+        Vue.delete(taskHistory, "postingDate");        
         this.axios
           .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
           .then(res => {
-            console.log(res);
+            this.tasks[key].id = res.data;
+            console.log(this.tasks[key].id, "xuiiiiiii");
           })
           .catch(err => {
             console.log(err);
           });
       }
-      this.getHistory();
     },
     NavigateToAccident(picked) {
       if (picked == "პრობლემური") {
