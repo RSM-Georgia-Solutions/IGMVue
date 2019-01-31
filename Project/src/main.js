@@ -31,10 +31,13 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   // Do something with response error
   if (error.response.status === 401) {
-    console.log('yes')
+    console.log('Back To Login')
     router.push({
       name: 'Login'
     })
+  } else if (error.response.status === 403) {
+    console.log('Back Previous Route')
+    router.go(-1)
   }
   return Promise.reject(error)
 })

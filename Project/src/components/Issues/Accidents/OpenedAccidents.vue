@@ -5,17 +5,31 @@
       <v-text-field v-model="search" append-icon="search" label="Search"></v-text-field>
     </v-card-title>
 
-    <v-data-table :headers="headers" :items="Accidents" :search="search">
+    <v-data-table
+      :headers="headers"
+      :items="Accidents"
+      :search="search"
+      :rows-per-page-items="rowsPerPageItems"
+    >
       <template slot="items" slot-scope="props">
         <td
           @click.native="NavigateToAccident(props.item.id)"
           class="text-xs-left"
         >{{ props.item.id }}</td>
+        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.type }}</td>
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+        >{{ props.item.username }}</td>
         <td
           @click.native="NavigateToAccident(props.item.id)"
           class="text-xs-left"
         >{{ props.item.buildingBranch }}</td>
-
+        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.status }}</td>
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+        >{{ props.item.priority }}</td>
         <td
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
@@ -26,17 +40,6 @@
           class="text-xs-left"
         >{{ props.item.sectorName }}</td>
 
-        <td
-          @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left"
-        >{{ props.item.priority }}</td>
-
-        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.type }}</td>
-        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.status }}</td>
-        <td
-          @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left"
-        >{{ props.item.username }}</td>
         <td @click="NavigateToAccident(props.item.id)" class="text-xs-left">{{ props.item.comment }}</td>
       </template>
 
@@ -77,6 +80,12 @@ export default {
 
   data() {
     return {
+      rowsPerPageItems: [
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
+        10,
+        5,
+        25
+      ],
       search: "",
 
       Accidents: [],
@@ -90,45 +99,41 @@ export default {
           value: "id"
         },
         {
+          text: "ტიპი",
+
+          value: "type"
+        },
+        {
+          text: "პასუხისმგებელი პირი",
+
+          value: "username"
+        },
+        {
           text: "ბრენჩი",
 
           value: "buildingBranch"
+        },
+        {
+          text: "სტატუსი",
+
+          value: "status"
+        },
+        {
+          text: "პრიორიტეტი",
+
+          value: "priority"
         },
         {
           text: "სართული",
 
           value: "floorNumber"
         },
-
         {
           text: "სექტორი",
 
           value: "sectorName"
         },
 
-        {
-          text: "პრიორიტეტი",
-
-          value: "priority"
-        },
-
-        {
-          text: "ტიპი",
-
-          value: "type"
-        },
-
-        {
-          text: "სტატუსი",
-
-          value: "status"
-        },
-
-        {
-          text: "პასუხისმგებელი პირი",
-
-          value: "username"
-        },
         {
           text: "კომენტარი",
 

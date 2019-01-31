@@ -23,7 +23,7 @@
                     :items="Items"
                     item-text="itemName"
                     item-value="itemCode"
-                    v-model="editedItem.itemCode"                    
+                    v-model="editedItem.itemCode"
                     label="საქონელი"
                     placeholder="საქონელი"
                   ></v-autocomplete>
@@ -32,9 +32,10 @@
                 <v-flex xs12 sm6 md4>
                   <v-autocomplete
                     :items="Vendors"
+                    :multiple="true"
                     item-text="vendorName"
                     item-value="vendorCode"
-                    v-model="editedItem.vendorCode"
+                    v-model="editedItem.vendors"
                     placeholder="ვენდორი"
                     label="ვენდორი"
                   ></v-autocomplete>
@@ -87,7 +88,7 @@
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.itemName }}</td>
 
-        <td class="text-xs-left">{{ props.item.vendorName }}</td>
+        <td  class="text-xs-left">{{ props.item.vendors }}</td>
 
         <td class="text-xs-left">{{ props.item.email }}</td>
 
@@ -125,7 +126,6 @@ export default {
 
       .then(res => {
         const ItemsRes = res.data;
-
         for (let key in ItemsRes) {
           const ItemRes = ItemsRes[key];
 
@@ -136,18 +136,13 @@ export default {
       .catch(error => console.log(error));
     ////////////////////////////////////////////////////
     axios
-      .get(this.$store.state.baseUrl + "/Vendors", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
+      .get(this.$store.state.baseUrl + "/Vendors")
 
       .then(res => {
         const VendorsRes = res.data;
 
         for (let key in VendorsRes) {
           const VendorRes = VendorsRes[key];
-          console.log(this.Vendors)
           this.Vendors.push(VendorRes);
         }
       })
@@ -199,6 +194,7 @@ export default {
 
   data() {
     return {
+      gocha: true,
       emailRules: [
         v => !!v || "E-mail is required",
 
@@ -236,6 +232,7 @@ export default {
         email: "",
         quantity: 0,
         comment: "",
+        vendors: [],
         wareHouseCode: ""
       },
 
@@ -246,6 +243,7 @@ export default {
         vendorCode: "",
         email: "",
         quantity: 0,
+        vendors: [],
         comment: "",
         wareHouseCode: ""
       },
@@ -304,11 +302,11 @@ export default {
         })
         .then(res => {
           const RequestsRes = res.data;
-
           for (let key in RequestsRes) {
             const RequestRes = RequestsRes[key];
             this.Requests.push(RequestRes);
           }
+          console.log(this.Requests);
         })
         .catch(error => console.log(error));
     },
@@ -353,7 +351,6 @@ export default {
     },
 
     save() {
-      console.log(this.editedItem)
       if (this.editedIndex > -1) {
         axios
           .put(
@@ -373,6 +370,7 @@ export default {
 
           .catch(error => console.log(error));
       } else {
+        console.log(this.editedItem)
         axios
           .post(
             this.$store.state.baseUrl + "/GoodsIssueRequest",
@@ -386,7 +384,7 @@ export default {
           .then(res => {
             this.editedItem.itemName = res.data.itemName;
             this.editedItem.vendorName = res.data.vendorName;
-            console.log('Res===>' , res.data , 'EditItem', this.editedItem)
+            // console.log("Res===>", res.data, "EditItem", this.editedItem);
             this.Requests.push(this.editedItem);
             this.close();
           })

@@ -139,26 +139,26 @@ export default {
           const task = tasksRes[key];
           this.Types.push(task);
         }
+        axios
+          .get(this.$store.state.baseUrl + "/PlannedWorks")
+          .then(res => {
+            const PlannedWorksRes = res.data;
+            for (let key in PlannedWorksRes) {
+              const PlannedWoksRes = PlannedWorksRes[key];
+              const taskx = {};
+              taskx.id = PlannedWoksRes.id;
+              taskx.task = PlannedWoksRes.name;
+              this.Types.push(taskx);
+            }
+            console.log(this.Types);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err);
-      });
-
-    axios
-      .get(this.$store.state.baseUrl + "/PlannedWorks")
-      .then(res => {
-        const PlannedWorksRes = res.data;
-        for (let key in PlannedWorksRes) {
-          const PlannedWoksRes = PlannedWorksRes[key];
-          const taskx = {};
-          taskx.id = PlannedWoksRes.id;
-          taskx.task = PlannedWoksRes.name;
-          this.Types.push(taskx);
-        }
-        console.log(this.Types);
-      })
-      .catch(err => {
-        console.log(err);
+        return;
       });
 
     axios
@@ -224,7 +224,9 @@ export default {
         }
       })
 
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+      });
   },
 
   data: () => ({
