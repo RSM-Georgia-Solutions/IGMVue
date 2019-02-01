@@ -69,7 +69,6 @@ export default {
 
         for (let key in accidentsRes) {
           const accidentRes = accidentsRes[key];
-
           this.Accidents.push(accidentRes);
         }
       })

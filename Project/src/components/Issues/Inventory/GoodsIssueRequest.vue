@@ -35,7 +35,7 @@
                     :multiple="true"
                     item-text="vendorName"
                     item-value="vendorCode"
-                    v-model="editedItem.vendors"
+                    v-model="editedItem.Vendor"
                     placeholder="ვენდორი"
                     label="ვენდორი"
                   ></v-autocomplete>
@@ -88,9 +88,7 @@
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.itemName }}</td>
 
-        <td  class="text-xs-left">{{ props.item.vendors }}</td>
-
-        <td class="text-xs-left">{{ props.item.email }}</td>
+        <td class="text-xs-left">{{ props.item.vendorTmp }}</td> 
 
         <td class="text-xs-left">{{ props.item.quantity }}</td>
 
@@ -115,7 +113,6 @@ import axios from "axios";
 
 export default {
   created() {
-    this.getReq();
     ////////////////////////////////////////////////////////////////////////////////
     axios
       .get(this.$store.state.baseUrl + "/itemmasterdata", {
@@ -145,10 +142,12 @@ export default {
           const VendorRes = VendorsRes[key];
           this.Vendors.push(VendorRes);
         }
+        console.log(this.Vendors)
       })
       .catch(error => console.log(error));
     ////////////////////////////////////////////////
-
+    this.getReq();
+    /////////////////////////////////////////////////////
     axios
       .get(this.$store.state.baseUrl + "/WareHouse", {
         headers: {
@@ -232,7 +231,7 @@ export default {
         email: "",
         quantity: 0,
         comment: "",
-        vendors: [],
+        Vendor: [],
         wareHouseCode: ""
       },
 
@@ -243,7 +242,7 @@ export default {
         vendorCode: "",
         email: "",
         quantity: 0,
-        vendors: [],
+        Vendor: [],
         comment: "",
         wareHouseCode: ""
       },
@@ -259,13 +258,7 @@ export default {
           text: "ვენდორის სახელი",
 
           value: "vendorName"
-        },
-
-        {
-          text: "Email",
-
-          value: "email"
-        },
+        },         
 
         {
           text: "რაოდენობა",
@@ -303,10 +296,12 @@ export default {
         .then(res => {
           const RequestsRes = res.data;
           for (let key in RequestsRes) {
-            const RequestRes = RequestsRes[key];
+            const RequestRes = RequestsRes[key];    
+            RequestRes.vendorTmp =  Object.values(RequestsRes[key].vendor)    
             this.Requests.push(RequestRes);
+            console.log(RequestRes);
+
           }
-          console.log(this.Requests);
         })
         .catch(error => console.log(error));
     },
@@ -351,6 +346,7 @@ export default {
     },
 
     save() {
+      console.log(this.editedItem)
       if (this.editedIndex > -1) {
         axios
           .put(
@@ -370,7 +366,7 @@ export default {
 
           .catch(error => console.log(error));
       } else {
-        console.log(this.editedItem)
+        console.log(this.editedItem);
         axios
           .post(
             this.$store.state.baseUrl + "/GoodsIssueRequest",

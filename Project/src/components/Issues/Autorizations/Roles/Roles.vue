@@ -18,49 +18,7 @@ export default {
     return {
       roles: [
         {
-          role: "Admin",
-
-          image: "http://deepchains.com/images/team.png",
-
-          id: 1
-        },
-
-        {
-          role: "Manager",
-
-          image: "https://image.flaticon.com/icons/svg/206/206853.svg",
-
-          id: 5
-        },
-
-        {
-          role: "Cleaning",
-
-          image: "https://image.flaticon.com/icons/svg/206/206893.svg",
-
-          id: 4
-        },
-
-        {
-          role: "Security",
-
-          image:
-            "http://blog.gosocket.net/wp-content/uploads/2016/03/test1.png",
-
-          id: 3
-        },
-
-        {
-          role: "Technician",
-
-          image: "https://image.flaticon.com/icons/svg/206/206882.svg",
-
-          id: 2
-        },
-
-        {
           role: "New Role",
-
           image:
             "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/add.png"
         }
@@ -68,6 +26,21 @@ export default {
     };
   },
 
+  created() {
+    this.axios
+      .get(this.$store.state.baseUrl + "/Roles")
+      .then(res => {
+        const RolesRes = res.data;
+
+        for (let key in RolesRes) {
+          const roleRes = RolesRes[key];
+          this.roles.push(roleRes);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
     // NavigateToRole(role) {
     //     console.log(role)
