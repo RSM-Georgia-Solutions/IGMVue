@@ -1,6 +1,4 @@
+const path = require('path')
 module.exports = {
-  devServer: {
-    disableHostCheck: true,
-    public: 'http://nika' // That solved it
-  }
+  outputDir: path.resolve('D:\\Users\\nkurdadze\\Desktop\\TestOutputDist', '')
 }

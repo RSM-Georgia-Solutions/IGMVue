@@ -99,6 +99,10 @@ export default {
         .put(this.$store.state.baseUrl + "/accidents", this.Accdient)
         .then(res => {
           console.log(res);
+          if(this.Accdient.status == 'დასადასტურებელი')
+          this.$router.push({
+            name: "GoodsIssue"
+          });
         })
         .catch(err => {
           console.log(err);

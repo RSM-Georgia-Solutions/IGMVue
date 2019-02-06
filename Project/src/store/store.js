@@ -12,7 +12,9 @@ export const store = new Vuex.Store({
     // baseUrlImage: 'http://94.43.170.68:8000/',
     // baseUrl: 'http://94.43.170.68:8000/api',
     // baseUrl: 'http://146.255.241.242:8001/api',
-    // baseUrlImage: 'http://146.255.241.242:8001/',
+    // baseUrlImage: 'http://146.255.241.242:8001/',y
+    // baseUrl: 'http://192.168.7.247:8000/api',
+    // baseUrlImage: 'http://192.168.7.247:8000/',
     counter: 0
   },
   plugins: [
