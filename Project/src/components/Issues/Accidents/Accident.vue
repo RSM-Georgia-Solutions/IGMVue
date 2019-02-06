@@ -52,7 +52,7 @@
 <script>
 import axios from "axios";
 export default {
-  created() {
+  created() {     
     axios
       .get(this.$store.state.baseUrl + "/Helper/GetStatuses")
 

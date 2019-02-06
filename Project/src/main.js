@@ -27,11 +27,14 @@ Vue.axios.interceptors.request.use(function (config) {
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
   // Do something with response data
+
   return response
 }, function (error) {
   // Do something with response error
   if (error.response.status === 401) {
     console.log('Back To Login')
+    store.state.UrlRedirect = router.history.current.path
+    console.log(router.history.current.path)
     router.push({
       name: 'Login'
     })

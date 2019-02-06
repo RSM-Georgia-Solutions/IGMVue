@@ -17,7 +17,6 @@
           label="Email"
           placeholder="Email"
         ></v-text-field>
-
         <v-text-field
           :rules="passwordlRules"
           v-model="credentials.password"
@@ -27,7 +26,7 @@
           autocomplete="new-password"
           id="id"
         ></v-text-field>
-      </v-flex> 
+      </v-flex>
       <v-flex xs8 offset-xs2 text-xs-center mt-3>
         <v-btn class="success" @click="authenticate" dark align-center>
           <v-icon left>account_circle</v-icon>Login
@@ -49,6 +48,7 @@ export default {
         password: ""
       },
 
+      redirectUrl: "",
       isError: false,
 
       emailRules: [
@@ -70,6 +70,10 @@ export default {
     }
   },
 
+  created() {
+    this.redirectUrl = this.$store.state.UrlRedirect;
+    console.log(this.redirectUrl, 'Redirection');
+  },
   methods: {
     authenticate() {
       this.axios
@@ -79,13 +83,18 @@ export default {
         )
         .then(res => {
           localStorage.token = res.data.token;
-          this.$router.push({
-            name: "Accidents"
-          });
+          if (this.redirectUrl != "") {
+            this.$router.push(this.redirectUrl);
+            this.redirectUrl = "";
+          } else {
+            this.$router.push({
+              name: "Accidents"
+            });
+          }
         })
         .catch(err => {
-          console.log(err.response.status)
-          if (err.response.status = 401) {
+          console.log(err.response.status);
+          if ((err.response.status = 401)) {
             this.isError = true;
           }
         });

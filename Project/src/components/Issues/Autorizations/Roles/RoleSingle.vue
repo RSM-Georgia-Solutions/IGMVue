@@ -6,6 +6,16 @@
     <v-flex v-for="perm in permissions" :key="perm.id" xs6 offset-xs3 lg6 offset-lg3>
       <v-checkbox :label="perm.permission" v-model="selected" :value="perm.id"></v-checkbox>
     </v-flex>
+    <v-flex xs6 offset-xs4>
+      <v-btn
+        color="blue"
+        class="mt-5"
+        right
+        @click="sendreq"
+        slot="activator"
+        aspect-ratio="2.75"
+      >დამახსოვრება</v-btn>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -42,8 +52,8 @@ export default {
         console.log(permissions);
         for (let key in permissions) {
           const per = permissions[key];
-        //   console.log(per);
-          this.selected.push(per.id)
+          //   console.log(per);
+          this.selected.push(per.id);
         }
       })
       .catch(err => {
@@ -54,8 +64,41 @@ export default {
     return {
       selected: [],
       permissions: [],
-      role: {}
+      role: {},
+      postItem: {
+        id: { type: Number },
+        role: "",
+        permissionRoles: []
+      }
     };
+  },
+  methods: {
+    sendreq() {
+      this.AddPermission();
+      this.SaveRole();
+    },
+    AddPermission() {
+      for (i = 0; i < this.selected.length; i++) {
+        let item = {
+          permissionId: this.selected[i]
+        };
+
+        this.postItem.permissionRoles.push(item);
+      }
+      this.postItem.id = this.$route.params.id;
+      console.log(this.postItem);
+    },
+    SaveRole() {
+      console.log(this.postItem);
+      this.axios
+        .put(this.$store.state.baseUrl + "/Roles", this.postItem)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

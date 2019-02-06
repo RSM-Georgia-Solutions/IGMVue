@@ -9,19 +9,19 @@
     <v-flex v-for="perm in permissions" :key="perm.id" xs6 offset-xs3 lg6 offset-lg3>
       <v-checkbox :label="perm.permission" v-model="selected" :value="perm.id"></v-checkbox>
     </v-flex>
-
+    <v-flex xs6 offset-xs4>
+      <v-btn
+        color="blue"
+        class="mt-5"
+        right
+        @click="sendreq"
+        slot="activator"
+        aspect-ratio="2.75"
+      >დამახსოვრება</v-btn>
+    </v-flex>
     <v-flex xs6 offset-xs4>
       <div class="text-xs-center">
         <v-dialog v-model="showImage" width="500">
-          <v-btn
-            color="blue"
-            class="mt-5"
-            right
-            @click="sendreq"
-            slot="activator"
-            aspect-ratio="2.75"
-          >დამახსოვრება</v-btn>
-
           <v-card>
             <v-img v-for="item in items" :key="item.avatar" :src="item.avatar"></v-img>
             <v-divider></v-divider>
@@ -88,6 +88,7 @@ export default {
       this.showImage = true;
     },
     sendreq() {
+      console.log("gocha");
       this.AddPermission();
       this.SaveRole();
     },
