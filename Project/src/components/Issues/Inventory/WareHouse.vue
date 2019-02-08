@@ -79,7 +79,6 @@ import axios from "axios";
 export default {
   created() {
     axios
-
       .get(this.$store.state.baseUrl + "/warehouse", {
         headers: {
           Authorization: "Bearer " + localStorage.token

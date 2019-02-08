@@ -1,8 +1,6 @@
 <template>
   <v-layout row wrap>
     <v-flex xs8 offset-xs2 sm6 mt-3 lg8>
-      <v-btn color="success" round @click="openImages">Icon</v-btn>
-
       <v-text-field label="როლი" placeholder="როლი" v-model="postItem.role"></v-text-field>
     </v-flex>
 
@@ -43,36 +41,7 @@ export default {
     return {
       selected: [],
       showImage: false,
-      items: [
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206856.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206860.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206882.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206901.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206902.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206896.jpg"
-        },
-        {
-          avatar:
-            "https://localhost:44315/api/Helper/GetImage?imageName=206891.jpg"
-        }
-      ],
+      items: [],
 
       permissions: [],
 
@@ -84,9 +53,6 @@ export default {
   },
 
   methods: {
-    openImages() {
-      this.showImage = true;
-    },
     sendreq() {
       console.log("gocha");
       this.AddPermission();
@@ -112,7 +78,7 @@ export default {
     },
 
     AddPermission() {
-      for (i = 0; i < this.selected.length; i++) {
+      for (let i = 0; i < this.selected.length; i++) {
         let item = {
           permissionId: this.selected[i]
         };

@@ -112,12 +112,23 @@
         </v-content>
       </v-form>
 
-      <v-btn color="success" @click="AddAccident() ; dialog = true">ინციდენტის დამატება</v-btn>
+      <v-btn
+        :disabled="dialog"
+        :loading="dialog"
+        color="success"
+        @click="dialog2 = true; AddAccident()"
+      >ინციდენტის დამატება</v-btn>
 
-      <v-dialog v-model="dialog" max-width="490">
-        <v-card>
+      <v-dialog v-model="dialog2" hide-overlay persistent max-width="590">
+        <v-card color="blue-grey lighten-1" dark>
+          <v-card-text>მიმდინარეობს დამატება
+            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialog" hide-overlay persistent max-width="590">
+        <v-card color="white" dark>
           <v-card-title :class="dialogColor">{{dialogText}}</v-card-title>
-
           <v-card-actions>
             <v-btn :color="dialogColor" flat @click.native="dialog = false">OK</v-btn>
           </v-card-actions>
@@ -228,11 +239,18 @@ export default {
         console.log(error);
       });
   },
-
+  // watch: {
+  //   dialog(val) {
+  //     console.log("aaaaaaaaaaaaaaaaaaaaaa");
+  //     if (!val) return;
+  //     setTimeout(() => (this.dialog = false), 4000);
+  //   }
+  // },
   data: () => ({
     menu2: false,
 
     dialog: false,
+    dialog2: false,
 
     dialogText: "",
 
@@ -327,24 +345,20 @@ export default {
 
         .then(res => {
           if (res.status == "202") {
-            console.log("abc1");
-
             this.dialogText = "ინციდენტი წარმატებით დაემატა";
-
             this.dialogColor = "success";
+            this.dialog2 = false;
+            this.dialog = true;
             this.reset();
           } else {
-            console.log("abc");
           }
         })
-
         .catch(error => {
           this.dialogText = "ინციდენტის დამატება ვერ მოხერხდა";
 
           this.dialogColor = "error";
-
-          // this.ShowAlertVar = "Error"
-
+          this.dialog2 = false;
+          this.dialog = true;
           console.log(error);
         });
     },

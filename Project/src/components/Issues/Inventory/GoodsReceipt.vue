@@ -1,6 +1,12 @@
 <template>
   <v-container fluid>
     <v-layout align-space-around justify-space-around column fill-height>
+      <v-snackbar
+        v-model="isSuccess"
+        :timeout="4000"
+        color="success"
+        :bottom="true"
+      >საქონელი მიღებულია</v-snackbar>
       <v-autocomplete
         :items="itemMasterData"
         item-text="itemName"
@@ -88,25 +94,9 @@ export default {
 
       wareHouses: [],
 
+      isSuccess: false,
+
       JournalEntry: {
-        wareHosueId: "",
-
-        itemMasterDataId: "",
-
-        quantity: "",
-
-        userId: 0,
-
-        Comment: "",
-
-        systemDate: new Date().toISOString().substr(0, 10),
-
-        postingDate: new Date().toISOString().substr(0, 10),
-
-        AllowedNegative: false
-      },
-
-      JournalEntryDefault: {
         wareHosueId: "",
 
         itemMasterDataId: "",
@@ -127,6 +117,16 @@ export default {
   },
 
   methods: {
+    reset() {
+      this.JournalEntry.wareHosueId = "";
+      this.JournalEntry.itemMasterDataId = "";
+      this.JournalEntry.quantity = "";
+      this.JournalEntry.userId = 0;
+      this.JournalEntry.Comment = "";
+      this.JournalEntry.systemDate = new Date().toISOString().substr(0, 10);
+      this.JournalEntry.postingDate = new Date().toISOString().substr(0, 10);
+      this.JournalEntry.AllowedNegative = false;
+    },
     IssueItem() {
       axios
         .post(
@@ -139,10 +139,12 @@ export default {
           }
         )
         .then(res => {
-          this.JournalEntry = this.JournalEntryDefault;
+          this.isSuccess = true;
+          this.reset();
         })
         .catch(err => {
           console.log(this.JournalEntry, err);
+          this.reset();
         });
     }
   }
