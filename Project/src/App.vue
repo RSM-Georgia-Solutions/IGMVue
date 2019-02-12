@@ -24,7 +24,7 @@
             </v-list>
         </v-navigation-drawer>
     
-        <v-toolbar class="green" dark>
+        <v-toolbar color="primary" dark>
             <v-toolbar-side-icon @click="sideNav = !sideNav" class="hidden-lg-and-up"></v-toolbar-side-icon>
             <v-toolbar-title class="mr-4">
                 <router-link to="Test" tag="span" style="cursor:no-drop">Title</router-link>

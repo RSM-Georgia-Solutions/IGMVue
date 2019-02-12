@@ -71,6 +71,7 @@ export default {
           const accidentRes = accidentsRes[key];
           this.Accidents.push(accidentRes);
         }
+        console.log(this.Accidents);
       })
       .catch(err => {
         console.log(err);

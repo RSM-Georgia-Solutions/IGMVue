@@ -33,7 +33,7 @@
                     :disabled="editedIndex != -1"
                   ></v-text-field>
                 </v-flex>
-
+                <!-- 
                 <v-flex xs12 sm12 md12>
                   <v-text-field
                     v-model="editedItem.branch"
@@ -42,6 +42,15 @@
                     required
                     :rules="itemNameRules"
                   ></v-text-field>
+                </v-flex>-->
+                <v-flex xs12 sm12 md12>
+                  <v-autocomplete
+                    label="ფილიალი"
+                    :items="branches"
+                    item-text="branchName"
+                    v-model="editedItem.branchClass"
+                    return-object
+                  ></v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -62,7 +71,7 @@
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.code }}</td>
 
-        <td class="text-xs-left">{{ props.item.branch }}</td>
+        <td class="text-xs-left">{{ props.item.branchClass.branchName }}</td>
 
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
@@ -78,28 +87,38 @@ import axios from "axios";
 
 export default {
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/warehouse", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
+    this.axios
+      .get(this.$store.state.baseUrl + "/warehouse")
 
       .then(res => {
-        console.log(res);
-
         const itemsRes = res.data;
 
         for (let key in itemsRes) {
           const itemRes = itemsRes[key];
-
           this.WareHouses.push(itemRes);
         }
-
         console.log(this.WareHouses);
       })
 
       .catch(error => console.log(error));
+
+    axios
+      .get(this.$store.state.baseUrl + "/branches")
+
+      .then(res => {
+        const branchesData = res.data;
+
+        for (let key in branchesData) {
+          const branch = {
+            id: branchesData[key].id,
+            branchName: branchesData[key].branchName
+          };
+
+          this.branches.push(branch);
+        }
+      })
+
+      .catch(err => console.log(err));
   },
 
   computed: {
@@ -110,7 +129,7 @@ export default {
     },
 
     formIsValid() {
-      return this.editedItem.branch;
+      return this.editedItem.code;
     }
   },
 
@@ -128,6 +147,8 @@ export default {
 
       search: "",
 
+      branches: [],
+
       dialog: false,
 
       editedIndex: -1,
@@ -136,7 +157,9 @@ export default {
 
       editedItem: {
         branch: "",
-
+        branchClass: {
+          id: 0
+        },
         code: ""
       },
 
@@ -154,7 +177,7 @@ export default {
         },
 
         {
-          text: "საწყობის ფილიალი",
+          text: "საწყობის დასახელება",
 
           value: "branch"
         }
@@ -193,6 +216,13 @@ export default {
             Object.assign(this.WareHouses[this.editedIndex], this.editedItem);
 
             this.close();
+            if (res.data.isSuccess == "false") {
+              console.log(res.data);
+            } else {
+              this.WareHouses.push(this.editedItem);
+              this.isSuccess = true;
+              this.close();
+            }
           })
 
           .catch(error => console.log(error));

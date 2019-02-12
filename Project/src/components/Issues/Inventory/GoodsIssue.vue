@@ -1,6 +1,12 @@
 <template>
   <v-container fluid>
     <v-layout align-space-around justify-space-around column fill-height>
+      <v-snackbar
+        v-model="isSuccess"
+        :timeout="6000"
+        color="success"
+        :bottom="true"
+      >საქონელი წარმატებით ჩამოიწერა</v-snackbar>
       <v-autocomplete
         :items="itemMasterData"
         item-text="itemName"
@@ -20,7 +26,6 @@
         placeholder="არჩევა..."
         v-model="JournalEntry.wareHosueId"
         required
-    
       ></v-autocomplete>
 
       <v-text-field
@@ -67,6 +72,8 @@ export default {
       quantityRule: [v => v > 0 || "Invalid Quantity"],
 
       itemMasterData: [],
+
+      isSuccess: false,
 
       wareHouses: [],
 
@@ -139,9 +146,21 @@ export default {
         });
     },
 
+    reset() {
+      (this.JournalEntry.wareHosueId = ""),
+        (this.JournalEntry.itemMasterDataId = ""),
+        (this.JournalEntry.quantity = ""),
+        (this.JournalEntry.userId = 0),
+        (this.JournalEntry.Comment = ""),
+        (this.JournalEntry.systemDate = new Date().toISOString().substr(0, 10)),
+        (this.JournalEntry.postingDate = new Date()
+          .toISOString()
+          .substr(0, 10)),
+        (this.JournalEntry.AllowedNegative = true);
+    },
+
     IssueItem() {
       this.JournalEntry.quantity = -this.JournalEntry.quantity;
-      console.log(this.JournalEntry);
       axios
         .post(
           this.$store.state.baseUrl + "/WareHouseJournal/CreateEntry",
@@ -154,9 +173,12 @@ export default {
         )
         .then(res => {
           this.JournalEntry = this.JournalEntryDefault;
+          this.reset();
+          this.isSuccess = true;
         })
         .catch(err => {
           console.log(this.JournalEntry, err);
+          this.reset();
         });
     }
   }

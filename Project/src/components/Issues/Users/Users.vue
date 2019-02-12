@@ -91,6 +91,17 @@
                     required
                   ></v-text-field>
                 </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-autocomplete
+                    v-model="editedItem.branch"
+                    :items="branches"
+                    item-text="branchName"                  
+                    return-object
+                    label="ფილიალი"
+                    placeholder="არჩევა..."
+                    required
+                  ></v-autocomplete>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -119,6 +130,8 @@
         <td class="text-xs-left">{{ props.item.roles.role }}</td>
 
         <td class="text-xs-left">{{ props.item.email }}</td>
+
+        <td class="text-xs-left">{{ props.item.branch.branchName }}</td>
 
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
@@ -173,6 +186,24 @@ export default {
       })
 
       .catch(err => console.log(err));
+
+    axios
+      .get(this.$store.state.baseUrl + "/branches")
+
+      .then(res => {
+        const branchesData = res.data;
+
+        for (let key in branchesData) {
+          const branch = {
+            id: branchesData[key].id,
+            branchName: branchesData[key].branchName
+          };
+
+          this.branches.push(branch);
+        }
+      })
+
+      .catch(err => console.log(err));
   },
 
   computed: {
@@ -195,15 +226,16 @@ export default {
     }
   },
 
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
+  // watch: {
+  //   dialog(val) {
+  //     val || this.close();
+  //   }
+  // },
 
   data() {
     return {
       roles: [],
+      branches: [],
       isShown: false,
       emailRules: [
         v => !!v || "E-mail is required",
@@ -235,6 +267,11 @@ export default {
 
         position: "",
 
+        branch: {
+          id: "",
+          branchName: ""
+        },
+
         roles: {
           id: "",
           role: ""
@@ -249,7 +286,10 @@ export default {
         lastName: "",
 
         position: "",
-
+        branch: {
+          id: "",
+          branchName: ""
+        },
         roles: {
           id: "",
           role: ""
@@ -293,6 +333,11 @@ export default {
           text: "ელ-ფოსტა",
 
           value: "email"
+        },
+        {
+          text: "ფილიალი",
+
+          value: "branchId"
         }
       ],
 
@@ -324,7 +369,7 @@ export default {
             }
           })
 
-          .then(res => console.log(res))
+          .then(res => console.log("res", res))
 
           .catch(error => console.log("error", error));
       }
@@ -342,12 +387,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        axios
-          .put(this.$store.state.baseUrl + "/users", this.editedItem, {
-            headers: {
-              Authorization: "Bearer " + localStorage.token
-            }
-          })
+        console.log(this.editedItem)
+        this.axios
+          .put(this.$store.state.baseUrl + "/users", this.editedItem)
           .then(res => {
             Object.assign(this.Users[this.editedIndex], this.editedItem);
             this.close();
@@ -366,17 +408,13 @@ export default {
           )
 
           .then(res => {
-            console.log(res.status);
             if (res.status == 202) {
               this.isShown = true;
             }
-            axios
-              .get(this.$store.state.baseUrl + "/users/" + res.data, {
-                headers: {
-                  Authorization: "Bearer " + localStorage.token
-                }
-              })
+            this.axios
+              .get(this.$store.state.baseUrl + "/users/" + res.data)
               .then(res => {
+                console.log(res.data);
                 this.Users.push(res.data);
               });
             console.log(res);

@@ -3,7 +3,7 @@
     <v-layout column>
       <v-btn
         v-if="checkGroupPer()"
-        color="teal darken-2"
+        color="#78909C"
         dark
         class="mt-5"
         :to="{name:'Groups'}"
@@ -11,36 +11,51 @@
 
       <v-btn
         v-if=" checkPlannedWorksPer() && checkUsersPer() && checkTasksPer()"
-        color="success"
+        color="#78909C"
         class="mt-4"
+        dark
         :to="{name:'NewAccident'}"
       >ინციდენტის დამატება</v-btn>
 
       <v-btn
         v-if="checkAccidentPer()"
-        color="warning"
+        color="#78909C"
+        dark
         class="mt-4"
         :to="{name:'OpenAccidents'}"
       >ღია ინციდენტები</v-btn>
 
       <v-btn
         v-if="checkPlannedWorksPer()"
-        color="info"
+        color="#78909C"
+        dark
         class="mt-4"
         :to="{name:'PlannedWorks'}"
       >გეგმიური სამუშაოები</v-btn>
 
-      <v-btn color="cyan" class="mt-4" :to="{name:'Inventory'}">მარაგები/საწყობები</v-btn>
+      <v-btn color="#78909C" dark class="mt-4" :to="{name:'Inventory'}">მარაგები/საწყობები</v-btn>
 
-      <v-btn v-if="checkVendorsPer()" color="pink" class="mt-4" :to="{name:'Vendors'}">ვენდორები</v-btn>
+      <v-btn
+        v-if="checkVendorsPer()"
+        color="#78909C"
+        dark
+        class="mt-4"
+        :to="{name:'Vendors'}"
+      >ვენდორები</v-btn>
 
-      <v-btn color="teal accent-3" class="mt-4" :to="{name:'Report'}" dark>რეპორტები</v-btn>
+      <v-btn color="#78909C" class="mt-4" :to="{name:'Report'}" dark>რეპორტები</v-btn>
 
-      <v-btn v-if="checkUsersPer()" color="purple" class="mt-4" :to="{name:'Users'}">მომხმარებლები</v-btn>
+      <v-btn
+        v-if="checkUsersPer()"
+        color="#78909C"
+        dark
+        class="mt-4"
+        :to="{name:'Users'}"
+      >მომხმარებლები</v-btn>
 
       <v-btn
         v-if="checkRolesPer() && checkPermissionsPer()"
-        color="blue accent-3"
+        color="#78909C"
         class="mt-4"
         :to="{name:'Autorizations'}"
         dark
