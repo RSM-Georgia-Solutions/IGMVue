@@ -1,10 +1,12 @@
 import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import Vuetify from 'vuetify'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
+import JsonExcel from 'vue-json-excel'
 
 import { store } from './store/store'
 
@@ -48,6 +50,8 @@ axios.interceptors.response.use(function (response) {
 new Vue({
   store,
   router,
-  // VueBase64FileUpload,
+  components: {
+    'downloadExcel': JsonExcel
+  },
   render: h => h(App)
 }).$mount('#app')

@@ -78,7 +78,7 @@ export default {
       this.SaveRole();
     },
     AddPermission() {
-      for (i = 0; i < this.selected.length; i++) {
+      for (let i = 0; i < this.selected.length; i++) {
         let item = {
           permissionId: this.selected[i]
         };

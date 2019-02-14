@@ -1,65 +1,67 @@
 <template>
   <v-container fluid>
     <v-layout column>
-      <v-btn
+      <v-btn 
         v-if="checkGroupPer()"
         color="#78909C"
         dark
-        class="mt-5"
+        class="text-lg-left mt-3"
         :to="{name:'Groups'}"
-      >დავალებები</v-btn>
+      ><v-icon left>list_alt</v-icon>დავალებები</v-btn>
 
       <v-btn
         v-if=" checkPlannedWorksPer() && checkUsersPer() && checkTasksPer()"
         color="#78909C"
-        class="mt-4"
+        class="text-lg-left mt-3"
         dark
         :to="{name:'NewAccident'}"
-      >ინციდენტის დამატება</v-btn>
+      >
+        <v-icon left>add_circle_outline</v-icon>ინციდენტის დამატება
+      </v-btn>
 
       <v-btn
         v-if="checkAccidentPer()"
         color="#78909C"
         dark
-        class="mt-4"
+        class="mt-3"
         :to="{name:'OpenAccidents'}"
-      >ღია ინციდენტები</v-btn>
+      ><v-icon left>rate_review</v-icon>ღია ინციდენტები</v-btn>
 
       <v-btn
         v-if="checkPlannedWorksPer()"
         color="#78909C"
         dark
-        class="mt-4"
+        class="mt-3"
         :to="{name:'PlannedWorks'}"
-      >გეგმიური სამუშაოები</v-btn>
+      ><v-icon left>loop</v-icon>გეგმიური სამუშაოები</v-btn>
 
-      <v-btn color="#78909C" dark class="mt-4" :to="{name:'Inventory'}">მარაგები/საწყობები</v-btn>
+      <v-btn color="#78909C" dark class="mt-3" :to="{name:'Inventory'}"><v-icon left>widgets
+</v-icon>მარაგები/საწყობები</v-btn>
 
       <v-btn
         v-if="checkVendorsPer()"
         color="#78909C"
         dark
-        class="mt-4"
+        class="mt-3"
         :to="{name:'Vendors'}"
-      >ვენდორები</v-btn>
+      ><v-icon left>people</v-icon>ვენდორები</v-btn>
 
-      <v-btn color="#78909C" class="mt-4" :to="{name:'Report'}" dark>რეპორტები</v-btn>
+      <v-btn color="#78909C" class="mt-3" :to="{name:'Reports'}" dark><v-icon left>trending_up
+</v-icon>რეპორტები</v-btn>
 
-      <v-btn
-        v-if="checkUsersPer()"
-        color="#78909C"
-        dark
-        class="mt-4"
-        :to="{name:'Users'}"
-      >მომხმარებლები</v-btn>
+      <v-btn v-if="checkUsersPer()" color="#78909C" dark class="mt-3" :to="{name:'Users'}">
+        <v-icon left>account_circle</v-icon>მომხმარებლები
+      </v-btn>
 
       <v-btn
         v-if="checkRolesPer() && checkPermissionsPer()"
         color="#78909C"
-        class="mt-4"
+        class="mt-3"
         :to="{name:'Autorizations'}"
         dark
-      >ავტორიზაციები</v-btn>
+      >
+        <v-icon left>fingerprint</v-icon>ავტორიზაციები
+      </v-btn>
     </v-layout>
   </v-container>
 </template>

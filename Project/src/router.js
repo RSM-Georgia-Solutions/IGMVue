@@ -89,8 +89,8 @@ export default new Router({
         import(/* webpackChunkName: 'about' */ './components/Issues/Accidents/OpenedAccidents.vue')
     },
     {
-      path: '/Issues/Report',
-      name: 'Report',
+      path: '/Issues/Reports',
+      name: 'Reports',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -329,6 +329,15 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: 'about' */ './components/Issues/PlannedWorks/PlannedWorks.vue')
+    },
+    {
+      path: '/Issues/Reports/StockReport',
+      name: 'StockReport',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: 'about' */ './components/Issues/Reports/StockReport.vue')
     }
   ]
 })

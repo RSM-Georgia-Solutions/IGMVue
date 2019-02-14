@@ -14,6 +14,16 @@
       ></v-text-field>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
+      <v-autocomplete
+        :items="users"
+        item-text="branch.branchName"
+        item-value="branch.id"
+        label="ფილიალი"
+        placeholder="ფილიალი"
+        v-model="planndWork.branchId"
+      ></v-autocomplete>
+    </v-flex>
+    <v-flex xs10 offset-xs1 mt-3>
       <v-menu
         :close-on-content-click="false"
         v-model="menuFrom"
@@ -93,6 +103,7 @@ export default {
           const UserRes = UsersRes[key];
           this.users.push(UserRes);
         }
+        console.log(this.users)
       })
 
       .catch(error => console.log(error));
@@ -107,7 +118,8 @@ export default {
         plannedWorksSettings: {
           activeFrom: new Date().toISOString().substr(0, 10),
           activeTo: new Date().toISOString().substr(0, 10),
-          frequency : 0
+          frequency: 0,
+          branchId: 0
         }
       },
       snackbarData: {},
@@ -117,7 +129,7 @@ export default {
   },
   methods: {
     save() {
-      console.log(this.planndWork)
+      console.log(this.planndWork);
       this.axios
         .post(this.$store.state.baseUrl + "/PlannedWorks", this.planndWork)
         .then(res => {

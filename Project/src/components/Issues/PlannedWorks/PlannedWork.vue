@@ -15,6 +15,17 @@
     </v-flex>
 
     <v-flex xs10 offset-xs1 mt-3>
+      <v-autocomplete
+        :items="users"
+        item-text="branch.branchName"
+        item-value="branch.id"
+        label="ფილიალი"
+        placeholder="ფილიალი"
+        v-model="plannedWorks.branchId"
+      ></v-autocomplete>
+    </v-flex>
+
+    <v-flex xs10 offset-xs1 mt-3>
       <v-menu
         :close-on-content-click="false"
         v-model="menuFrom"
@@ -58,7 +69,11 @@
       </v-menu>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
-      <v-text-field label="სიხშირე" placeholder="სიხშირე" v-model="plannedWorks.plannedWorksSettings.frequency"></v-text-field>
+      <v-text-field
+        label="სიხშირე"
+        placeholder="სიხშირე"
+        v-model="plannedWorks.plannedWorksSettings.frequency"
+      ></v-text-field>
     </v-flex>
     <v-flex xs10 offset-xs1 mt-3>
       <v-autocomplete
@@ -121,7 +136,8 @@ export default {
       plannedWorks: {
         id: 0,
         name: "",
-        plannedWorksSettings: Object
+        plannedWorksSettings: Object,
+        branchId: 0
       },
       users: [],
       menuFrom: false,
@@ -137,13 +153,13 @@ export default {
         .put(this.$store.state.baseUrl + "/PlannedWorks", this.plannedWorks)
         .then(res => {
           this.snackbarData.color = "success";
-          this.snackbarData.text = "გეგმიური სამუშაო წარმატებით დაემატა";
+          this.snackbarData.text = "გეგმიური სამუშაო წარმატებით განახლდა";
           this.isSuccess = true;
           console.log(this.isSuccess);
         })
         .catch(err => {
           this.snackbarData.color = "error";
-          this.snackbarData.text = "გეგმიური სამუშაო ვერ დაემატა";
+          this.snackbarData.text = "გეგმიური სამუშაო ვერ განახლდა";
           console.log(this.isSuccess);
         });
     }
