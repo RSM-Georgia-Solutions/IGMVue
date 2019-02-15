@@ -51,11 +51,11 @@ export default {
         )
         .then(res => {
           const tasksRes = res.data.tasks;
-          console.log(res.data.tasks);
+          console.log(res.data, 'qajaiaaaaa');
           for (let key in tasksRes) {
             const taskRes = tasksRes[key];
             taskRes.createDate = new Date().toISOString().substr(0, 10);
-            taskRes.taskDailyId = taskRes.id;
+            //  taskRes.taskDailyId = taskRes.id;
             taskRes.taskGroupId = this.$route.params.id;
             this.tasks.push(taskRes);
           }
@@ -68,12 +68,12 @@ export default {
       for (let key in this.tasks) {
         var taskHistory = this.tasks[key];
         console.log(taskHistory);
-        Vue.delete(taskHistory, "postingDate");        
+        Vue.delete(taskHistory, "postingDate");         
         this.axios
           .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
           .then(res => {
             this.tasks[key].id = res.data;
-            console.log(this.tasks[key].id, "xuiiiiiii");
+            console.log(this.tasks[key].id);
           })
           .catch(err => {
             console.log(err);

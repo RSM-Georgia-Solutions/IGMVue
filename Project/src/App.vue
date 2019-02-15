@@ -64,7 +64,7 @@ export default {
 
   methods:{
     logout(){
-      localStorage.token = null;
+      localStorage.token = '';
       this.$router.push("/")
     }
   }
