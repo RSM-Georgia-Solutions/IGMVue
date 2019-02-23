@@ -4,9 +4,10 @@
       <v-snackbar
         v-model="isSuccess"
         :timeout="6000"
-        color="success"
+        :color="responseStatus"
         :bottom="true"
-      >საქონელი წარმატებით ჩამოიწერა</v-snackbar>
+      >{{responseText}}</v-snackbar>
+
       <v-autocomplete
         :items="itemMasterData"
         item-text="itemName"
@@ -69,6 +70,9 @@ export default {
 
   data() {
     return {
+      responseStatus: "",
+      responseText: "",
+
       quantityRule: [v => v > 0 || "Invalid Quantity"],
 
       itemMasterData: [],
@@ -161,23 +165,23 @@ export default {
 
     IssueItem() {
       this.JournalEntry.quantity = -this.JournalEntry.quantity;
-      axios
+      this.axios
         .post(
           this.$store.state.baseUrl + "/WareHouseJournal/CreateEntry",
-          this.JournalEntry,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.token
-            }
-          }
+          this.JournalEntry
         )
         .then(res => {
           this.JournalEntry = this.JournalEntryDefault;
+          this.responseText = res.data;
+          this.responseStatus = "success";
+
           this.reset();
           this.isSuccess = true;
         })
         .catch(err => {
-          console.log(this.JournalEntry, err);
+          this.responseStatus = "error";
+          this.responseText = err.response.data;
+          this.isSuccess = true;
           this.reset();
         });
     }

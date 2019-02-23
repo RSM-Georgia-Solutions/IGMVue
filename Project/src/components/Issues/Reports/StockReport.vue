@@ -2,17 +2,18 @@
   <v-card>
     <v-card-title>საქონელი/საწყობი
       <v-spacer></v-spacer>
-      <v-flex xs1>
-        <JsonExcel :data="stockReport" mt-5>
+      <v-flex xs1 mr-5>
+        <v-btn color="success" x-large @click="ExportToExcel">
           <img src="https://img.icons8.com/material/24/000000/ms-excel.png">
-        </JsonExcel>
+          ექსპორტი
+        </v-btn>
       </v-flex>
 
       <v-text-field v-model="search" append-icon="search" label="Search"></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="stockReport" :search="search" id="ExportToExcel">
       <template slot="items" slot-scope="props">
-        <td class="text-xs-left" @click="abc">{{ props.item.itemDescription }}</td>
+        <td class="text-xs-left">{{ props.item.itemDescription }}</td>
 
         <td class="text-xs-left">{{ props.item.wareHouseCode }}</td>
 
@@ -29,6 +30,7 @@
 <script>
 import axios from "axios";
 import JsonExcel from "vue-json-excel";
+import FileSaver from "file-saver";
 export default {
   components: {
     JsonExcel
@@ -42,12 +44,12 @@ export default {
           const stockRep = stockReportRes[key];
           this.stockReport.push(stockRep);
         }
-        console.log(this.stockReport);
       })
       .catch(err => {});
   },
   data() {
     return {
+      ExportToExcelFile: File,
       stockReport: [],
       search: "",
       headers: [
@@ -76,7 +78,12 @@ export default {
   },
 
   methods: {
-    abc() {}
+    ExportToExcel() {
+      FileSaver.saveAs(
+        this.$store.state.baseUrl + "/Helper/ExportToExcel",
+        "boxski.xlsx"
+      );
+    }
   }
 };
 </script>

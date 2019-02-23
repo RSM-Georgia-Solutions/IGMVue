@@ -6,7 +6,7 @@
           <v-list-tile-action>
             <v-icon>playlist_add_check</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Buildings</v-list-tile-content>
+          <!-- <v-list-tile-content>Buildings</v-list-tile-content> -->
         </v-list-tile>
 
         <v-list-tile to="/Issues">
@@ -16,8 +16,8 @@
           <v-list-tile-content>Issues</v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile>
-          <v-list-tile-action>
+        <v-list-tile @click="logout">
+          <v-list-tile-action  >
             <v-icon>logout</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>logout</v-list-tile-content>
@@ -34,9 +34,9 @@
       </v-toolbar-title>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat to="/Buildings">
+        <!-- <v-btn flat to="/Buildings">
           <v-icon left>playlist_add_check</v-icon>Buildings
-        </v-btn>
+        </v-btn>  -->
 
         <v-btn flat to="/Issues">
           <v-icon left>gavel</v-icon>Issues

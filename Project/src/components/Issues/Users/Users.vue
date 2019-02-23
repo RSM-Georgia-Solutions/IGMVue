@@ -95,7 +95,7 @@
                   <v-autocomplete
                     v-model="editedItem.branch"
                     :items="branches"
-                    item-text="branchName"                  
+                    item-text="branchName"
                     return-object
                     label="ფილიალი"
                     placeholder="არჩევა..."
@@ -149,25 +149,7 @@ import axios from "axios";
 
 export default {
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/users", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
-
-      .then(res => {
-        const UsersRes = res.data;
-
-        for (let key in UsersRes) {
-          const UserRes = UsersRes[key];
-
-          this.Users.push(UserRes);
-        }
-      })
-
-      .catch(error => console.log(error));
-
+    this.getUsers();
     axios
       .get(this.$store.state.baseUrl + "/roles")
 
@@ -346,6 +328,19 @@ export default {
   },
 
   methods: {
+    getUsers() {
+      this.axios
+        .get(this.$store.state.baseUrl + "/users")
+        .then(res => {
+          this.Users = [];
+          const UsersRes = res.data;
+          for (let key in UsersRes) {
+            const UserRes = UsersRes[key];
+            this.Users.push(UserRes);
+          }
+        })
+        .catch(error => console.log(error));
+    },
     editItem(item) {
       this.editedIndex = this.Users.indexOf(item);
 
@@ -387,11 +382,12 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        console.log(this.editedItem)
+        console.log(this.editedItem);
         this.axios
           .put(this.$store.state.baseUrl + "/users", this.editedItem)
           .then(res => {
             Object.assign(this.Users[this.editedIndex], this.editedItem);
+            this.getUsers();
             this.close();
           })
           .catch(error => console.log(error));

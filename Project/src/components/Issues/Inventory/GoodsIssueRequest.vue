@@ -35,7 +35,7 @@
                     :multiple="true"
                     item-text="vendorName"
                     item-value="vendorCode"
-                    v-model="editedItem.Vendor"
+                    v-model="editedItem.vendor"
                     placeholder="ვენდორი"
                     label="ვენდორი"
                   ></v-autocomplete>
@@ -66,9 +66,9 @@
                     placeholder="კომენტარი"
                   ></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                <!-- <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedItem.email" label="Email" placeholder="Email"></v-text-field>
-                </v-flex>
+                </v-flex>-->
               </v-layout>
             </v-container>
           </v-card-text>
@@ -88,7 +88,7 @@
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.itemName }}</td>
 
-        <td class="text-xs-left">{{ props.item.vendorTmp }}</td> 
+        <td class="text-xs-left">{{ props.item.vendorTmp }}</td>
 
         <td class="text-xs-left">{{ props.item.quantity }}</td>
 
@@ -114,46 +114,33 @@ import axios from "axios";
 export default {
   created() {
     ////////////////////////////////////////////////////////////////////////////////
-    axios
-      .get(this.$store.state.baseUrl + "/itemmasterdata", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
-
+    this.axios
+      .get(this.$store.state.baseUrl + "/itemmasterdata")
       .then(res => {
         const ItemsRes = res.data;
         for (let key in ItemsRes) {
           const ItemRes = ItemsRes[key];
-
           this.Items.push(ItemRes);
         }
       })
 
       .catch(error => console.log(error));
     ////////////////////////////////////////////////////
-    axios
+    this.axios
       .get(this.$store.state.baseUrl + "/Vendors")
-
       .then(res => {
         const VendorsRes = res.data;
-
         for (let key in VendorsRes) {
           const VendorRes = VendorsRes[key];
           this.Vendors.push(VendorRes);
         }
-        console.log(this.Vendors)
       })
       .catch(error => console.log(error));
     ////////////////////////////////////////////////
     this.getReq();
     /////////////////////////////////////////////////////
-    axios
-      .get(this.$store.state.baseUrl + "/WareHouse", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
+    this.axios
+      .get(this.$store.state.baseUrl + "/WareHouse")
       .then(res => {
         const wareHousesRes = res.data;
         for (let key in wareHousesRes) {
@@ -175,13 +162,6 @@ export default {
 
     formIsValid() {
       return true;
-      // this.editedItem.vendorName
-
-      // this.editedItem.mobile,
-
-      // this.editedItem.vendorName,
-
-      // this.editedItem.Email
     }
   },
 
@@ -225,14 +205,11 @@ export default {
         itemName: "",
         itemCode: "",
         vendorName: "",
-        vendorCode: {
-          type: String
-        },
-        email: "",
+        vendorCode: "",
         quantity: 0,
-        comment: "",
-        Vendor: [],
-        wareHouseCode: ""
+        comment: "", 
+        wareHouseCode: "",
+        message: ""
       },
 
       defaultItem: {
@@ -240,11 +217,10 @@ export default {
         itemCode: "",
         vendorName: "",
         vendorCode: "",
-        email: "",
         quantity: 0,
-        Vendor: [],
-        comment: "",
-        wareHouseCode: ""
+        comment: "", 
+        wareHouseCode: "",
+        message: ""
       },
 
       headers: [
@@ -258,7 +234,7 @@ export default {
           text: "ვენდორის სახელი",
 
           value: "vendorName"
-        },         
+        },
 
         {
           text: "რაოდენობა",
@@ -287,29 +263,24 @@ export default {
 
   methods: {
     getReq() {
-      axios
-        .get(this.$store.state.baseUrl + "/GoodsIssueRequest", {
-          headers: {
-            Authorization: "Bearer " + localStorage.token
-          }
-        })
+      this.Requests = [];
+      this.axios
+        .get(this.$store.state.baseUrl + "/GoodsIssueRequest")
         .then(res => {
           const RequestsRes = res.data;
           for (let key in RequestsRes) {
-            const RequestRes = RequestsRes[key];    
-            RequestRes.vendorTmp =  Object.values(RequestsRes[key].vendor)    
+            const RequestRes = RequestsRes[key];
+            RequestRes.vendorTmp = Object.values(RequestsRes[key].vendor);
             this.Requests.push(RequestRes);
-            console.log(RequestRes);
-
           }
         })
         .catch(error => console.log(error));
     },
 
     editItem(item) {
-      this.editedIndex = this.Requests.indexOf(item);
+       this.editedIndex = this.Requests.indexOf(item);
 
-      this.editedItem = Object.assign({}, item);
+       this.editedItem = Object.assign({}, item);
 
       this.dialog = true;
     },
@@ -339,54 +310,39 @@ export default {
       this.dialog = false;
 
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
+         this.editedItem = Object.assign({}, this.defaultItem);
 
         this.editedIndex = -1;
       }, 300);
     },
 
     save() {
-      console.log(this.editedItem)
       if (this.editedIndex > -1) {
-        axios
+        console.log("this.editedItem == > ", this.editedItem);
+        this.axios
           .put(
             this.$store.state.baseUrl + "/GoodsIssueRequest/",
-            this.editedItem,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.token
-              }
-            }
+            this.editedItem
           )
 
           .then(res => {
-            Object.assign(this.Requests[this.editedIndex], this.editedItem);
+            // Object.assign(this.Requests[this.editedIndex], this.editedItem);
             this.close();
           })
-
           .catch(error => console.log(error));
       } else {
-        console.log(this.editedItem);
-        axios
+        this.axios
           .post(
             this.$store.state.baseUrl + "/GoodsIssueRequest",
-            this.editedItem,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.token
-              }
-            }
+            this.editedItem
           )
           .then(res => {
             this.editedItem.itemName = res.data.itemName;
             this.editedItem.vendorName = res.data.vendorName;
-            // console.log("Res===>", res.data, "EditItem", this.editedItem);
-            this.Requests.push(this.editedItem);
+            this.getReq();
             this.close();
           })
-          .catch(error =>
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
-          );
+          .catch(error => console.log(error));
       }
     }
   }

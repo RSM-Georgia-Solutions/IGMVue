@@ -211,9 +211,9 @@ export default {
 
         for (let key in BuildingsRes) {
           const BuildingRes = BuildingsRes[key];
-
           this.buildings.push(BuildingRes);
         }
+        console.log(this.buildings)
       })
 
       .catch(error => console.log(error));

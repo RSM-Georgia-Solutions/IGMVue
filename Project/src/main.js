@@ -18,8 +18,7 @@ Vue.use(VueAxios, axios)
 Vue.axios.interceptors.request.use(function (config) {
   // Do something before request is sent
 
-  if (localStorage.token === '') {
-    console.log('aaaaaaaaa')
+  if (localStorage.token === '' || localStorage.token === 'undefined' || localStorage.token == null) {
     router.push({
       name: 'Login'
     })
@@ -41,14 +40,14 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   // Do something with response error
   if (error.response.status === 401) {
-    console.log('Back To Login')
+    // console.log('Back To Login')
     store.state.UrlRedirect = router.history.current.path
-    console.log(router.history.current.path)
+    // console.log(router.history.current.path)
     router.push({
       name: 'Login'
     })
   } else if (error.response.status === 403) {
-    console.log('Back Previous Route')
+    // console.log('Back Previous Route')
     router.go(-1)
   }
   return Promise.reject(error)
