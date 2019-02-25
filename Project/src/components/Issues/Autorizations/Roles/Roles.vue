@@ -18,9 +18,10 @@ export default {
     return {
       roles: [
         {
-          role: "New Role",
+          role: "როლის დამატება",
           image:
-            "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/add.png"
+            "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/add.png",
+            icon: "add"
         }
       ]
     };
@@ -34,6 +35,7 @@ export default {
 
         for (let key in RolesRes) {
           const roleRes = RolesRes[key];
+          roleRes.icon = "fingerprint";
           this.roles.push(roleRes);
         }
       })

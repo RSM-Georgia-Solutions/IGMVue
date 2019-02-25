@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>საქონელი/საწყობი
       <v-spacer></v-spacer>
-      <v-flex xs1 mr-5>
+      <v-flex xs3 mr-5>
         <v-btn color="success" x-large @click="ExportToExcel">
           <img src="https://img.icons8.com/material/24/000000/ms-excel.png">
           ექსპორტი

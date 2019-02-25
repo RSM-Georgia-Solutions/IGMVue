@@ -110,7 +110,7 @@
 
 <script>
 import axios from "axios";
-
+import Vue from "vue";
 export default {
   created() {
     ////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ export default {
         vendorName: "",
         vendorCode: "",
         quantity: 0,
-        comment: "", 
+        comment: "",
         wareHouseCode: "",
         message: ""
       },
@@ -218,7 +218,7 @@ export default {
         vendorName: "",
         vendorCode: "",
         quantity: 0,
-        comment: "", 
+        comment: "",
         wareHouseCode: "",
         message: ""
       },
@@ -278,11 +278,13 @@ export default {
     },
 
     editItem(item) {
-       this.editedIndex = this.Requests.indexOf(item);
+      this.editedIndex = this.Requests.indexOf(item);
 
-       this.editedItem = Object.assign({}, item);
+      this.editedItem = Object.assign({}, item);
 
-      this.dialog = true;
+      console.log(this.editedItem);
+
+      Vue.delete(this.editedItem, "vendor"), (this.dialog = true);
     },
 
     deleteItem(item) {
@@ -310,7 +312,7 @@ export default {
       this.dialog = false;
 
       setTimeout(() => {
-         this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedItem = Object.assign({}, this.defaultItem);
 
         this.editedIndex = -1;
       }, 300);
