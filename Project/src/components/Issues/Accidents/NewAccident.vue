@@ -3,6 +3,7 @@
     <v-layout align-space-around justify-space-around column fill-height>
       <v-form ref="form">
         <v-autocomplete
+          id="gocha"
           :items="Types"
           item-text="task"
           item-value="task"
@@ -161,11 +162,13 @@ export default {
               taskx.task = PlannedWoksRes.name;
               this.Types.push(taskx);
             }
-            console.log(this.Types);
           })
           .catch(err => {
             console.log(err);
           });
+        var x2 = this.Types.find(x => x.id == this.$route.params.id);
+        // var x1 = this.testarray.find(x => x.id == "gocha");
+        this.Accident.type = x2;
       })
       .catch(err => {
         console.log(err);
@@ -213,7 +216,6 @@ export default {
           const BuildingRes = BuildingsRes[key];
           this.buildings.push(BuildingRes);
         }
-        console.log(this.buildings)
       })
 
       .catch(error => console.log(error));
@@ -238,15 +240,16 @@ export default {
       .catch(error => {
         console.log(error);
       });
+
+    // this.Accident.Type = this.Types.find(t => t.id == this.$route.params.id);
+    //  console.log(this.testarray, "testArray");
+    console.log(this.Types.array, "types");
+    console.log(this.testarray, "test ");
   },
-  // watch: {
-  //   dialog(val) {
-  //     console.log("aaaaaaaaaaaaaaaaaaaaaa");
-  //     if (!val) return;
-  //     setTimeout(() => (this.dialog = false), 4000);
-  //   }
-  // },
+
   data: () => ({
+    testarray: [{ id: "gocha" }, { id: 2 }, { id: 3 }],
+
     menu2: false,
 
     dialog: false,
@@ -330,19 +333,10 @@ export default {
       this.imageUrl = null;
       this.Accident.Base64Image = null;
     },
-    getFiles(files) {
-      console.log(files);
-    },
+    getFiles(files) {},
     AddAccident() {
-      axios
-        .post(this.$store.state.baseUrl + "/accidents", this.Accident, {
-          headers: {
-            Authorization: "Bearer " + localStorage.token
-            // "Content-Type": "multipart/form-data",
-            // accept: "application/json"
-          }
-        })
-
+      this.axios
+        .post(this.$store.state.baseUrl + "/accidents", this.Accident)
         .then(res => {
           if (res.status == "202") {
             this.dialogText = "ინციდენტი წარმატებით დაემატა";
@@ -355,7 +349,6 @@ export default {
         })
         .catch(error => {
           this.dialogText = "ინციდენტის დამატება ვერ მოხერხდა";
-
           this.dialogColor = "error";
           this.dialog2 = false;
           this.dialog = true;
@@ -365,7 +358,6 @@ export default {
 
     mounted() {
       this.video = this.$refs.video;
-
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         stream => {
           this.video.src = window.URL.createObjectURL(stream);

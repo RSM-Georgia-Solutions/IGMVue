@@ -3,7 +3,7 @@
     <v-layout row wrap v-for="task in tasks" :key="task.id">
       <v-flex xs7 lg10 mt-3>
         <v-card
-          @click.native="NavigateToAccident(task.taskStatus)"
+          @click.native="NavigateToAccident(task)"
           dark
           :class="[task.taskStatus == 'უპრობლემო' ? 'success' : task.taskStatus == 'პრობლემური'? 'error' : 'grey']"
         >
@@ -50,8 +50,7 @@ export default {
           }
         )
         .then(res => {
-          const tasksRes = res.data.tasks;
-          console.log(res.data, 'qajaiaaaaa');
+          const tasksRes = res.data.tasks; 
           for (let key in tasksRes) {
             const taskRes = tasksRes[key];
             taskRes.createDate = new Date().toISOString().substr(0, 10);
@@ -67,13 +66,13 @@ export default {
     SaveToHistory() {
       for (let key in this.tasks) {
         var taskHistory = this.tasks[key];
-        console.log(taskHistory);
-        Vue.delete(taskHistory, "postingDate");         
+   
+        Vue.delete(taskHistory, "postingDate");
         this.axios
           .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
           .then(res => {
             this.tasks[key].id = res.data;
-            console.log(this.tasks[key].id);
+       
           })
           .catch(err => {
             console.log(err);
@@ -81,9 +80,11 @@ export default {
       }
     },
     NavigateToAccident(picked) {
-      if (picked == "პრობლემური") {
+ 
+      if (picked.taskStatus == "პრობლემური") {
         this.$router.push({
-          name: "NewAccident"
+          name: "NewAccident",
+          params: {id : picked.taskDailyId}
         });
       }
     }
