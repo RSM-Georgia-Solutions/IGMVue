@@ -53,7 +53,7 @@
         <v-icon left>account_circle</v-icon>მომხმარებლები
       </v-btn>
 
-      <v-btn
+      <!-- <v-btn
         v-if="checkRolesPer() && checkPermissionsPer()"
         color="#78909C"
         class="mt-3"
@@ -61,7 +61,7 @@
         dark
       >
         <v-icon left>fingerprint</v-icon>ავტორიზაციები
-      </v-btn>
+      </v-btn> -->
     </v-layout>
   </v-container>
 </template>

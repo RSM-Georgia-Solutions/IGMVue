@@ -14,48 +14,62 @@
       <template slot="items" slot-scope="props">
         <td
           @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer">{{ props.item.id }}
-          
-        </td>
-
-        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left" style="cursor: pointer">{{ props.item.type }}</td>
-        
-        <td
-          @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer">
-          {{ props.item.username }}
-        </td>
-        
-        <td
-          @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer"
-        >{{ props.item.buildingBranch }}
-        </td>
-
-        <td 
-        @click="NavigateToAccident(props.item.id)" class="text-xs-left" style="cursor: pointer">{{ props.item.status }}
-        </td>
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.id }}</td>
 
         <td
           @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer"
-        >{{ props.item.priority }}
-        </td>
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.type }}</td>
 
         <td
           @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer"
-        >{{ props.item.floorNumber }}
-        </td>
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.username }}</td>
 
         <td
           @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left" style="cursor: pointer"
-        >{{ props.item.sectorName }}
-        </td>
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.buildingBranch }}</td>
 
-        <td @click="NavigateToAccident(props.item.id)" class="text-xs-left" style="cursor: pointer">{{ props.item.comment }}</td>
-        
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.status }}</td>
+
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.priority }}</td>
+
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.floorNumber }}</td>
+
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.sectorName }}</td>
+
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.comment }}</td>
+        <td
+          @click="NavigateToAccident(props.item.id)"
+          class="text-xs-left"
+          style="cursor: pointer"
+        >{{ props.item.ownerName }}</td>
       </template>
 
       <v-alert
@@ -153,6 +167,11 @@ export default {
           text: "კომენტარი",
 
           value: "Comment"
+        },
+        {
+          text: "გამომწერი",
+
+          value: "ownerName"
         }
       ]
     };

@@ -10,6 +10,7 @@
           v-model="Accident.type"
           label="ტიპი"
           placeholder="არჩევა..."
+          :rules="TypeRule"
           required
         ></v-autocomplete>
 
@@ -20,6 +21,7 @@
           label="შენობა"
           placeholder="არჩევა..."
           required
+          :rules="buildingsRule"
           @change="onBuildingChange"
         ></v-autocomplete>
 
@@ -28,6 +30,7 @@
           label="სართული"
           placeholder="არჩევა..."
           required
+          :rules="floorRule"
           @change="onFloorChange"
         ></v-autocomplete>
 
@@ -38,6 +41,7 @@
           v-model="Accident.SectorId"
           label="სექტორი"
           placeholder="არჩევა..."
+          :rules="sectorRule"
           required
         ></v-autocomplete>
 
@@ -48,6 +52,7 @@
           v-model="Accident.Priority"
           label="პრიორიტეტი"
           placeholder="არჩევა..."
+          :rules="priorityRule"
           required
         ></v-autocomplete>
 
@@ -58,6 +63,7 @@
           v-model="Accident.userId"
           label="პასუხისმგებელი პირი"
           placeholder="არჩევა..."
+          :rules="userRule"
           required
         ></v-autocomplete>
 
@@ -66,6 +72,7 @@
           v-model="Accident.Status"
           label="სტატუსი"
           placeholder="არჩევა..."
+          :rules="statusRule"
           required
         ></v-autocomplete>
 
@@ -106,6 +113,7 @@
                 style="display: none"
                 ref="image"
                 accept="image/*"
+                :rules="imageRule"
                 @change="onFilePicked"
               >
             </v-flex>
@@ -114,7 +122,7 @@
       </v-form>
 
       <v-btn
-        :disabled="dialog"
+        :disabled="disabledButton"
         :loading="dialog"
         color="success"
         @click="dialog2 = true; AddAccident()"
@@ -240,15 +248,19 @@ export default {
       .catch(error => {
         console.log(error);
       });
-
-    // this.Accident.Type = this.Types.find(t => t.id == this.$route.params.id);
-    //  console.log(this.testarray, "testArray");
-    console.log(this.Types.array, "types");
-    console.log(this.testarray, "test ");
   },
 
   data: () => ({
-    testarray: [{ id: "gocha" }, { id: 2 }, { id: 3 }],
+    disabledButton: true,
+
+    TypeRule: [v => !!v || "ტიპი აუცილებელია"],
+    buildingsRule: [v => !!v || "შენობა აუცილებელია"],
+    floorRule: [v => !!v || "სართული აუცილებელია"],
+    sectorRule: [v => !!v || "სექტორი აუცილებელია"],
+    priorityRule: [v => !!v || "პრიორიტეტი აუცილებელია"],
+    userRule: [v => !!v || "პასუხისმგებელი პირი აუცილებელია"],
+    statusRule: [v => !!v || "სტატუსი აუცილებელია"],
+    imageRule: [v => !!v || "სურათი აუცილებელია"],
 
     menu2: false,
 
@@ -302,7 +314,6 @@ export default {
 
       Status: ""
     },
-
     ShowAlertVar: "None"
   }),
 
@@ -327,6 +338,15 @@ export default {
   },
 
   methods: {
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.disabledButton = false;
+        return true;
+      } else {
+        this.disabledButton = true;
+        return false;
+      }
+    },
     reset() {
       this.$refs.form.reset();
       this.imageFile = null;
@@ -380,6 +400,9 @@ export default {
     },
 
     pickFile() {
+      if (!this.validate()) {
+        return;
+      }
       this.$refs.image.click();
     },
 

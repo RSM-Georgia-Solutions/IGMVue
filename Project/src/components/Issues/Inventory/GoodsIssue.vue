@@ -122,14 +122,10 @@ export default {
   methods: {
     onItemChange(itemId) {
       this.wareHouses = [];
-      axios
+      this.axios
         .get(
           this.$store.state.baseUrl + "/WareHouseJournal/GetWareHousesByItem",
           {
-            headers: {
-              Authorization: "Bearer " + localStorage.token
-            },
-
             params: {
               item: itemId
             }

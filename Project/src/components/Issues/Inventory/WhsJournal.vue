@@ -20,7 +20,7 @@
         <td class="text-xs-left">{{ props.item.wareHosueBranch }}</td>
         <td class="text-xs-left">{{ props.item.itemMasterDataId }}</td>
         <td class="text-xs-left">{{ props.item.itemMasterDataName }}</td>
-        <td class="text-xs-left">{{ props.item.postingDate }}</td>
+        <!-- <td class="text-xs-left">{{ props.item.postingDate }}</td> -->
         <td class="text-xs-left">{{ props.item.systemDate }}</td>
         <td class="text-xs-left">{{ props.item.quantity }}</td>
         <td class="text-xs-left">{{ props.item.userName }}</td>

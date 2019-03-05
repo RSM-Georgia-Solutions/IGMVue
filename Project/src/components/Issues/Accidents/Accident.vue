@@ -52,7 +52,7 @@
 <script>
 import axios from "axios";
 export default {
-  created() {     
+  created() {
     axios
       .get(this.$store.state.baseUrl + "/Helper/GetStatuses")
 
@@ -94,15 +94,20 @@ export default {
   },
   methods: {
     UpdateAccident() {
-      console.log(this.Accdient);
+      console.log("aaaaaaaaaaaaa");
       this.axios
         .put(this.$store.state.baseUrl + "/accidents", this.Accdient)
         .then(res => {
           console.log(res);
-          if(this.Accdient.status == 'დასადასტურებელი')
-          this.$router.push({
-            name: "GoodsIssue"
-          });
+          if (this.Accdient.status == "დასადასტურებელი")
+            this.$router.push({
+              name: "GoodsIssue"
+            });
+          else {
+            this.$router.push({
+              name: "OpenAccidents"
+            });
+          }
         })
         .catch(err => {
           console.log(err);

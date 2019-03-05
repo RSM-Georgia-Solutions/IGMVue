@@ -16,6 +16,7 @@
           v-model="credentials.username"
           label="Email"
           placeholder="Email"
+          name="email"
         ></v-text-field>
         <v-text-field
           :rules="passwordlRules"
@@ -25,6 +26,7 @@
           type="Password"
           autocomplete="new-password"
           id="id"
+          name="Password"
         ></v-text-field>
       </v-flex>
       <v-flex xs8 offset-xs2 text-xs-center mt-3>
@@ -44,7 +46,6 @@ export default {
     return {
       credentials: {
         username: "",
-
         password: ""
       },
 
@@ -72,7 +73,7 @@ export default {
 
   created() {
     this.redirectUrl = this.$store.state.UrlRedirect;
-    console.log(this.redirectUrl, 'Redirection');
+    console.log(this.redirectUrl, "Redirection");
   },
   methods: {
     authenticate() {
