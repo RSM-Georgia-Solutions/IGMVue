@@ -92,10 +92,10 @@ export default {
           text: "დაპოსტვის თარიღი",
           value: "postingDate"
         },
-        {
-          text: "გატარების თარიღი",
-          value: "systemDate"
-        },
+        // {
+        //   text: "გატარების თარიღი",
+        //   value: "systemDate"
+        // },
         {
           text: "რაოდენობა",
           value: "quantity"

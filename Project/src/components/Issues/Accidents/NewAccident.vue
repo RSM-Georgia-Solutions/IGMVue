@@ -3,7 +3,6 @@
     <v-layout align-space-around justify-space-around column fill-height>
       <v-form ref="form">
         <v-autocomplete
-          id="gocha"
           :items="Types"
           item-text="task"
           item-value="task"
@@ -174,8 +173,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-        var x2 = this.Types.find(x => x.id == this.$route.params.id);
-        // var x1 = this.testarray.find(x => x.id == "gocha");
+        var x2 = this.Types.find(x => x.id == this.$route.params.id).task;
         this.Accident.type = x2;
       })
       .catch(err => {
@@ -255,7 +253,7 @@ export default {
 
     TypeRule: [v => !!v || "ტიპი აუცილებელია"],
     buildingsRule: [v => !!v || "შენობა აუცილებელია"],
-    floorRule: [v => !!v || "სართული აუცილებელია"],
+    floorRule: [v => !!v || v == 0 || "სართული აუცილებელია"],
     sectorRule: [v => !!v || "სექტორი აუცილებელია"],
     priorityRule: [v => !!v || "პრიორიტეტი აუცილებელია"],
     userRule: [v => !!v || "პასუხისმგებელი პირი აუცილებელია"],

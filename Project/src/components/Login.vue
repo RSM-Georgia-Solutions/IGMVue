@@ -14,8 +14,8 @@
         <v-text-field
           :rules="emailRules"
           v-model="credentials.username"
-          label="Email"
-          placeholder="Email"
+          label="User"
+          placeholder="User"
           name="email"
         ></v-text-field>
         <v-text-field
@@ -53,12 +53,12 @@ export default {
       isError: false,
 
       emailRules: [
-        v => !!v || "E-mail is required",
+        v => !!v || "username is required",
 
-        v =>
-          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
-            v
-          ) || "E-mail must be valid"
+        // v =>
+        //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
+        //     v
+        //   ) || "E-mail must be valid"
       ],
 
       passwordlRules: [v => !!v || "Password is required"]
