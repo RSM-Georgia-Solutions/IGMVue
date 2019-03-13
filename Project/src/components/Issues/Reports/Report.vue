@@ -1,12 +1,11 @@
 <template>
   <v-container fluid>
     <v-layout column>
-      <v-btn   
-        color="#78909C"
-        dark 
-        :to="{name:'StockReport'}"
-      >
+      <v-btn color="#78909C" dark :to="{name:'StockReport'}">
         <v-icon left>trending_up</v-icon>საქონელი / საწყობი
+      </v-btn>
+      <v-btn color="#78909C" dark :to="{name:'AccidentReport'}">
+        <v-icon left>trending_up</v-icon>ინციდენტები
       </v-btn>
     </v-layout>
   </v-container>

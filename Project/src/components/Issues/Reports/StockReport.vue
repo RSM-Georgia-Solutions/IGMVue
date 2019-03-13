@@ -80,7 +80,7 @@ export default {
   methods: {
     ExportToExcel() {
       FileSaver.saveAs(
-        this.$store.state.baseUrl + "/Helper/ExportToExcel",
+        this.$store.state.baseUrl + "/Helper/ExportToExcel?report=Stock%20Report",
         "boxski.xlsx"
       );
     }

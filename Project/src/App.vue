@@ -2,12 +2,12 @@
   <v-app>
     <v-navigation-drawer color="red" fixed temporary v-model="sideNav">
       <v-list>
-        <v-list-tile to="/Buildings">
+        <!-- <v-list-tile to="/Buildings">
           <v-list-tile-action>
             <v-icon>playlist_add_check</v-icon>
-          </v-list-tile-action>
+          </v-list-tile-action> -->
           <!-- <v-list-tile-content>Buildings</v-list-tile-content> -->
-        </v-list-tile>
+        <!-- </v-list-tile> -->
 
         <v-list-tile to="/Issues">
           <v-list-tile-action>
