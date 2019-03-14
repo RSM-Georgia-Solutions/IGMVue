@@ -7,13 +7,13 @@ import Vuetify from 'vuetify'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import JsonExcel from 'vue-json-excel'
-
 import { store } from './store/store'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(VueAxios, axios)
+Vue.use(require('vue-moment'))
 
 Vue.axios.interceptors.request.use(function (config) {
   // Do something before request is sent

@@ -1,12 +1,15 @@
 <template>
   <div>
-    <v-toolbar flat color="white">
-      <v-toolbar-title>ტრანზაქციების ისტორია</v-toolbar-title>
-
-      <v-divider class="mx-2" inset vertical></v-divider>
-
+    <v-card-title primary-title>ტრანზაქციების ისტორია
       <v-spacer></v-spacer>
-    </v-toolbar>
+      <v-flex xs3 mr-5>
+        <v-btn color="success" x-large @click="ExportToExcel">
+          <img src="https://img.icons8.com/material/24/000000/ms-excel.png">
+          ექსპორტი
+        </v-btn>
+      </v-flex>
+      <v-text-field v-model="search" append-icon="search" label="Search"></v-text-field>
+    </v-card-title>
 
     <v-data-table
       :headers="headers"
@@ -34,7 +37,7 @@
 </template> 
 <script>
 import axios from "axios";
-
+import FileSaver from "file-saver";
 export default {
   created() {
     axios
@@ -56,9 +59,19 @@ export default {
         console.log(err);
       });
   },
-
+  methods: {
+    ExportToExcel() {
+      FileSaver.saveAs(
+        this.$store.state.baseUrl +
+          "/Helper/ExportToExcel?report=WareHouse%20Report",
+        "boxski.xlsx"
+      );
+    }
+  },
   data() {
     return {
+      ExportToExcelFile: File,
+      search: "",
       rowsPerPageItems: [
         10,
         5,

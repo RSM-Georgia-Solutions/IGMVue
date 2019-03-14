@@ -32,13 +32,6 @@ export default {
 
           route: "GoodsIssue"
         },
-
-        {
-          name: "ტრანზაქციების ისტორია",
-
-          route: "WhsJournal"
-        },
-
         {
           name: "საქონლის სია",
 
