@@ -149,7 +149,7 @@ import axios from "axios";
 
 export default {
   created() {
-    this.getUsers();
+    this.getUsers(true);
     axios
       .get(this.$store.state.baseUrl + "/roles")
 
@@ -328,9 +328,14 @@ export default {
   },
 
   methods: {
-    getUsers() {
+    getUsers(all) {
+      console.log(all);
       this.axios
-        .get(this.$store.state.baseUrl + "/users")
+        .get(this.$store.state.baseUrl + "/users", {
+          params: {
+            all
+          }
+        })
         .then(res => {
           this.Users = [];
           const UsersRes = res.data;
@@ -387,7 +392,7 @@ export default {
           .put(this.$store.state.baseUrl + "/users", this.editedItem)
           .then(res => {
             Object.assign(this.Users[this.editedIndex], this.editedItem);
-            this.getUsers();
+            this.getUsers(true);
             this.close();
           })
           .catch(error => console.log(error));

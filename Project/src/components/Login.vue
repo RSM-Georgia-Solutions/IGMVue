@@ -84,6 +84,10 @@ export default {
         )
         .then(res => {
           localStorage.token = res.data.token;
+          localStorage.username = res.data.username;
+          localStorage.firsname = res.data.firstName;
+          localStorage.lastname = res.data.lastName;
+          console.log(res.data)
           if (this.redirectUrl != "") {
             this.$router.push(this.redirectUrl);
             this.redirectUrl = "";

@@ -2,33 +2,29 @@
   <v-container fluid>
     <v-layout column>
       <v-btn
-        v-if="checkGroupPer()"
-        color="#78909C"
-        dark
-        class="text-lg-left mt-3"
-        :to="{name:'Groups'}"
-      >
-        <v-icon left>list_alt</v-icon>დავალებები
-      </v-btn>
-
-      <v-btn
-        v-if=" checkPlannedWorksPer() && checkUsersPer() && checkTasksPer()"
-        color="#78909C"
-        class="text-lg-left mt-3"
-        dark
-        :to="{name:'NewAccident'}"
-      >
-        <v-icon left>add_circle_outline</v-icon>ინციდენტის დამატება
-      </v-btn>
-
-      <v-btn
-        v-if="checkAccidentPer()"
+        v-if="checkPlannedWorksPer()"
         color="#78909C"
         dark
         class="mt-3"
-        :to="{name:'OpenAccidents'}"
+        :to="{name:'PlannedWorks'}"
       >
-        <v-icon left>rate_review</v-icon>ღია ინციდენტები
+        <v-icon left>loop</v-icon>გეგმიური სამუშაოები
+      </v-btn>
+
+      <v-btn color="#78909C" dark class="mt-3" :to="{name:'Inventory'}">
+        <v-icon left>widgets</v-icon>მარაგები/საწყობები
+      </v-btn>
+
+      <v-btn v-if="checkVendorsPer()" color="#78909C" dark class="mt-3" :to="{name:'Vendors'}">
+        <v-icon left>people</v-icon>ვენდორები
+      </v-btn>
+
+      <v-btn color="#78909C" class="mt-3" :to="{name:'Reports'}" dark>
+        <v-icon left>trending_up</v-icon>რეპორტები
+      </v-btn>
+
+      <v-btn v-if="checkUsersPer()" color="#78909C" dark class="mt-3" :to="{name:'Users'}">
+        <v-icon left>account_circle</v-icon>მომხმარებლები
       </v-btn>
     </v-layout>
   </v-container>

@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>ინციდენტები
+    <v-card-title>
+      ინციდენტები
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="Search"></v-text-field>
     </v-card-title>
@@ -42,11 +43,11 @@
           style="cursor: pointer"
         >{{ props.item.status }}</td>
 
-        <td
+        <!-- <td
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
-        >{{ props.item.priority }}</td>
+        >{{ props.item.priority }}</td> -->
 
         <td
           @click="NavigateToAccident(props.item.id)"
@@ -54,11 +55,11 @@
           style="cursor: pointer"
         >{{ props.item.floorNumber }}</td>
 
-        <td
+        <!-- <td
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
-        >{{ props.item.sectorName }}</td>
+        >{{ props.item.sectorName }}</td> -->
 
         <td
           @click="NavigateToAccident(props.item.id)"
@@ -87,12 +88,8 @@ import axios from "axios";
 
 export default {
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/accidents", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
+    this.axios
+      .get(this.$store.state.baseUrl + "/accidents")
       .then(res => {
         const accidentsRes = res.data;
 
@@ -147,21 +144,21 @@ export default {
 
           value: "status"
         },
-        {
-          text: "პრიორიტეტი",
+        // {
+        //   text: "პრიორიტეტი",
 
-          value: "priority"
-        },
+        //   value: "priority"
+        // },
         {
           text: "სართული",
 
           value: "floorNumber"
         },
-        {
-          text: "სექტორი",
+        // {
+        //   text: "სექტორი",
 
-          value: "sectorName"
-        },
+        //   value: "sectorName"
+        // },
 
         {
           text: "კომენტარი",

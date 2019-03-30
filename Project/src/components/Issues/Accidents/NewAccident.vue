@@ -34,6 +34,7 @@
         ></v-autocomplete>
 
         <v-autocomplete
+          v-if="false"
           :items="floorSectors"
           item-text="name"
           item-value="id"
@@ -44,7 +45,7 @@
           required
         ></v-autocomplete>
 
-        <v-autocomplete
+        <!-- <v-autocomplete
           :items="Priority"
           item-text="Name"
           item-value="id"
@@ -53,7 +54,7 @@
           placeholder="არჩევა..."
           :rules="priorityRule"
           required
-        ></v-autocomplete>
+        ></v-autocomplete>-->
 
         <v-autocomplete
           :items="users"
@@ -129,7 +130,8 @@
 
       <v-dialog v-model="dialog2" hide-overlay persistent max-width="590">
         <v-card color="blue-grey lighten-1" dark>
-          <v-card-text>მიმდინარეობს დამატება
+          <v-card-text>
+            მიმდინარეობს დამატება
             <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
           </v-card-text>
         </v-card>
@@ -226,13 +228,8 @@ export default {
 
       .catch(error => console.log(error));
 
-    axios
-      .get(this.$store.state.baseUrl + "/users", {
-        headers: {
-          Authorization: "Bearer " + localStorage.token
-        }
-      })
-
+    this.axios
+      .get(this.$store.state.baseUrl + "/users")
       .then(res => {
         const UsersRes = res.data;
 
@@ -255,7 +252,7 @@ export default {
     buildingsRule: [v => !!v || "შენობა აუცილებელია"],
     floorRule: [v => !!v || v == 0 || "სართული აუცილებელია"],
     sectorRule: [v => !!v || "სექტორი აუცილებელია"],
-    priorityRule: [v => !!v || "პრიორიტეტი აუცილებელია"],
+    // priorityRule: [v => !!v || "პრიორიტეტი აუცილებელია"],
     userRule: [v => !!v || "პასუხისმგებელი პირი აუცილებელია"],
     statusRule: [v => !!v || "სტატუსი აუცილებელია"],
     imageRule: [v => !!v || "სურათი აუცილებელია"],
@@ -298,7 +295,7 @@ export default {
 
       SectorId: "",
 
-      Priority: "",
+      // Priority: "",
 
       userId: null,
 
@@ -353,6 +350,7 @@ export default {
     },
     getFiles(files) {},
     AddAccident() {
+      console.log(this.Accident);
       this.axios
         .post(this.$store.state.baseUrl + "/accidents", this.Accident)
         .then(res => {
@@ -393,7 +391,7 @@ export default {
 
     onFloorChange(floor) {
       var floor = this.activeBuilding.floors.find(b => b.floorNumber == floor);
-
+      this.Accident.SectorId = floor.sectors[0].id;
       this.activeFloor = floor;
     },
 

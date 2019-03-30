@@ -2,13 +2,6 @@
   <v-app>
     <v-navigation-drawer color="red" fixed temporary v-model="sideNav">
       <v-list>
-        <!-- <v-list-tile to="/Buildings">
-          <v-list-tile-action>
-            <v-icon>playlist_add_check</v-icon>
-          </v-list-tile-action> -->
-          <!-- <v-list-tile-content>Buildings</v-list-tile-content> -->
-        <!-- </v-list-tile> -->
-
         <v-list-tile to="/Issues">
           <v-list-tile-action>
             <v-icon>gavel</v-icon>
@@ -16,8 +9,15 @@
           <v-list-tile-content>Issues</v-list-tile-content>
         </v-list-tile>
 
+        <v-list-tile to="/Others">
+          <v-list-tile-action>
+            <v-icon>widgets</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Others</v-list-tile-content>
+        </v-list-tile>
+
         <v-list-tile @click="logout">
-          <v-list-tile-action  >
+          <v-list-tile-action>
             <v-icon>logout</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>logout</v-list-tile-content>
@@ -34,15 +34,23 @@
       </v-toolbar-title>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <!-- <v-btn flat to="/Buildings">
-          <v-icon left>playlist_add_check</v-icon>Buildings
-        </v-btn>  -->
-
         <v-btn flat to="/Issues">
           <v-icon left>gavel</v-icon>Issues
         </v-btn>
+
+        <v-btn flat left to="/Others">
+          <v-icon left>widgets</v-icon>Others
+        </v-btn>
+        <v-list-tile></v-list-tile>
       </v-toolbar-items>
+
+      <v-btn flat :to="{name: 'Users'}">
+        <v-icon left>account_circle</v-icon>
+        {{user}}
+      </v-btn>
+
       <v-spacer></v-spacer>
+
       <v-btn flat class="hidden-sm-and-down" @click="logout">
         <v-icon left>logout</v-icon>Logout
       </v-btn>
@@ -58,14 +66,15 @@
 export default {
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      user: localStorage.firsname + " " + localStorage.lastname
     };
   },
 
-  methods:{
-    logout(){
-      localStorage.token = '';
-      this.$router.push("/")
+  methods: {
+    logout() {
+      localStorage.token = "";
+      this.$router.push("/");
     }
   }
 };
