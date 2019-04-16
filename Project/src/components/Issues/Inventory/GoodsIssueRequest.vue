@@ -157,7 +157,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1
         ? "მოთხოვნის დამატება"
-        : "მოთხოვნის კორეკტირება";
+        : "მოთხოვნის კორექტირება";
     },
 
     formIsValid() {

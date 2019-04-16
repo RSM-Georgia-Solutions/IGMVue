@@ -53,7 +53,7 @@ export default {
       isError: false,
 
       emailRules: [
-        v => !!v || "username is required",
+        v => !!v || "username is required"
 
         // v =>
         //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
@@ -67,7 +67,7 @@ export default {
 
   mutations: {
     storeToken(state, token) {
-      state.token = token;
+      this.$store.state.token = token;
     }
   },
 
@@ -84,10 +84,12 @@ export default {
         )
         .then(res => {
           localStorage.token = res.data.token;
+          this.$store.state.token = res.data.token;
           localStorage.username = res.data.username;
           localStorage.firsname = res.data.firstName;
           localStorage.lastname = res.data.lastName;
-          console.log(res.data)
+          this.$store.state.User = res.data.firstName + ' ' + res.data.lastName;
+
           if (this.redirectUrl != "") {
             this.$router.push(this.redirectUrl);
             this.redirectUrl = "";
@@ -98,7 +100,8 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err.response.status);
+          console.log(this.credentials);
+          console.log(err.response.status + err);
           if ((err.response.status = 401)) {
             this.isError = true;
           }

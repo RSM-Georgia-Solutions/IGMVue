@@ -27,13 +27,13 @@
 
     <v-toolbar color="primary" dark>
       <v-toolbar-side-icon @click="sideNav = !sideNav" class="hidden-lg-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title class="mr-4">
+      <v-toolbar-title class="mr-4" v-if="isLogin">
         <router-link to="/Issues" style="pointer">
           <v-icon>home</v-icon>
         </router-link>
       </v-toolbar-title>
 
-      <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items class="hidden-sm-and-down" v-if="isLogin">
         <v-btn flat to="/Issues">
           <v-icon left>gavel</v-icon>Issues
         </v-btn>
@@ -44,14 +44,13 @@
         <v-list-tile></v-list-tile>
       </v-toolbar-items>
 
-      <v-btn flat :to="{name: 'Users'}">
+      <v-btn flat :to="{name: 'Users'}" v-if="isLogin">
         <v-icon left>account_circle</v-icon>
-        {{user}}
+        {{User}}
       </v-btn>
-
       <v-spacer></v-spacer>
 
-      <v-btn flat class="hidden-sm-and-down" @click="logout">
+      <v-btn flat class="hidden-sm-and-down" @click="logout" v-if="isLogin">
         <v-icon left>logout</v-icon>Logout
       </v-btn>
     </v-toolbar>
@@ -67,14 +66,41 @@ export default {
   data() {
     return {
       sideNav: false,
-      user: localStorage.firsname + " " + localStorage.lastname
+      user: localStorage.firsname + " " + localStorage.lastname,
+      token: ""
     };
   },
 
   methods: {
     logout() {
       localStorage.token = "";
+      this.token = localStorage.token;
+      this.$store.state.token = localStorage.token;
       this.$router.push("/");
+    }
+  },
+
+  mounted() {
+    this.token = localStorage.token;
+    this.$store.state.token = localStorage.token;
+  },
+
+  computed: {
+    User() {
+      return this.$store.state.User;
+    },
+
+    isLogin() {
+      if (
+        this.$store.state.token === "" ||
+        this.$store.state.token === "undefined" ||
+        this.$store.state.token == null
+      ) {
+        console.log(false);
+        return false;
+      }
+      console.log(true);
+      return true;
     }
   }
 };

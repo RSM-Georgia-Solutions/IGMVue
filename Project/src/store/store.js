@@ -18,7 +18,8 @@ export const store = new Vuex.Store({
     // baseUrl: 'http://igservice.ge/api',
     // baseUrlImage: 'http://igservice.ge/',
     UrlRedirect: '',
-    User: ''
+    User: '',
+    token: ''
   },
   plugins: [
     createPersistedState({

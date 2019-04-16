@@ -17,6 +17,7 @@
           :items="buildings"
           item-text="branch"
           item-value="id"
+          v-model="defaultBranch"
           label="შენობა"
           placeholder="არჩევა..."
           required
@@ -29,6 +30,7 @@
           label="სართული"
           placeholder="არჩევა..."
           required
+          v-model="defaultFloor"
           :rules="floorRule"
           @change="onFloorChange"
         ></v-autocomplete>
@@ -208,6 +210,7 @@ export default {
           const status = statusesRes[key];
           this.Status.push(status);
         }
+        this.Accident.Status = this.Status[0];
       })
 
       .catch(err => {
@@ -222,10 +225,13 @@ export default {
 
         for (let key in BuildingsRes) {
           const BuildingRes = BuildingsRes[key];
-          this.buildings.push(BuildingRes);
+          this.buildings.push(BuildingRes);     
         }
-      })
 
+        console.log(this.buildings, "building");
+        this.defaultBranch = this.buildings[0].id;
+        this.activeBuilding = this.buildings[0];
+      })
       .catch(error => console.log(error));
 
     this.axios
@@ -247,6 +253,9 @@ export default {
 
   data: () => ({
     disabledButton: true,
+
+    defaultBranch: null,
+    defaultFloor: null,
 
     TypeRule: [v => !!v || "ტიპი აუცილებელია"],
     buildingsRule: [v => !!v || "შენობა აუცილებელია"],
@@ -385,7 +394,6 @@ export default {
 
     onBuildingChange(buildingId) {
       var building = this.buildings.find(b => b.id == buildingId);
-
       this.activeBuilding = building;
     },
 

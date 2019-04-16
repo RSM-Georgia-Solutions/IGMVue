@@ -1,5 +1,12 @@
 <template>
   <v-container fluid>
+    <v-snackbar
+      v-model="isSuccess"
+      :timeout="6000"
+      color="success"
+      :bottom="true"
+    >დავალების ისტორია წარმატებით შეინახა</v-snackbar>
+
     <v-layout row wrap v-for="task in tasks" :key="task.id">
       <v-flex xs7 lg10 mt-3>
         <v-card
@@ -22,7 +29,7 @@
       </v-layout>
     </v-layout>
     <v-flex xs1 offset-xs4>
-      <v-btn color="success" @click="SaveToHistory">შენახვა</v-btn>
+      <v-btn color="success" @click="SaveToHistory2">შენახვა</v-btn>
     </v-flex>
   </v-container>
 </template>
@@ -34,7 +41,8 @@ export default {
   data() {
     return {
       tasks: [],
-      tasksHistory: []
+      tasksHistory: [],
+      isSuccess: false
     };
   },
 
@@ -50,7 +58,7 @@ export default {
           }
         )
         .then(res => {
-          const tasksRes = res.data.tasks; 
+          const tasksRes = res.data.tasks;
           for (let key in tasksRes) {
             const taskRes = tasksRes[key];
             taskRes.createDate = new Date().toISOString().substr(0, 10);
@@ -63,16 +71,22 @@ export default {
           console.log(err);
         });
     },
+
+    SaveToHistory2() {
+      this.SaveToHistory();
+      this.isSuccess = true;
+      setTimeout(() => this.$router.go(-1), 1000);
+    },
+
     SaveToHistory() {
       for (let key in this.tasks) {
         var taskHistory = this.tasks[key];
-   
+
         Vue.delete(taskHistory, "postingDate");
         this.axios
           .post(this.$store.state.baseUrl + "/TaskDailyHistory", taskHistory)
           .then(res => {
             this.tasks[key].id = res.data;
-       
           })
           .catch(err => {
             console.log(err);
@@ -80,11 +94,10 @@ export default {
       }
     },
     NavigateToAccident(picked) {
- 
       if (picked.taskStatus == "პრობლემური") {
         this.$router.push({
           name: "NewAccident",
-          params: {id : picked.taskDailyId}
+          params: { id: picked.taskDailyId }
         });
       }
     }
