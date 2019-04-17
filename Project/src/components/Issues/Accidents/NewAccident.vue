@@ -177,7 +177,10 @@ export default {
           .catch(err => {
             console.log(err);
           });
-        var x2 = this.Types.find(x => x.id == this.$route.params.id).task;
+
+        var gocha = Array.from(this.Types);
+        var x2 = gocha.find(x => x.id == this.$route.params.id).task;
+
         this.Accident.type = x2;
       })
       .catch(err => {
@@ -225,12 +228,14 @@ export default {
 
         for (let key in BuildingsRes) {
           const BuildingRes = BuildingsRes[key];
-          this.buildings.push(BuildingRes);     
+          this.buildings.push(BuildingRes);
         }
-
-        console.log(this.buildings, "building");
         this.defaultBranch = this.buildings[0].id;
+        this.defaultFloor = Array.from(this.buildings[0].floors)[0].floorNumber;
         this.activeBuilding = this.buildings[0];
+        this.activeFloor = Array.from(this.buildings[0].floors)[0];
+        console.log(this.activeFloor.sectors[0], "sec");
+        this.Accident.SectorId = this.activeFloor.sectors[0].id;
       })
       .catch(error => console.log(error));
 

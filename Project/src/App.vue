@@ -43,11 +43,17 @@
         </v-btn>
         <v-list-tile></v-list-tile>
       </v-toolbar-items>
-
+<!-- 
       <v-btn flat :to="{name: 'Users'}" v-if="isLogin">
         <v-icon left>account_circle</v-icon>
         {{User}}
+      </v-btn> -->
+
+      <v-btn flat v-if="userDb != null" @click="changeBranch">
+        <v-icon left>call_split</v-icon>
+        {{userDb.branch.branchName}}
       </v-btn>
+
       <v-spacer></v-spacer>
 
       <v-btn flat class="hidden-sm-and-down" @click="logout" v-if="isLogin">
@@ -62,12 +68,15 @@
 </template>
 
 <script>
+import Axios from "axios";
 export default {
   data() {
     return {
       sideNav: false,
       user: localStorage.firsname + " " + localStorage.lastname,
-      token: ""
+      token: "",
+      userDb: null,
+      all: false
     };
   },
 
@@ -77,7 +86,39 @@ export default {
       this.token = localStorage.token;
       this.$store.state.token = localStorage.token;
       this.$router.push("/");
+    },
+
+    getUser() {
+      this.axios
+        .get(this.$store.state.baseUrl + "/Helper/GetOwnUser")
+        .then(res => {
+          var user = res.data;
+          console.log(user);
+          this.userDb = user;
+        })
+        .catch(err => {});
+    },
+    changeBranch() {
+      if (this.userDb.branch.id == 1) {
+        this.userDb.branch.id = 2;
+      } else {
+        this.userDb.branch.id = 1;
+      }
+      this.axios
+        .put(this.$store.state.baseUrl + "/users", this.userDb)
+        .then(res => {
+          console.log(res);
+          this.getUser();
+          window.location.reload();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+
+  created() {
+    this.getUser(this.all);
   },
 
   mounted() {
@@ -88,6 +129,10 @@ export default {
   computed: {
     User() {
       return this.$store.state.User;
+    },
+
+    branchName() {
+      return this.userDb.branch.branchName;
     },
 
     isLogin() {

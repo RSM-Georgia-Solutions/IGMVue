@@ -14,30 +14,35 @@
     >
       <template slot="items" slot-scope="props">
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
-          class="text-xs-left"
+          class="text-xs-left; color:red"
           style="cursor: pointer"
         >{{ props.item.id }}</td>
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
         >{{ props.item.type }}</td>
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
         >{{ props.item.username }}</td>
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
         >{{ props.item.buildingBranch }}</td>
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
@@ -47,9 +52,10 @@
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
-        >{{ props.item.priority }}</td> -->
+        >{{ props.item.priority }}</td>-->
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
@@ -59,14 +65,16 @@
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
-        >{{ props.item.sectorName }}</td> -->
+        >{{ props.item.sectorName }}</td>-->
 
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
         >{{ props.item.comment }}</td>
         <td
+          :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
           style="cursor: pointer"
@@ -95,6 +103,12 @@ export default {
 
         for (let key in accidentsRes) {
           const accidentRes = accidentsRes[key];
+  
+          if (new Date() > new Date(accidentRes.dueDate)) {
+            accidentRes.color = "red";
+          } else {
+            accidentRes.color = "yellow";
+          }
           this.Accidents.push(accidentRes);
         }
         console.log(this.Accidents);

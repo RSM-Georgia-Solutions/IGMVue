@@ -42,8 +42,15 @@
       <v-flex xs12>
         <v-text-field disabled v-model="Accdient.comment" label="კომენტარი"></v-text-field>
       </v-flex>
+      <v-switch v-model="disabled" label="მარაგების ჩამოწერა"></v-switch>
       <v-flex xs12>
         <v-btn right color="primary" @click="UpdateAccident">შენახვა</v-btn>
+        <v-btn
+          right
+          color="primary"
+          :disabled="!disabled"
+          @click="navigateToGoodsIssue"
+        >მარაგების ჩამოწერა</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -89,7 +96,8 @@ export default {
     return {
       Accdient: {},
       url: "",
-      Status: []
+      Status: [],
+      disabled: false
     };
   },
   methods: {
@@ -98,20 +106,24 @@ export default {
       this.axios
         .put(this.$store.state.baseUrl + "/accidents", this.Accdient)
         .then(res => {
-          console.log(res);
-          if (this.Accdient.status == "დასადასტურებელი")
-            this.$router.push({
-              name: "GoodsIssue"
-            });
-          else {
-            this.$router.push({
-              name: "OpenAccidents"
-            });
-          }
+          // if (this.Accdient.status == "დასადასტურებელი")
+          //   this.$router.push({
+          //     name: "GoodsIssue"
+          //   });
+          // else {
+          this.$router.push({
+            name: "OpenAccidents"
+          });
+          // }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    navigateToGoodsIssue() {
+      this.$router.push({
+        name: "GoodsIssue"
+      });
     }
   }
 };
