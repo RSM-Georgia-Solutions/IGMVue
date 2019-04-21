@@ -1,15 +1,14 @@
 <template>
   <v-app>
     <v-container row wrap>
-      <v-layout v-for="task in Tasks" :key="task.groupName">
+      <v-layout v-for="group in Groups" :key="group.groupName">
         <v-flex>
-          <v-btn
-            :to="{name:'Group', params:{id:task.id}}"
-            block
-            :color="task.color"
-            light
-            class="mt-4;"
-          >{{task.groupName}}</v-btn>
+          <v-btn dark :to="{name:'Group', params:{id:group.id}}" block light :style="group.style">
+            <span style="position:fixed; text-color white">{{group.groupName}}</span>
+            <span
+              style="margin-left: 750px;"
+            >{{group.tasksNoProblemCount}} / {{group.tasksProblemCount}} / {{group.tasksNotCheckedCount}}</span>
+          </v-btn>
         </v-flex>
       </v-layout>
 
@@ -27,6 +26,7 @@
 </template>
 
 <script>
+import uniq from "lodash/uniq";
 export default {
   data() {
     return {
@@ -43,13 +43,20 @@ export default {
       ],
 
       Tasks: [],
-      tasks: []
+      tasks: [],
+      Groups: [],
+      TasksHistory: []
     };
   },
 
-  created() {
-    this.getGroups();
-    this.paint(1);
+  async created() {
+    this.CreateHistory();
+  },
+
+  computed: {
+    unicGroups() {
+      return uniq(this.Groups.map(g => g.groupId && g.groupName));
+    }
   },
 
   methods: {
@@ -57,22 +64,35 @@ export default {
       this.Tasks.push({});
     },
 
+    CreateHistory() {
+      return this.axios
+        .get(this.$store.state.baseUrl + "/TaskDailyHistory/GetTaskHistory")
+        .then(res => {
+          this.getGroups();
+        });
+    },
+
     getGroups() {
       this.axios
         .get(this.$store.state.baseUrl + "/taskgroups")
         .then(res => {
-          const tasksRes = res.data;
-          for (let key in tasksRes) {
-            const taskRes = tasksRes[key];
-            taskRes.color = "grey";
-            taskRes.binding = "one";
-            for (let key in taskRes.tasks) {
-              taskRes.tasks[key].binding = "one";
-            }
-            this.Tasks.push(taskRes);
-            this.getHistory(taskRes.id);
-          }
-          console.log(this.tasks);
+          const GroupsRes = res.data;
+          console.log(res.data)
+          for (let key in GroupsRes) {
+            const GroupRes = GroupsRes[key];
+            // console.log(GroupRes.tasksProblemCount/GroupRes.tasksCount * 100)
+            // console.log(GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100)
+            // console.log(GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100)
+            GroupRes.style =
+              "background: linear-gradient(-60deg, red 0% redPercent%, green redPercent%, green greenPercent%, gray greenPercent%, gray grayPercent%);";
+            GroupRes.style = GroupRes.style.replace("redPercent", GroupRes.tasksProblemCount/GroupRes.tasksCount * 100);
+            GroupRes.style = GroupRes.style.replace("redPercent", GroupRes.tasksProblemCount/GroupRes.tasksCount * 100);
+            GroupRes.style = GroupRes.style.replace("greenPercent", GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100);
+            GroupRes.style = GroupRes.style.replace("greenPercent", GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100);
+            GroupRes.style = GroupRes.style.replace("grayPercent", GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100);     
+            GroupRes.style = GroupRes.style.replace("grayPercent", GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100);     
+            this.Groups.push(GroupRes);     
+          }        
         })
         .catch(err => {});
     },
@@ -104,4 +124,7 @@ export default {
 </script>
 
 <style>
+.x {
+  background: linear-gradient(-60deg, red 20%, rgb(12, 241, 12) 50%, gray 100%);
+}
 </style>

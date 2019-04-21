@@ -7,30 +7,35 @@
       :bottom="true"
     >დავალების ისტორია წარმატებით შეინახა</v-snackbar>
 
-    <v-layout row wrap v-for="task in tasks" :key="task.id">
+    <v-layout row wrap v-for="task in tasksHistory" :key="task.id">
       <v-flex xs7 lg10 mt-3>
         <v-card
-          @click.native="NavigateToAccident(task)"
+          @click.native="NavigateToAccidentAdded(task)"
           dark
-          :class="[task.taskStatus == 'უპრობლემო' ? 'success' : task.taskStatus == 'პრობლემური'? 'error' : 'grey']"
+          :class="changeColor(task.taskStatus)"
         >
           <v-card-text class="px-2">{{task.task}}</v-card-text>
         </v-card>
       </v-flex>
       <v-layout column xs5 lg2 mt-3>
-        <v-radio-group v-model="task.taskStatus" row>
-          <v-flex xs4 ml-2>
+        <v-radio-group v-model="task.taskStatus" row :disabled="task.disabledRed">
+          <v-flex xs4 ml-2 @click="updateHistory(task.id)">
             <v-radio color="success" label="✓" value="უპრობლემო"></v-radio>
           </v-flex>
           <v-flex ml-2>
-            <v-radio color="error" label="X" value="პრობლემური"></v-radio>
+            <v-radio
+              @click.native="NavigateToAccident(task)"
+              color="error"
+              label="X"
+              value="პრობლემური"
+            ></v-radio>
           </v-flex>
         </v-radio-group>
       </v-layout>
     </v-layout>
-    <v-flex xs1 offset-xs4>
+    <!-- <v-flex xs1 offset-xs4>
       <v-btn color="success" @click="SaveToHistory2">შენახვა</v-btn>
-    </v-flex>
+    </v-flex>-->
   </v-container>
 </template>
 
@@ -47,25 +52,65 @@ export default {
   },
 
   methods: {
-    getHistory() {
-      axios
-        .get(
-          this.$store.state.baseUrl + "/TaskGroups/" + this.$route.params.id,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.token
-            }
-          }
+    changeColor(taskStatus) {
+      var x =
+        taskStatus == "უპრობლემო"
+          ? "success"
+          : taskStatus == "პრობლემური"
+          ? "error"
+          : "grey";
+      return x;
+    },
+
+    updateHistory(taskId) {
+      var x = this.tasksHistory.find(x => x.id == taskId);
+      if (this.tasksHistory == "უპრობლემო") {
+        return;
+      }
+      this.changeColor();
+      this.axios
+        .put(
+          this.$store.state.baseUrl + "/TaskDailyHistory/UpdateTaskHistory",
+          x
         )
         .then(res => {
-          const tasksRes = res.data.tasks;
-          for (let key in tasksRes) {
-            const taskRes = tasksRes[key];
-            taskRes.createDate = new Date().toISOString().substr(0, 10);
-            //  taskRes.taskDailyId = taskRes.id;
-            taskRes.taskGroupId = this.$route.params.id;
-            this.tasks.push(taskRes);
+          console.log(res);
+        })
+        .catch(err => {});
+    },
+
+    getHistory() {
+      this.axios
+        .get(
+          this.$store.state.baseUrl +
+            "/TaskDailyHistory/GetHistoryByGroup?groupId=" +
+            this.$route.params.id
+        )
+        .then(res => {
+          const tasksHistoryRes = res.data;
+          for (let key in tasksHistoryRes) {
+            const taskHistoryRes = tasksHistoryRes[key];
+            const tasksHistory = {};
+            tasksHistory.id = taskHistoryRes.id;
+            tasksHistory.taskStatus = taskHistoryRes.taskStatus;
+            tasksHistory.task = taskHistoryRes.taskDaily.task;
+            tasksHistory.taskId = taskHistoryRes.taskDaily.id;
+            console.log(taskHistoryRes);
+            tasksHistory.AccidentId = taskHistoryRes.accidentId;
+            tasksHistory.disabledRed =
+              taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
+            this.tasksHistory.push(tasksHistory);
           }
+
+          // console.log(this.tasksHistory);
+
+          // const tasksRes = res.data.tasks;
+          // for (let key in tasksRes) {
+          //   const taskRes = tasksRes[key];
+          //   taskRes.createDate = new Date().toISOString().substr(0, 10);
+          //   taskRes.taskGroupId = this.$route.params.id;
+          //   this.tasks.push(taskRes);
+          // }
         })
         .catch(err => {
           console.log(err);
@@ -93,11 +138,27 @@ export default {
           });
       }
     },
+    // NavigateToAccident(picked) {
+    //   if (picked.taskStatus == "პრობლემური") {
+    //     this.$router.push({
+    //       name: "NewAccident",
+    //       params: { id: picked.taskDailyId }
+    //     });
+    //   }
+    // }
+
     NavigateToAccident(picked) {
-      if (picked.taskStatus == "პრობლემური") {
+      this.$router.push({
+        name: "NewAccident",
+        params: { id: picked }
+      });
+    },
+
+    NavigateToAccidentAdded(task) {
+      if (task.taskStatus == "პრობლემური") {
         this.$router.push({
-          name: "NewAccident",
-          params: { id: picked.taskDailyId }
+          name: "Accident",
+          params: { id: task.AccidentId }
         });
       }
     }

@@ -179,8 +179,8 @@ export default {
           });
 
         var gocha = Array.from(this.Types);
-        var x2 = gocha.find(x => x.id == this.$route.params.id).task;
-
+        var x2 = gocha.find(x => x.id == this.$route.params.id.taskId).task;
+        this.taskHistoryObject = this.$route.params.id;
         this.Accident.type = x2;
       })
       .catch(err => {
@@ -257,6 +257,8 @@ export default {
   },
 
   data: () => ({
+    taskHistoryObject: {},
+
     disabledButton: true,
 
     defaultBranch: null,
@@ -368,12 +370,25 @@ export default {
       this.axios
         .post(this.$store.state.baseUrl + "/accidents", this.Accident)
         .then(res => {
+          console.log(res, "accccc");
           if (res.status == "202") {
             this.dialogText = "ინციდენტი წარმატებით დაემატა";
             this.dialogColor = "success";
             this.dialog2 = false;
             this.dialog = true;
             this.reset();
+
+            this.taskHistoryObject.AccidentId = res.data.id;
+            console.log(this.taskHistoryObject);
+            this.axios
+              .put(
+                this.$store.state.baseUrl +
+                  "/TaskDailyHistory/UpdateTaskHistory",
+                this.taskHistoryObject
+              )
+              .then(res => {
+                console.log(res, "aaaaaaaaaaaaaaaaaaaa");
+              });
           } else {
           }
         })
