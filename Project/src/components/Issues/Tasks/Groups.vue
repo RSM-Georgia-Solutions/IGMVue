@@ -1,16 +1,14 @@
 <template>
   <v-app>
     <v-container row wrap>
-      <v-layout v-for="group in Groups" :key="group.groupName">
-        <v-flex>
-          <v-btn dark :to="{name:'Group', params:{id:group.id}}" block light :style="group.style">
-            <span style="position:fixed; text-color white">{{group.groupName}}</span>
-            <span
-              style="margin-left: 750px;"
-            >{{group.tasksNoProblemCount}} / {{group.tasksProblemCount}} / {{group.tasksNotCheckedCount}}</span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
+      <v-flex v-for="group in Groups" :key="group.groupName">
+        <v-btn block dark :style="group.style" @click="NavigateToGroup(group.id)">
+          <div style="position:absolute;">{{group.groupName}}</div>
+          <div
+            style="margin-left: 450px;"
+          >{{group.tasksNoProblemCount}} / {{group.tasksProblemCount}} / {{group.tasksNotCheckedCount}}</div>
+        </v-btn>
+      </v-flex>
 
       <v-layout>
         <v-flex xs12>
@@ -30,18 +28,6 @@ import uniq from "lodash/uniq";
 export default {
   data() {
     return {
-      Tasksxx: [
-        {
-          Name: "შლაგბაუმის სისტემა",
-
-          Progress: "7/8",
-
-          color: "grey",
-
-          colorH1: "color : grey"
-        }
-      ],
-
       Tasks: [],
       tasks: [],
       Groups: [],
@@ -60,6 +46,14 @@ export default {
   },
 
   methods: {
+    NavigateToGroup(picked) {
+      console.log(picked);
+      this.$router.push({
+        name: "Group",
+        params: { id: picked }
+      });
+    },
+
     AddNewGroup() {
       this.Tasks.push({});
     },
@@ -77,22 +71,40 @@ export default {
         .get(this.$store.state.baseUrl + "/taskgroups")
         .then(res => {
           const GroupsRes = res.data;
-          console.log(res.data)
+          console.log(res.data);
           for (let key in GroupsRes) {
             const GroupRes = GroupsRes[key];
-            // console.log(GroupRes.tasksProblemCount/GroupRes.tasksCount * 100)
-            // console.log(GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100)
-            // console.log(GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100)
+
+            const redPercent =
+              (GroupRes.tasksProblemCount / GroupRes.tasksCount) * 100;
+            const greenPercent =
+              (GroupRes.tasksNoProblemCount / GroupRes.tasksCount) * 100;
+            const grayPercent =
+              (GroupRes.tasksNotCheckedCount / GroupRes.tasksCount) * 100;
+
             GroupRes.style =
               "background: linear-gradient(-60deg, red 0% redPercent%, green redPercent%, green greenPercent%, gray greenPercent%, gray grayPercent%);";
-            GroupRes.style = GroupRes.style.replace("redPercent", GroupRes.tasksProblemCount/GroupRes.tasksCount * 100);
-            GroupRes.style = GroupRes.style.replace("redPercent", GroupRes.tasksProblemCount/GroupRes.tasksCount * 100);
-            GroupRes.style = GroupRes.style.replace("greenPercent", GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100);
-            GroupRes.style = GroupRes.style.replace("greenPercent", GroupRes.tasksNoProblemCount/GroupRes.tasksCount * 100);
-            GroupRes.style = GroupRes.style.replace("grayPercent", GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100);     
-            GroupRes.style = GroupRes.style.replace("grayPercent", GroupRes.tasksNotCheckedCount/GroupRes.tasksCount * 100);     
-            this.Groups.push(GroupRes);     
-          }        
+            GroupRes.style = GroupRes.style.replace("redPercent", redPercent);
+            GroupRes.style = GroupRes.style.replace("redPercent", redPercent);
+            GroupRes.style = GroupRes.style.replace(
+              "greenPercent",
+              greenPercent + redPercent
+            );
+            GroupRes.style = GroupRes.style.replace(
+              "greenPercent",
+              greenPercent + redPercent
+            );
+            GroupRes.style = GroupRes.style.replace(
+              "grayPercent",
+              greenPercent + redPercent + grayPercent
+            );
+
+           // GroupRes.style = "background: linear-gradient(-70deg, red 0% 40%, green 40%, green 70%, gray 70%, gray 100%);";
+
+            console.log(GroupRes.style);
+
+            this.Groups.push(GroupRes);
+          }
         })
         .catch(err => {});
     },
@@ -124,7 +136,8 @@ export default {
 </script>
 
 <style>
-.x {
-  background: linear-gradient(-60deg, red 20%, rgb(12, 241, 12) 50%, gray 100%);
+.grad{
+  /* background: linear-gradient(-60deg, red 0% 40%, green 40%, green 70%, gray 70%, gray 100%);  */
+  background: red
 }
 </style>
