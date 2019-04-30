@@ -2,7 +2,11 @@
   <v-container grid-list-xs>
     <v-layout v-for="plannedWork in plannedWorks" :key="plannedWork.id" row wrap>
       <v-flex xs12>
-        <v-btn :color="plannedWork.isActive" :to="{name:'PlannedWork', params:{id:plannedWork.id}}" block>{{plannedWork.name}}</v-btn>
+        <v-btn
+          :color="plannedWork.isActive"
+          :to="{name:'PlannedWork', params:{id:plannedWork.id}}"
+          block
+        >{{plannedWork.name}}</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -36,7 +40,7 @@ export default {
 
           this.plannedWorks.push(plannedWorkRes);
         }
-        console.log(this.plannedWorks)
+        console.log(this.plannedWorks);
       })
       .catch(err => {
         console.log(err);

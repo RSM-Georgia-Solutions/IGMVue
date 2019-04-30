@@ -67,6 +67,28 @@
         <v-date-picker v-model="planndWork.plannedWorksSettings.activeTo" @input="menuTo = false"></v-date-picker>
       </v-menu>
     </v-flex>
+
+    <v-flex xs10 offset-xs1 mt-3>
+      <v-menu
+        :close-on-content-click="false"
+        v-model="menuHournSelect"
+        :nudge-right="40"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        min-width="290px"
+      >
+        <v-text-field
+          slot="activator"
+          v-model="planndWork.plannedWorksSettings.StartTimeMinits"
+          label="დაწყების საათი"
+          readonly
+        ></v-text-field>
+        <v-time-picker v-model="planndWork.plannedWorksSettings.StartTimeMinits" format="24hr"></v-time-picker>
+      </v-menu>
+    </v-flex>
+
     <v-flex xs10 offset-xs1 mt-3>
       <v-text-field
         label="სიხშირე"
@@ -94,6 +116,7 @@
 <script>
 export default {
   created() {
+    //console.log(this.planndWork);
     this.axios
       .get(this.$store.state.baseUrl + "/users")
 
@@ -103,7 +126,7 @@ export default {
           const UserRes = UsersRes[key];
           this.users.push(UserRes);
         }
-        console.log(this.users)
+        console.log(this.users);
       })
 
       .catch(error => console.log(error));
@@ -113,11 +136,14 @@ export default {
     return {
       menuFrom: false,
       menuTo: false,
+      menuHournSelect: false,
       users: [],
       planndWork: {
         plannedWorksSettings: {
           activeFrom: new Date().toISOString().substr(0, 10),
           activeTo: new Date().toISOString().substr(0, 10),
+          StartTimeMinits: "09:00",
+          //StartTimeMinits: new Date().toISOString().substr(11,5),
           frequency: 0,
           branchId: 0
         }
@@ -128,8 +154,26 @@ export default {
     };
   },
   methods: {
+    clearModel() {
+      this.planndWork = {
+        plannedWorksSettings: {
+          activeFrom: new Date().toISOString().substr(0, 10),
+          activeTo: new Date().toISOString().substr(0, 10),
+          StartTimeMinits: "09:00",
+          frequency: 0,
+          branchId: 0
+        }
+      };
+    },
+
     save() {
       console.log(this.planndWork);
+      var x = this.planndWork.plannedWorksSettings.StartTimeMinits;
+      var z = x.split(":");
+      var q1 = z[0] * 60;
+      var q2 = q1 + parseInt(z[1]);
+      this.planndWork.plannedWorksSettings.StartTimeMinits = q2;
+      this.planndWork.plannedWorksSettings.StartTimeMinits;
       this.axios
         .post(this.$store.state.baseUrl + "/PlannedWorks", this.planndWork)
         .then(res => {
@@ -141,6 +185,7 @@ export default {
           this.snackbarData.color = "error";
           this.snackbarData.text = "გეგმიური სამუშაო ვერ დაემატა";
         });
+      this.clearModel();
     }
   }
 };
