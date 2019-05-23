@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>საქონელი/საწყობი
+    <v-card-title>
+      საქონელი/საწყობი
       <v-spacer></v-spacer>
       <v-flex xs3 mr-5>
         <v-btn color="success" x-large @click="ExportToExcel">
@@ -11,9 +12,9 @@
 
       <v-text-field v-model="search" append-icon="search" label="Search"></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="stockReport" :search="search" id="ExportToExcel">
+    <v-data-table :rows-per-page-items="rowsPerPageItems" :headers="headers" :items="stockReport" :search="search" id="ExportToExcel" >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.itemDescription }}</td>
+        <td class="text-xs-left" light-blue>{{ props.item.itemDescription }}</td>
 
         <td class="text-xs-left">{{ props.item.wareHouseCode }}</td>
 
@@ -49,6 +50,12 @@ export default {
   },
   data() {
     return {
+      rowsPerPageItems: [
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
+        25,
+        10,
+        5
+      ],
       ExportToExcelFile: File,
       stockReport: [],
       search: "",

@@ -117,7 +117,12 @@
       </v-dialog>
     </v-toolbar>
 
-    <v-data-table :headers="headers" :items="Users" :search="search">
+    <v-data-table
+      :headers="headers"
+      :items="Users"
+      :search="search"
+      :rows-per-page-items="rowsPerPageItems"
+    >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.firstName }}</td>
 
@@ -208,14 +213,14 @@ export default {
     }
   },
 
-  // watch: {
-  //   dialog(val) {
-  //     val || this.close();
-  //   }
-  // },
-
   data() {
     return {
+      rowsPerPageItems: [
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
+        5,
+        10,
+        25,        
+      ],
       roles: [],
       branches: [],
       isShown: false,

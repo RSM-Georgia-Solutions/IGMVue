@@ -142,8 +142,7 @@ export default {
         plannedWorksSettings: {
           activeFrom: new Date().toISOString().substr(0, 10),
           activeTo: new Date().toISOString().substr(0, 10),
-          StartTimeMinits: "09:00",
-          //StartTimeMinits: new Date().toISOString().substr(11,5),
+          StartTimeMinits: "09:00",         
           frequency: 0,
           branchId: 0
         }
@@ -153,6 +152,7 @@ export default {
       isSuccess: false
     };
   },
+
   methods: {
     clearModel() {
       this.planndWork = {
@@ -174,18 +174,22 @@ export default {
       var q2 = q1 + parseInt(z[1]);
       this.planndWork.plannedWorksSettings.StartTimeMinits = q2;
       this.planndWork.plannedWorksSettings.StartTimeMinits;
+
       this.axios
         .post(this.$store.state.baseUrl + "/PlannedWorks", this.planndWork)
         .then(res => {
+          console.log(res, "aaaa");
           this.snackbarData.color = "success";
           this.snackbarData.text = "გეგმიური სამუშაო წარმატებით დაემატა";
           this.isSuccess = true;
+          this.clearModel();
         })
-        .catch(err => {
+        .catch(err => {          
           this.snackbarData.color = "error";
-          this.snackbarData.text = "გეგმიური სამუშაო ვერ დაემატა";
+          this.snackbarData.text = err.response.data;
+          this.isSuccess = true;
+         this.planndWork.plannedWorksSettings.StartTimeMinits = "09:00";
         });
-      this.clearModel();
     }
   }
 };

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-snackbar
+      v-model="isSuccess"
+      :timeout="6000"
+      :color="responseStatus"
+      :bottom="true"
+    >{{responseText}}</v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>მარაგების მოთხოვნები</v-toolbar-title>
 
@@ -84,7 +90,7 @@
       </v-dialog>
     </v-toolbar>
 
-    <v-data-table :headers="headers" :items="Requests">
+    <v-data-table :headers="headers" :items="Requests" :rows-per-page-items="rowsPerPageItems">
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.itemName }}</td>
 
@@ -113,44 +119,7 @@ import axios from "axios";
 import Vue from "vue";
 export default {
   created() {
-    ////////////////////////////////////////////////////////////////////////////////
-    this.axios
-      .get(this.$store.state.baseUrl + "/itemmasterdata")
-      .then(res => {
-        const ItemsRes = res.data;
-        for (let key in ItemsRes) {
-          const ItemRes = ItemsRes[key];
-          this.Items.push(ItemRes);
-        }
-      })
-
-      .catch(error => console.log(error));
-    ////////////////////////////////////////////////////
-    this.axios
-      .get(this.$store.state.baseUrl + "/Vendors")
-      .then(res => {
-        const VendorsRes = res.data;
-        for (let key in VendorsRes) {
-          const VendorRes = VendorsRes[key];
-          this.Vendors.push(VendorRes);
-        }
-      })
-      .catch(error => console.log(error));
-    ////////////////////////////////////////////////
-    this.getReq();
-    /////////////////////////////////////////////////////
-    this.axios
-      .get(this.$store.state.baseUrl + "/WareHouse")
-      .then(res => {
-        const wareHousesRes = res.data;
-        for (let key in wareHousesRes) {
-          const wareHouseres = wareHousesRes[key];
-          this.WareHouses.push(wareHouseres);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.loadstartingData();
   },
 
   computed: {
@@ -173,6 +142,16 @@ export default {
 
   data() {
     return {
+      responseText: "",
+      isSuccess: false,
+      responseStatus: "",
+
+      rowsPerPageItems: [
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
+        5,
+        10,
+        25
+      ],
       gocha: true,
       emailRules: [
         v => !!v || "E-mail is required",
@@ -262,6 +241,46 @@ export default {
   },
 
   methods: {
+    loadstartingData() {
+      ////////////////////////////////////////////////////////////////////////////////
+      this.axios
+        .get(this.$store.state.baseUrl + "/itemmasterdata")
+        .then(res => {
+          const ItemsRes = res.data;
+          for (let key in ItemsRes) {
+            const ItemRes = ItemsRes[key];
+            this.Items.push(ItemRes);
+          }
+        })
+
+        .catch(error => console.log(error));
+      ////////////////////////////////////////////////////
+      this.axios
+        .get(this.$store.state.baseUrl + "/Vendors")
+        .then(res => {
+          const VendorsRes = res.data;
+          for (let key in VendorsRes) {
+            const VendorRes = VendorsRes[key];
+            this.Vendors.push(VendorRes);
+          }
+        })
+        .catch(error => console.log(error));
+      ////////////////////////////////////////////////
+      this.getReq();
+      /////////////////////////////////////////////////////
+      this.axios
+        .get(this.$store.state.baseUrl + "/WareHouse")
+        .then(res => {
+          const wareHousesRes = res.data;
+          for (let key in wareHousesRes) {
+            const wareHouseres = wareHousesRes[key];
+            this.WareHouses.push(wareHouseres);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     getReq() {
       this.Requests = [];
       this.axios
@@ -330,8 +349,14 @@ export default {
           .then(res => {
             // Object.assign(this.Requests[this.editedIndex], this.editedItem);
             this.close();
+            this.loadstartingData();
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log(error.response);
+            this.responseStatus = "error";
+            this.responseText = error.response.data;
+            this.isSuccess = true;
+          });
       } else {
         this.axios
           .post(
@@ -339,12 +364,20 @@ export default {
             this.editedItem
           )
           .then(res => {
+            console.log(res);
             this.editedItem.itemName = res.data.itemName;
             this.editedItem.vendorName = res.data.vendorName;
             this.getReq();
             this.close();
+            this.responseText = res.data;
+            this.responseStatus = "success";
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log(error.response);
+            this.responseStatus = "error";
+            this.responseText = error.response.data;
+            this.isSuccess = true;
+          });
       }
     }
   }

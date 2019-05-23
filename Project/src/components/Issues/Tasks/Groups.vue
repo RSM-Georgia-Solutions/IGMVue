@@ -68,7 +68,7 @@ export default {
 
     getGroups() {
       this.axios
-        .get(this.$store.state.baseUrl + "/taskgroups")
+        .get(this.$store.state.baseUrl + "/TaskGroups/GetGroups")
         .then(res => {
           const GroupsRes = res.data;
           console.log(res.data);
@@ -111,7 +111,7 @@ export default {
 
     getHistory(groupId) {
       this.axios
-        .get(this.$store.state.baseUrl + "/TaskGroups/" + groupId)
+        .get(this.$store.state.baseUrl + "/TaskGroups/GetGroups" + groupId)
         .then(res => {
           const tasksRes = res.data.tasks;
           for (let key in tasksRes) {

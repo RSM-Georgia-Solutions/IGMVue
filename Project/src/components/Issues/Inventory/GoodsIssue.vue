@@ -15,7 +15,7 @@
         label="საქონელი"
         placeholder="არჩევა..."
         v-model="JournalEntry.itemMasterDataId"
-        required
+        required        
         @change="onItemChange"
       ></v-autocomplete>
 
@@ -26,7 +26,7 @@
         label="საწყობი"
         placeholder="არჩევა..."
         v-model="JournalEntry.wareHosueId"
-        required
+        no-data-text="ეს საქონელი არ არის სწაყობში"
       ></v-autocomplete>
 
       <v-text-field
@@ -35,9 +35,9 @@
         v-model="JournalEntry.quantity"
         :rules="quantityRule"
       ></v-text-field>
-
-      <v-textarea label="კომენტარი" placeholder="კომენტარი" v-model="JournalEntry.Comment"></v-textarea>
-
+      <v-flex mt-3>
+      <v-textarea  label="კომენტარი" placeholder="კომენტარი" v-model="JournalEntry.Comment"></v-textarea>
+      </v-flex>
       <v-flex xs4 offset-xs4 offset-lg6>
         <v-btn color="success" @click="IssueItem">ჩამოწერა</v-btn>
       </v-flex>
@@ -58,7 +58,6 @@ export default {
 
         for (let key in itemMasterDataRes) {
           const item = itemMasterDataRes[key];
-
           this.itemMasterData.push(item);
         }
       })
@@ -73,7 +72,7 @@ export default {
       responseStatus: "",
       responseText: "",
 
-      quantityRule: [v => v > 0 || "Invalid Quantity"],
+     // quantityRule: [v => v > 0 || "Invalid Quantity"],
 
       itemMasterData: [],
 
@@ -178,7 +177,7 @@ export default {
           this.responseStatus = "error";
           this.responseText = err.response.data;
           this.isSuccess = true;
-          this.reset();
+          // this.reset();
         });
     }
   }

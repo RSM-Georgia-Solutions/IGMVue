@@ -73,10 +73,10 @@ export default {
       ExportToExcelFile: File,
       search: "",
       rowsPerPageItems: [
-        10,
-        5,
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
         25,
-        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
+        10,
+        5
       ],
       search: "",
       whsJournal: [],

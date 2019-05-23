@@ -18,6 +18,7 @@
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left; color:red"
           style="cursor: pointer"
+          datk
         >{{ props.item.id }}</td>
 
         <td
@@ -71,7 +72,7 @@
           :bgcolor="props.item.color"
           @click="NavigateToAccident(props.item.id)"
           class="text-xs-left"
-          style="cursor: pointer"
+          style="cursor: pointer;"
         >{{ props.item.comment }}</td>
         <td
           :bgcolor="props.item.color"
@@ -85,7 +86,7 @@
         slot="no-results"
         :value="true"
         color="error"
-        icon="warning"
+        icon="warning"        
       >Your search for "{{ search }}" found no results.</v-alert>
     </v-data-table>
   </v-card>
@@ -93,7 +94,7 @@
 
 <script>
 import axios from "axios";
-
+import moment from "moment";
 export default {
   created() {
     this.axios
@@ -103,8 +104,12 @@ export default {
 
         for (let key in accidentsRes) {
           const accidentRes = accidentsRes[key];
-  
-          if (new Date() > new Date(accidentRes.dueDate)) {
+
+          var date = moment(accidentRes.dueDate).add(1, "d");         
+
+          var dueDate = new Date(accidentRes.dueDate);
+
+          if (new Date() > date) {
             accidentRes.color = "red";
           } else {
             accidentRes.color = "yellow";
@@ -122,9 +127,9 @@ export default {
     return {
       rowsPerPageItems: [
         { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
+        25,
         10,
-        5,
-        25
+        5
       ],
       search: "",
 

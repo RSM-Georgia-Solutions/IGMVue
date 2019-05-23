@@ -68,6 +68,28 @@
         <v-date-picker v-model="plannedWorks.plannedWorksSettings.activeTo" @input="menuTo = false"></v-date-picker>
       </v-menu>
     </v-flex>
+
+    <v-flex xs10 offset-xs1 mt-3>
+      <v-menu
+        :close-on-content-click="false"
+        v-model="menuHournSelect"
+        :nudge-right="40"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        min-width="290px"
+      >
+        <v-text-field
+          slot="activator"
+          v-model="plannedWorks.plannedWorksSettings.startTimeMinits"
+          label="დაწყების საათი"
+          readonly
+        ></v-text-field>
+        <v-time-picker v-model="plannedWorks.plannedWorksSettings.startTimeMinits" format="24hr"></v-time-picker>
+      </v-menu>
+    </v-flex>
+
     <v-flex xs10 offset-xs1 mt-3>
       <v-text-field
         label="სიხშირე"
@@ -86,7 +108,8 @@
       ></v-autocomplete>
     </v-flex>
     <v-flex xs10 offset-xs1>
-      <v-btn color="info" @click="save">შენახვა</v-btn>
+      <v-btn color="info" @click="save" right>შენახვა</v-btn>
+      <v-btn color="error" @click="remove" left>წაშლა</v-btn>
     </v-flex>
   </v-container>
 </template>
@@ -111,14 +134,14 @@ export default {
       .get(this.$store.state.baseUrl + "/PlannedWorks/" + this.$route.params.id)
       .then(res => {
         const plannedWorksRes = res.data;
-        this.plannedWorks = plannedWorksRes;
-        console.log(this.plannedWorks.plannedWorksSettings.activeFrom);
+        // plannedWorksRes.plannedWorksSettings.startTimeMinits = "09:00"
+        var minutes = plannedWorksRes.plannedWorksSettings.startTimeMinits % 60;
+        var hours =
+          (plannedWorksRes.plannedWorksSettings.startTimeMinits - minutes) / 60;
+        plannedWorksRes.plannedWorksSettings.startTimeMinits =
+          hours.toString() + ":" + minutes.toString();
 
-        console.log(
-          moment(
-            String(this.plannedWorks.plannedWorksSettings.activeFrom)
-          ).format("MM/DD/YYYY hh:mm")
-        );
+        this.plannedWorks = plannedWorksRes;
 
         this.plannedWorks.plannedWorksSettings.activeTo = moment(
           String(this.plannedWorks.plannedWorksSettings.activeTo)
@@ -143,12 +166,19 @@ export default {
       menuFrom: false,
       menuTo: false,
       snackbarData: {},
+      menuHournSelect: false,
       isSuccess: false
     };
   },
   methods: {
     save() {
       console.log(this.plannedWorks);
+      var x = this.plannedWorks.plannedWorksSettings.startTimeMinits;
+      var z = x.split(":");
+      var q1 = z[0] * 60;
+      var q2 = q1 + parseInt(z[1]);
+      this.plannedWorks.plannedWorksSettings.startTimeMinits = q2;
+      this.plannedWorks.plannedWorksSettings.startTimeMinits;
       this.axios
         .put(this.$store.state.baseUrl + "/PlannedWorks", this.plannedWorks)
         .then(res => {
@@ -162,6 +192,22 @@ export default {
           this.snackbarData.text = "გეგმიური სამუშაო ვერ განახლდა";
           console.log(this.isSuccess);
         });
+    },
+
+    remove() {
+      console.log(this.plannedWorks.id);
+      this.axios
+        .delete(this.$store.state.baseUrl + "/PlannedWorks", {
+          params: { id: this.plannedWorks.id }
+        })
+        .then(res => {
+          console.log(res);
+           this.$router.go(-1)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       
     }
   }
 };

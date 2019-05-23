@@ -6,21 +6,21 @@
           <v-list-tile-action>
             <v-icon>gavel</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Issues</v-list-tile-content>
+          <v-list-tile-content>საკითხები</v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile to="/Others">
           <v-list-tile-action>
             <v-icon>widgets</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Others</v-list-tile-content>
+          <v-list-tile-content>სხვა</v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile @click="logout">
           <v-list-tile-action>
             <v-icon>logout</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>logout</v-list-tile-content>
+          <v-list-tile-content>გასვლა</v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -35,11 +35,11 @@
 
       <v-toolbar-items class="hidden-sm-and-down" v-if="isLogin">
         <v-btn flat to="/Issues">
-          <v-icon left>gavel</v-icon>Issues
+          <v-icon left>gavel</v-icon>საკითხები
         </v-btn>
 
         <v-btn flat left to="/Others">
-          <v-icon left>widgets</v-icon>Others
+          <v-icon left>widgets</v-icon>სხვა
         </v-btn>
         <v-list-tile></v-list-tile>
       </v-toolbar-items>
@@ -57,7 +57,7 @@
       <v-spacer></v-spacer>
 
       <v-btn flat class="hidden-sm-and-down" @click="logout" v-if="isLogin">
-        <v-icon left>logout</v-icon>Logout
+        <v-icon left>logout</v-icon>გასვლა
       </v-btn>
     </v-toolbar>
 

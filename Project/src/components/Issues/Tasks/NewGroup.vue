@@ -22,21 +22,29 @@
 import axios from "axios";
 export default {
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/branches")
-
-      .then(res => {
-        const branchesData = res.data;
-
-        for (let key in branchesData) {
-          const branch = {
-            id: branchesData[key].id,
-            branchName: branchesData[key].branchName
-          };
-
-          this.branches.push(branch);
-        }
-      });
+   
+    axios.get(this.$store.state.baseUrl + "/Helper/GetUserBranch").then(res => {
+      const branchesData = res.data;
+      for (let key in branchesData) {
+        const branch = {
+          id: branchesData[key].id,
+          branchName: branchesData[key].branchName
+        };
+        this.branches.push(branch);
+      }
+    }),
+      this.axios
+        .get(this.$store.state.baseUrl + "/TaskGroups/GetGroupsBranch")
+        .then(res => {
+          const taskGroupsRes = res.data;
+          for (let key in taskGroupsRes) {
+            const taskGroup = taskGroupsRes[key];
+            this.taskGroups.push(taskGroup);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
   },
 
   data() {
@@ -53,7 +61,7 @@ export default {
     createGroup() {
       console.log(this.group);
       axios
-        .post(this.$store.state.baseUrl + "/taskgroups", this.group, {
+        .post(this.$store.state.baseUrl + "/TaskGroups/CreateTaskGroup", this.group, {
           headers: {
             Authorization: "Bearer " + localStorage.token
           }

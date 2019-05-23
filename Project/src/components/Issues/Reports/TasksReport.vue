@@ -27,7 +27,7 @@
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.updateDate }}</td>
 
-        <td class="text-xs-left" style="cursor: pointer">{{ props.item.branchName }}</td>
+        <td class="text-xs-left" style="cursor: pointer">{{ props.item.branch.branchName }}</td>
       </template>
     </v-data-table>
   </v-card>
@@ -39,7 +39,7 @@ import FileSaver from "file-saver";
 export default {
   created() {
     this.axios
-      .get(this.$store.state.baseUrl + "/TaskDailyHistory")
+      .get(this.$store.state.baseUrl + "/TaskDailyHistory/GetFullTaskHistory")
       .then(res => {
         const tasksRes = res.data;
         for (let key in tasksRes) {

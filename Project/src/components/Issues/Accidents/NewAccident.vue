@@ -231,9 +231,16 @@ export default {
           this.buildings.push(BuildingRes);
         }
         this.defaultBranch = this.buildings[0].id;
+
         this.defaultFloor = Array.from(this.buildings[0].floors)[0].floorNumber;
         this.activeBuilding = this.buildings[0];
+
         this.activeFloor = Array.from(this.buildings[0].floors)[0];
+        this.activeFloor = Array.from(this.buildings[0].floors).find(
+          x => (x.floorNumber = 1)
+        );
+
+        console.log(this.buildings[0].floors);
         console.log(this.activeFloor.sectors[0], "sec");
         this.Accident.SectorId = this.activeFloor.sectors[0].id;
       })
@@ -350,6 +357,7 @@ export default {
 
   methods: {
     validate() {
+      console.log(this.$refs);
       if (this.$refs.form.validate()) {
         this.disabledButton = false;
         return true;
@@ -387,7 +395,7 @@ export default {
                 this.taskHistoryObject
               )
               .then(res => {
-                console.log(res, "aaaaaaaaaaaaaaaaaaaa");
+                console.log(res);
               });
           } else {
           }
