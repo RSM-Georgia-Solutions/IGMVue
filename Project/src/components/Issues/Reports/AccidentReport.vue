@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title primary-title>გადაჭრილი და დახურული ინციდენტები
+    <v-card-title primary-title>ინციდენტები
       <v-spacer></v-spacer>
       <v-flex xs3 mr-5>
         <v-btn color="success" x-large @click="ExportToExcel">
@@ -28,11 +28,11 @@
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.status }}</td>
 
-        <td class="text-xs-left" style="cursor: pointer">{{ props.item.priority }}</td>
+        <!-- <td class="text-xs-left" style="cursor: pointer">{{ props.item.priority }}</td> -->
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.floorNumber }}</td>
-
-        <td class="text-xs-left" style="cursor: pointer">{{ props.item.sectorName }}</td>
+<!-- 
+        <td class="text-xs-left" style="cursor: pointer">{{ props.item.sectorName }}</td> -->
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.comment }}</td>
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.ownerName }}</td>
@@ -105,21 +105,21 @@ export default {
 
           value: "status"
         },
-        {
-          text: "პრიორიტეტი",
+        // {
+        //   text: "პრიორიტეტი",
 
-          value: "priority"
-        },
+        //   value: "priority"
+        // },
         {
           text: "სართული",
 
           value: "floorNumber"
         },
-        {
-          text: "სექტორი",
+        // {
+        //   text: "სექტორი",
 
-          value: "sectorName"
-        },
+        //   value: "sectorName"
+        // },
 
         {
           text: "კომენტარი",

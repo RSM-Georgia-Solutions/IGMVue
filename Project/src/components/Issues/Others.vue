@@ -11,15 +11,27 @@
         <v-icon left>loop</v-icon>გეგმიური სამუშაოები
       </v-btn>
 
-      <v-btn color="#78909C" dark class="mt-3" :to="{name:'Inventory'}">
+      <v-btn
+        v-if="checkPermissionsGoods()"
+        color="#78909C"
+        dark
+        class="mt-3"
+        :to="{name:'Inventory'}"
+      >
         <v-icon left>widgets</v-icon>მარაგები/საწყობები
       </v-btn>
 
-      <v-btn v-if="checkVendorsPer()" color="#78909C" dark class="mt-3" :to="{name:'Vendors'}">
+      <v-btn
+        v-if="checkVendorsPer()"
+        color="#78909C"
+        dark
+        class="mt-3"
+        :to="{name:'Vendors'}"
+      >
         <v-icon left>people</v-icon>ვენდორები
       </v-btn>
 
-      <v-btn color="#78909C" class="mt-3" :to="{name:'Reports'}" dark>
+      <v-btn v-if="checkPermissionsReports()" color="#78909C" class="mt-3" :to="{name:'Reports'}" dark>
         <v-icon left>trending_up</v-icon>რეპორტები
       </v-btn>
 
@@ -75,7 +87,7 @@ export default {
       }
     },
     checkUsersPer() {
-      if (this.Claims.includes("CanReadUsers")) {
+      if (this.Claims.includes("CanModifyUsers")) {
         return true;
       } else {
         return false;
@@ -105,6 +117,20 @@ export default {
     },
     checkPermissionsPer() {
       if (this.Claims.includes("CanReadPermissions")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    checkPermissionsGoods() {
+      if (this.Claims.includes("CanModifyGoodsIssues")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    checkPermissionsReports() {
+      if (this.Claims.includes("CanViewReports")) {
         return true;
       } else {
         return false;

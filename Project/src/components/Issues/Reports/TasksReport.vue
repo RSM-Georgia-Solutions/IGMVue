@@ -38,9 +38,12 @@ import axios from "axios";
 import FileSaver from "file-saver";
 export default {
   created() {
+    console.log('1')
     this.axios
       .get(this.$store.state.baseUrl + "/TaskDailyHistory/GetFullTaskHistory")
       .then(res => {
+        console.log('res')
+        console.log(res)
         const tasksRes = res.data;
         for (let key in tasksRes) {
           const taskRes = tasksRes[key];
@@ -52,17 +55,18 @@ export default {
             .substr(0, 10);
           this.tasks.push(taskRes);
         }
-        console.log(res.data);
+        console.log(res.data, 'aaaaaaaaaaa');
       })
-      .catch(err => {});
+      .catch(err => {console.log(err,'errrr')});
+      console.log('last')
   },
   data() {
     return {
-      rowsPerPageItems: [
-        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
-        10,
-        5,
-        25
+      rowsPerPageItems: [        
+        50,
+        100,
+        200,
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
       ],
       search: "",
       tasks: [],

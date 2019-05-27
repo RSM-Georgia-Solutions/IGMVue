@@ -33,7 +33,7 @@
         label="რაოდენობა"
         placeholder="რაოდენობა"
         v-model="JournalEntry.quantity"
-        :rules="quantityRule"
+ 
       ></v-text-field>
       <v-flex mt-3>
       <v-textarea  label="კომენტარი" placeholder="კომენტარი" v-model="JournalEntry.Comment"></v-textarea>
