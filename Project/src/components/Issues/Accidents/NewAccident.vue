@@ -162,21 +162,21 @@ export default {
           const task = tasksRes[key];
           this.Types.push(task);
         }
-        axios
-          .get(this.$store.state.baseUrl + "/PlannedWorks")
-          .then(res => {
-            const PlannedWorksRes = res.data;
-            for (let key in PlannedWorksRes) {
-              const PlannedWoksRes = PlannedWorksRes[key];
-              const taskx = {};
-              taskx.id = PlannedWoksRes.id;
-              taskx.task = PlannedWoksRes.name;
-              this.Types.push(taskx);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        // axios
+        //   .get(this.$store.state.baseUrl + "/PlannedWorks")
+        //   .then(res => {
+        //     const PlannedWorksRes = res.data;
+        //     for (let key in PlannedWorksRes) {
+        //       const PlannedWoksRes = PlannedWorksRes[key];
+        //       const taskx = {};
+        //       taskx.id = PlannedWoksRes.id;
+        //       taskx.task = PlannedWoksRes.name;
+        //       this.Types.push(taskx);
+        //     }
+        //   })
+        //   .catch(err => {
+        //     console.log(err);
+        //   });
 
         var gocha = Array.from(this.Types);
         var x2 = gocha.find(x => x.id == this.$route.params.id.taskId).task;

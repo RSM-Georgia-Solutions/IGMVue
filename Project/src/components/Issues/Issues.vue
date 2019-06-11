@@ -12,7 +12,7 @@
       </v-btn>
 
       <v-btn
-        v-if=" checkPlannedWorksPer() && checkUsersPer() && checkTasksPer()"
+        v-if="  checkUsersPer() && checkTasksPer()"
         color="#78909C"
         class="text-lg-left mt-3"
         dark
@@ -29,14 +29,15 @@
         :to="{name:'OpenAccidents'}"
       >
         <v-icon left>rate_review</v-icon>ღია ინციდენტები
-      </v-btn>
+      </v-btn> 
+
     </v-layout>
   </v-container>
 </template>
 
-<script>
+<script> 
 export default {
-  created() {
+  created() { 
     this.axios
       .get(this.$store.state.baseUrl + "/Helper/GetUserPermissions")
       .then(res => {

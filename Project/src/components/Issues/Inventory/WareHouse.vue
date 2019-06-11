@@ -3,9 +3,9 @@
     <v-snackbar
       v-model="isSuccess"
       :timeout="6000"
-      color="success"
+      :color="responseColor"
       :bottom="true"
-    >საწყობი წარმატებით დაემატა</v-snackbar>
+    >{{responseMessage}}</v-snackbar>
 
     <v-toolbar flat color="white">
       <v-toolbar-title>საწყობები</v-toolbar-title>
@@ -141,6 +141,9 @@ export default {
 
   data() {
     return {
+      responseMessage: "",
+      responseColor: "",
+
       itemNameRules: [v => !!v || "branch is required"],
 
       itemCodeRules: [v => !!v || "Code is required"],
@@ -214,8 +217,10 @@ export default {
 
           .then(res => {
             Object.assign(this.WareHouses[this.editedIndex], this.editedItem);
-
+            this.responseMessage = "საწყობი წარმატებით დაკორექტირდა";
+            this.responseColor = "success";
             this.close();
+            window.location.reload();
             if (res.data.isSuccess == "false") {
               console.log(res.data);
             } else {
@@ -232,20 +237,22 @@ export default {
           .post(this.$store.state.baseUrl + "/WareHouse/", this.editedItem)
 
           .then(res => {
-            console.log(res, "RESPONSE ");
-
             if (res.data.isSuccess == "false") {
               console.log(res.data);
             } else {
               this.WareHouses.push(this.editedItem);
               this.isSuccess = true;
+              this.responseMessage = "საწყობი წარმატებით დაემატა";
+              this.responseColor = "success";
               this.close();
             }
           })
 
-          .catch(error =>
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
-          );
+          .catch(error => {
+            this.isSuccess = true;
+            this.responseMessage = error.response.data;
+            this.responseColor = "error";
+          });
       }
     }
   }

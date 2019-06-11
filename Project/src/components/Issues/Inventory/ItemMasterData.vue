@@ -3,9 +3,10 @@
     <v-snackbar
       v-model="isSuccess"
       :timeout="6000"
-      color="success"
+      :color="responseColor"
+       class="text-sm-lef"
       :bottom="true"
-    >საქონელი წარმატებით დაემატა</v-snackbar>
+    >{{this.responseMessage}}</v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>საქონლის ცნობარი</v-toolbar-title>
 
@@ -132,6 +133,10 @@ export default {
 
   data() {
     return {
+      responseMessage: "",
+
+      responseColor: "",
+
       itemNameRules: [v => !!v || "Name is required"],
 
       itemCodeRules: [v => !!v || "Code is required"],
@@ -199,14 +204,15 @@ export default {
 
         axios
           .put(this.$store.state.baseUrl + "/itemmasterdata/", this.editedItem)
-
           .then(res => {
             Object.assign(
               this.ItemMasterData[this.editedIndex],
               this.editedItem
             );
             self.message = "Data is entered";
-            console.log("aaaaaaaaaaaa");
+            this.isSuccess = true;
+            this.responseMessage = "საქონელი წარმატებით შეინახა";
+            this.responseColor = "success";
             this.close();
           })
 
@@ -223,13 +229,18 @@ export default {
             } else {
               this.ItemMasterData.push(this.editedItem);
               this.isSuccess = true;
+              this.responseMessage = "საქონელი წარმატებით შეინახა";
+              this.responseColor = "success";
+
               this.close();
             }
           })
 
-          .catch(error =>
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
-          );
+          .catch(error => {
+            this.isSuccess = true;
+            this.responseMessage = error.response.data;
+            this.responseColor = "error";
+          });
       }
     }
   }

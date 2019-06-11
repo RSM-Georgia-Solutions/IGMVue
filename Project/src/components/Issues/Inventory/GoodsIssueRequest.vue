@@ -358,6 +358,8 @@ export default {
             this.isSuccess = true;
           });
       } else {
+        this.close();
+
         this.axios
           .post(
             this.$store.state.baseUrl + "/GoodsIssueRequest",

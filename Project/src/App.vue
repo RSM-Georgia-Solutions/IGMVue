@@ -9,6 +9,11 @@
           <v-list-tile-content>საკითხები</v-list-tile-content>
         </v-list-tile>
 
+        <v-btn flat @click="changeBranch">
+          <v-icon left>call_split</v-icon>
+          {{userDb.branch.branchName}}
+        </v-btn>
+
         <v-list-tile to="/Others">
           <v-list-tile-action>
             <v-icon>widgets</v-icon>
@@ -42,18 +47,11 @@
           <v-icon left>widgets</v-icon>სხვა
         </v-btn>
         <v-list-tile></v-list-tile>
+        <v-btn flat @click="changeBranch">
+          <v-icon left>call_split</v-icon>
+          {{this.userDb.branch.branchName}}
+        </v-btn>
       </v-toolbar-items>
-<!-- 
-      <v-btn flat :to="{name: 'Users'}" v-if="isLogin">
-        <v-icon left>account_circle</v-icon>
-        {{User}}
-      </v-btn> -->
-
-      <v-btn flat v-if="userDb != null" @click="changeBranch">
-        <v-icon left>call_split</v-icon>
-        {{userDb.branch.branchName}}
-      </v-btn>
-
       <v-spacer></v-spacer>
 
       <v-btn flat class="hidden-sm-and-down" @click="logout" v-if="isLogin">
@@ -132,7 +130,7 @@ export default {
     },
 
     branchName() {
-      return this.userDb.branch.branchName;
+      return this.$store.state.User.branch.branchName;
     },
 
     isLogin() {

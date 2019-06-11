@@ -88,8 +88,8 @@ export default {
           localStorage.username = res.data.username;
           localStorage.firsname = res.data.firstName;
           localStorage.lastname = res.data.lastName;
-          this.$store.state.User = res.data.firstName + ' ' + res.data.lastName;
-
+          this.$store.state.User = res.data.firstName + " " + res.data.lastName;
+         
           if (this.redirectUrl != "") {
             this.$router.push(this.redirectUrl);
             this.redirectUrl = "";
