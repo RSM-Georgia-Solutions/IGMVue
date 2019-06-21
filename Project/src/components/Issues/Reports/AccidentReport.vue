@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <v-card-title primary-title>ინციდენტები
+    <v-card-title primary-title>
+      ინციდენტები
       <v-spacer></v-spacer>
       <v-flex xs3 mr-5>
         <v-btn color="success" x-large @click="ExportToExcel">
@@ -31,8 +32,8 @@
         <!-- <td class="text-xs-left" style="cursor: pointer">{{ props.item.priority }}</td> -->
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.floorNumber }}</td>
-<!-- 
-        <td class="text-xs-left" style="cursor: pointer">{{ props.item.sectorName }}</td> -->
+        <!-- 
+        <td class="text-xs-left" style="cursor: pointer">{{ props.item.sectorName }}</td>-->
 
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.comment }}</td>
         <td class="text-xs-left" style="cursor: pointer">{{ props.item.ownerName }}</td>
@@ -58,10 +59,14 @@ export default {
         const accidentsRes = res.data;
         for (let key in accidentsRes) {
           const acc = accidentsRes[key];
-          acc.endDate = new Date(acc.endDate).toISOString().substr(0, 10);
-          acc.createDate = new Date(acc.createDate).toISOString().substr(0, 10);
-          // acc.createDate.setHours(acc.createDate.getHours())
-          acc.dueDate = new Date(acc.dueDate).toISOString().substr(0, 10);
+
+          // acc.endDate = new Date(acc.endDate).toISOString().substr(0, 10);
+          // acc.createDate = new Date(acc.createDate);
+
+          acc.endDate = acc.endDate.substr(0, 10);
+          acc.createDate = acc.endDate.substr(0, 10);
+          acc.dueDate = acc.endDate.substr(0, 10);
+
           this.Accidents.push(acc);
         }
         console.log(this.Accidents);
@@ -70,12 +75,7 @@ export default {
   },
   data() {
     return {
-      rowsPerPageItems: [
-        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
-        10,
-        5,
-        25
-      ],
+      rowsPerPageItems: [50, 5, 10, 25],
       search: "",
       ExportToExcelFile: File,
       Accidents: [],

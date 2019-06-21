@@ -73,7 +73,11 @@ export default {
       sideNav: false,
       user: localStorage.firsname + " " + localStorage.lastname,
       token: "",
-      userDb: null,
+      userDb: {
+        branch: {
+          branchName: ""
+        }
+      },
       all: false
     };
   },

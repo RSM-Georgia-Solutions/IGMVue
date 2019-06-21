@@ -4,9 +4,9 @@
       mt-3
       v-model="isShown"
       :timeout="4000"
-      color="success"
+      :color="responseColor"
       :bottom="true"
-    >მომხმარებელი წარმატებით დაემატა</v-snackbar>
+    >{{responseMassage}}</v-snackbar>
     <v-toolbar flat color="white">
       <v-toolbar-title>მომხმარებლები</v-toolbar-title>
 
@@ -215,11 +215,14 @@ export default {
 
   data() {
     return {
+      responseMassage: "",
+      responseColor: "",
+
       rowsPerPageItems: [
         { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
         5,
         10,
-        25,        
+        25
       ],
       roles: [],
       branches: [],
@@ -399,20 +402,18 @@ export default {
             Object.assign(this.Users[this.editedIndex], this.editedItem);
             this.getUsers(true);
             this.close();
+            this.responseMassage = "მომხმარებელი წარმატებით შეინახა";
+            this.responseColor = "success";
+            this.isShown = true;
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.responseMassage = error.response.data;
+            this.responseColor = "error";
+            this.isShown = true;
+          });
       } else {
-        axios
-          .post(
-            this.$store.state.baseUrl + "/users/register",
-            this.editedItem,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.token
-              }
-            }
-          )
-
+        this.axios
+          .post(this.$store.state.baseUrl + "/users/register", this.editedItem)
           .then(res => {
             if (res.status == 202) {
               this.isShown = true;
@@ -420,16 +421,19 @@ export default {
             this.axios
               .get(this.$store.state.baseUrl + "/users/" + res.data)
               .then(res => {
-                console.log(res.data);
                 this.Users.push(res.data);
+                this.responseMassage = "მომხმარებელი წარმატებით დაემატა";
+                this.responseColor = "success";
+                this.isShown = true;
               });
             console.log(res);
             this.close();
           })
-
-          .catch(error =>
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrorrr" + error)
-          );
+          .catch(error => {
+            this.responseMassage = error.response.data;
+            this.responseColor = "error";
+            this.isShown = true;
+          });
       }
     }
   }

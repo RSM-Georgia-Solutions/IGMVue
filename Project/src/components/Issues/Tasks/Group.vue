@@ -8,13 +8,19 @@
     >დავალების ისტორია წარმატებით შეინახა</v-snackbar>
 
     <v-layout row wrap v-for="task in tasksHistory" :key="task.id">
-      <v-flex xs7 lg10 mt-3>
+      <v-flex ml-2 xs7 lg10 mt-3>
         <v-card
           @click.native="NavigateToAccidentAdded(task)"
           dark
           :class="changeColor(task.taskStatus)"
         >
-          <v-card-text class="px-2">{{task.task}}</v-card-text>
+          <v-card-text class="px-2">
+            <span class="headStyle">{{task.task}}</span>
+            <span
+              class="authorStyle"
+              v-if="task.taskStatus != 'შეუმოწმებელი'"
+            >© {{task.firstName}} {{task.lastName}}</span>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-layout column xs5 lg2 mt-3>
@@ -51,6 +57,8 @@ export default {
     };
   },
 
+  computed: {},
+
   methods: {
     changeColor(taskStatus) {
       var x =
@@ -75,11 +83,15 @@ export default {
         )
         .then(res => {
           console.log(res);
+          this.getHistory();
         })
-        .catch(err => {});
+        .catch(err => {
+          this.getHistory();
+        });
     },
 
     getHistory() {
+      var tasksHistoryTmp = [];
       this.axios
         .get(
           this.$store.state.baseUrl +
@@ -95,12 +107,16 @@ export default {
             tasksHistory.taskStatus = taskHistoryRes.taskStatus;
             tasksHistory.task = taskHistoryRes.taskDaily.task;
             tasksHistory.taskId = taskHistoryRes.taskDaily.id;
-            console.log(taskHistoryRes);
+            tasksHistory.firstName = taskHistoryRes.user.firstName;
+            tasksHistory.lastName = taskHistoryRes.user.lastName;
             tasksHistory.AccidentId = taskHistoryRes.accidentId;
             tasksHistory.disabledRed =
               taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
-            this.tasksHistory.push(tasksHistory);
+
+            tasksHistoryTmp.push(tasksHistory);
+            this.tasksHistory = tasksHistoryTmp;
           }
+          console.log(this.tasksHistory);
 
           // console.log(this.tasksHistory);
 
@@ -171,4 +187,12 @@ export default {
 </script>
 
 <style>
+.headStyle {
+}
+.authorStyle {
+  position: relative;
+  left: 10px;
+  color: whitesmoke;
+  font-size: 0.8em;
+}
 </style>
