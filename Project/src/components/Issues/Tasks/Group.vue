@@ -5,7 +5,8 @@
       :timeout="6000"
       color="success"
       :bottom="true"
-    >დავალების ისტორია წარმატებით შეინახა</v-snackbar>
+      >დავალების ისტორია წარმატებით შეინახა</v-snackbar
+    >
 
     <v-layout row wrap v-for="task in tasksHistory" :key="task.id">
       <v-flex ml-2 xs7 lg10 mt-3>
@@ -15,16 +16,19 @@
           :class="changeColor(task.taskStatus)"
         >
           <v-card-text class="px-2">
-            <span class="headStyle">{{task.task}}</span>
-            <span
-              class="authorStyle"
-              v-if="task.taskStatus != 'შეუმოწმებელი'"
-            >© {{task.firstName}} {{task.lastName}}</span>
+            <span class="headStyle">{{ task.task }}</span>
+            <span class="authorStyle" v-if="task.taskStatus != 'შეუმოწმებელი'"
+              >© {{ task.firstName }} {{ task.lastName }}</span
+            >
           </v-card-text>
         </v-card>
       </v-flex>
       <v-layout column xs5 lg2 mt-3>
-        <v-radio-group v-model="task.taskStatus" row :disabled="task.disabledRed">
+        <v-radio-group
+          v-model="task.taskStatus"
+          row
+          :disabled="task.disabledRed"
+        >
           <v-flex xs4 ml-2 @click="updateHistory(task.id)">
             <v-radio color="success" label="✓" value="უპრობლემო"></v-radio>
           </v-flex>
@@ -46,11 +50,14 @@
 </template>
 
 <script>
+import debounce from "lodash/debounce";
 import axios from "axios";
 import Vue from "vue";
 export default {
   data() {
     return {
+      currentPage: 1,
+      scrolledToBottom: false,
       tasks: [],
       tasksHistory: [],
       isSuccess: false
@@ -60,6 +67,23 @@ export default {
   computed: {},
 
   methods: {
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          this.getHistoryTest((this.currentPage += 1));
+        }
+      };
+    },
+
     changeColor(taskStatus) {
       var x =
         taskStatus == "უპრობლემო"
@@ -83,20 +107,63 @@ export default {
         )
         .then(res => {
           console.log(res);
-          this.getHistory();
+          this.getHistory(this.currentPage);
         })
         .catch(err => {
-          this.getHistory();
+          this.getHistory(this.currentPage);
         });
     },
 
-    getHistory() {
-      var tasksHistoryTmp = [];
+    getHistoryTest(currentPage) {
+      console.log(currentPage);
       this.axios
         .get(
-          this.$store.state.baseUrl +
-            "/TaskDailyHistory/GetHistoryByGroup?groupId=" +
-            this.$route.params.id
+          this.$store.state.baseUrl + "/TaskDailyHistory/GetHistoryByGroup",
+          {
+            params: {
+              groupId: this.$route.params.id,
+              CurrentPage: currentPage,
+              PageSize: 30
+            }
+          }
+        )
+        .then(res => {
+          var tasksHistoryTmp = [];
+          const tasksHistoryRes = res.data;
+          for (let key in tasksHistoryRes) {
+            const taskHistoryRes = tasksHistoryRes[key];
+            const tasksHistory = {};
+            tasksHistory.id = taskHistoryRes.id;
+            tasksHistory.taskStatus = taskHistoryRes.taskStatus;
+            tasksHistory.task = taskHistoryRes.taskDaily.task;
+            tasksHistory.taskId = taskHistoryRes.taskDaily.id;
+            tasksHistory.firstName = taskHistoryRes.user.firstName;
+            tasksHistory.lastName = taskHistoryRes.user.lastName;
+            tasksHistory.AccidentId = taskHistoryRes.accidentId;
+            tasksHistory.disabledRed =
+              taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
+            tasksHistoryTmp.push(tasksHistory);
+          }
+          this.tasksHistory = this.tasksHistory.concat(tasksHistoryTmp);
+          console.log(this.tasksHistory);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getHistory(currentPage) {
+      var tasksHistoryTmp = [];
+      var xz = [];
+      this.axios
+        .get(
+          this.$store.state.baseUrl + "/TaskDailyHistory/GetHistoryByGroup",
+          {
+            params: {
+              groupId: this.$route.params.id,
+              CurrentPage: currentPage,
+              PageSize: 30
+            }
+          }
         )
         .then(res => {
           const tasksHistoryRes = res.data;
@@ -112,21 +179,9 @@ export default {
             tasksHistory.AccidentId = taskHistoryRes.accidentId;
             tasksHistory.disabledRed =
               taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
-
             tasksHistoryTmp.push(tasksHistory);
-            this.tasksHistory = tasksHistoryTmp;
           }
-          console.log(this.tasksHistory);
-
-          // console.log(this.tasksHistory);
-
-          // const tasksRes = res.data.tasks;
-          // for (let key in tasksRes) {
-          //   const taskRes = tasksRes[key];
-          //   taskRes.createDate = new Date().toISOString().substr(0, 10);
-          //   taskRes.taskGroupId = this.$route.params.id;
-          //   this.tasks.push(taskRes);
-          // }
+          this.tasksHistory = tasksHistoryTmp;
         })
         .catch(err => {
           console.log(err);
@@ -154,19 +209,12 @@ export default {
           });
       }
     },
-    // NavigateToAccident(picked) {
-    //   if (picked.taskStatus == "პრობლემური") {
-    //     this.$router.push({
-    //       name: "NewAccident",
-    //       params: { id: picked.taskDailyId }
-    //     });
-    //   }
-    // }
 
     NavigateToAccident(picked) {
+      console.log("Picked", picked);
       this.$router.push({
         name: "NewAccident",
-        params: { id: picked }
+        params: { id: picked, task: picked.task }
       });
     },
 
@@ -181,14 +229,15 @@ export default {
   },
 
   created() {
-    this.getHistory();
+    this.getHistory(this.currentPage);
+  },
+  mounted() {
+    this.scroll();
   }
 };
 </script>
 
 <style>
-.headStyle {
-}
 .authorStyle {
   position: relative;
   left: 10px;

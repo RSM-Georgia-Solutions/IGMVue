@@ -10,6 +10,7 @@
           label="ტიპი"
           placeholder="არჩევა..."
           :rules="TypeRule"
+          :search-input.sync="search"
           required
         ></v-autocomplete>
 
@@ -46,17 +47,6 @@
           :rules="sectorRule"
           required
         ></v-autocomplete>
-
-        <!-- <v-autocomplete
-          :items="Priority"
-          item-text="Name"
-          item-value="id"
-          v-model="Accident.Priority"
-          label="პრიორიტეტი"
-          placeholder="არჩევა..."
-          :rules="priorityRule"
-          required
-        ></v-autocomplete>-->
 
         <v-autocomplete
           :items="users"
@@ -95,15 +85,24 @@
             readonly
           ></v-text-field>
 
-          <v-date-picker v-model="Accident.DueDate" @input="menu2 = false"></v-date-picker>
+          <v-date-picker
+            v-model="Accident.DueDate"
+            @input="menu2 = false"
+          ></v-date-picker>
         </v-menu>
 
-        <v-textarea placeholder="კომენტარი" v-model="Accident.Comment"></v-textarea>
+        <v-textarea
+          placeholder="კომენტარი"
+          v-model="Accident.Comment"
+        ></v-textarea>
 
         <v-content>
           <v-container fluid>
-            <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-              <img :src="imageUrl" height="150" v-if="imageUrl">
+            <v-flex
+              xs12
+              class="text-xs-center text-sm-center text-md-center text-lg-center"
+            >
+              <img :src="imageUrl" height="150" v-if="imageUrl" />
               <v-text-field
                 label="Select Image"
                 @click="pickFile"
@@ -117,7 +116,7 @@
                 accept="image/*"
                 :rules="imageRule"
                 @change="onFilePicked"
-              >
+              />
             </v-flex>
           </v-container>
         </v-content>
@@ -127,22 +126,32 @@
         :disabled="disabledButton"
         :loading="dialog"
         color="success"
-        @click="dialog2 = true; AddAccident()"
-      >ინციდენტის დამატება</v-btn>
+        @click="
+          dialog2 = true;
+          AddAccident();
+        "
+        >ინციდენტის დამატება</v-btn
+      >
 
       <v-dialog v-model="dialog2" hide-overlay persistent max-width="590">
         <v-card color="blue-grey lighten-1" dark>
           <v-card-text>
             მიმდინარეობს დამატება
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            <v-progress-linear
+              indeterminate
+              color="white"
+              class="mb-0"
+            ></v-progress-linear>
           </v-card-text>
         </v-card>
       </v-dialog>
       <v-dialog v-model="dialog" hide-overlay persistent max-width="590">
         <v-card color="white" dark>
-          <v-card-title :class="dialogColor">{{dialogText}}</v-card-title>
+          <v-card-title :class="dialogColor">{{ dialogText }}</v-card-title>
           <v-card-actions>
-            <v-btn :color="dialogColor" flat @click.native="dialog = false">OK</v-btn>
+            <v-btn :color="dialogColor" flat @click.native="dialog = false"
+              >OK</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -154,40 +163,6 @@
 import axios from "axios";
 export default {
   created() {
-    axios
-      .get(this.$store.state.baseUrl + "/TasksDaily")
-      .then(res => {
-        const tasksRes = res.data;
-        for (let key in tasksRes) {
-          const task = tasksRes[key];
-          this.Types.push(task);
-        }
-        // axios
-        //   .get(this.$store.state.baseUrl + "/PlannedWorks")
-        //   .then(res => {
-        //     const PlannedWorksRes = res.data;
-        //     for (let key in PlannedWorksRes) {
-        //       const PlannedWoksRes = PlannedWorksRes[key];
-        //       const taskx = {};
-        //       taskx.id = PlannedWoksRes.id;
-        //       taskx.task = PlannedWoksRes.name;
-        //       this.Types.push(taskx);
-        //     }
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
-
-        var gocha = Array.from(this.Types);
-        var x2 = gocha.find(x => x.id == this.$route.params.id.taskId).task;
-        this.taskHistoryObject = this.$route.params.id;
-        this.Accident.type = x2;
-      })
-      .catch(err => {
-        console.log(err);
-        return;
-      });
-
     axios
       .get(this.$store.state.baseUrl + "/Helper/GetPriorities")
       .then(res => {
@@ -261,11 +236,16 @@ export default {
       .catch(error => {
         console.log(error);
       });
+    this.getTasks(this.$route.params.id.task);
   },
-
+  watch: {
+    search(val) {
+      val && val !== this.select && this.querySelections(val);
+    }
+  },
   data: () => ({
     taskHistoryObject: {},
-
+    search: null,
     disabledButton: true,
 
     defaultBranch: null,
@@ -356,6 +336,34 @@ export default {
   },
 
   methods: {
+    getTasks(taskName2) {
+      axios
+        .get(this.$store.state.baseUrl + "/TasksDaily/TasksDailyByName", {
+          params: { taskName: taskName2 }
+        })
+        .then(res => {
+          const tasksRes = res.data;
+
+          for (let key in tasksRes) {
+            const task = tasksRes[key];
+
+            this.Types.push(task);
+          }
+          var gocha = Array.from(this.Types);
+          var x2 = gocha.find(x => x.id == this.$route.params.id.taskId).task;
+          this.taskHistoryObject = this.$route.params.id;
+          this.Accident.type = x2;
+        })
+        .catch(err => {
+          console.log("TasksDaily", err);
+          return;
+        });
+    },
+    querySelections(v) {
+      if (v.length >= 3) {
+        this.getTasks(v);
+      }
+    },
     validate() {
       console.log(this.$refs);
       if (this.$refs.form.validate()) {
@@ -426,6 +434,7 @@ export default {
     },
 
     onFloorChange(floor) {
+      console.log(this.activeBuilding);
       var floor = this.activeBuilding.floors.find(b => b.floorNumber == floor);
       this.Accident.SectorId = floor.sectors[0].id;
       this.activeFloor = floor;
@@ -469,5 +478,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
