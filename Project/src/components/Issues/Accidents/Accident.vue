@@ -5,7 +5,8 @@
       :timeout="6000"
       :color="responseStatus"
       :bottom="true"
-    >{{responseText}}</v-snackbar>
+      >{{ responseText }}</v-snackbar
+    >
     <v-container fluid fill-height>
       <v-layout row wrap>
         <v-flex xs12 lg3 offset-lg4>
@@ -14,19 +15,39 @@
           </v-card>
         </v-flex>
         <v-flex xs12 mt-3>
-          <v-text-field disabled v-model="Accdient.sectorName" label="სექტორი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.sectorName"
+            label="სექტორი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.buildingBranch" label="ფილიალი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.buildingBranch"
+            label="ფილიალი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.floorNumber" label="სართული"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.floorNumber"
+            label="სართული"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.priority" label="პრიორიტეტი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.priority"
+            label="პრიორიტეტი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.type" label="ტიპი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.type"
+            label="ტიპი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
           <v-autocomplete
@@ -38,20 +59,39 @@
           ></v-autocomplete>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.username" label="username"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.username"
+            label="username"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.createDate" label="შექმნის თარიღი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.createDate"
+            label="შექმნის თარიღი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.dueDate" label="შესრულების თარიღი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.dueDate"
+            label="შესრულების თარიღი"
+          ></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-text-field disabled v-model="Accdient.comment" label="კომენტარი"></v-text-field>
+          <v-text-field
+            disabled
+            v-model="Accdient.comment"
+            label="კომენტარი"
+          ></v-text-field>
         </v-flex>
 
-        <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-          <img :src="imageUrl" height="150" v-if="imageUrl">
+        <v-flex
+          xs12
+          class="text-xs-center text-sm-center text-md-center text-lg-center"
+        >
+          <img :src="imageUrl" height="150" v-if="imageUrl" />
           <v-text-field
             label="Select Image"
             @click="pickFile"
@@ -65,7 +105,7 @@
             accept="image/*"
             :rules="imageRule"
             @change="onFilePicked"
-          >
+          />
         </v-flex>
         <v-flex xs12 lg3 offset-lg4>
           <v-card>
@@ -73,14 +113,20 @@
           </v-card>
         </v-flex>
         <v-flex xs12>
-          <v-switch xs12 lg3 v-model="disabled" label="მარაგების ჩამოწერა"></v-switch>
+          <v-switch
+            xs12
+            lg3
+            v-model="disabled"
+            label="მარაგების ჩამოწერა"
+          ></v-switch>
           <v-btn right color="primary" @click="UpdateAccident">შენახვა</v-btn>
           <v-btn
             right
             color="primary"
             :disabled="!disabled"
             @click="navigateToGoodsIssue"
-          >მარაგების ჩამოწერა</v-btn>
+            >მარაგების ჩამოწერა</v-btn
+          >
         </v-flex>
       </v-layout>
     </v-container>
@@ -104,7 +150,7 @@ export default {
       })
       .catch(err => {
         console.log(err);
-      });
+      }); 
 
     this.axios
       .get(this.$store.state.baseUrl + "/Accidents/" + this.$route.params.id)
@@ -209,5 +255,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -120,6 +120,7 @@ export default {
     },
 
     getHistoryById(historyId) {
+      console.log("historyId", historyId);
       this.axios
         .get(
           this.$store.state.baseUrl +
@@ -129,19 +130,23 @@ export default {
         .then(res => {
           var tasksHistoryTmp = [];
           const taskHistoryRes = res.data;
-          const tasksHistory = {};     
+          console.log("response", taskHistoryRes);
+          const tasksHistory = {};
           tasksHistory.id = taskHistoryRes.id;
           tasksHistory.taskStatus = taskHistoryRes.taskStatus;
-          tasksHistory.task = taskHistoryRes.task;
-          tasksHistory.taskId = taskHistoryRes.id;
-          tasksHistory.firstName = taskHistoryRes.firstName;
-          tasksHistory.lastName = taskHistoryRes.lastName;
+          tasksHistory.task = taskHistoryRes.taskDaily.task;
+          tasksHistory.taskId = taskHistoryRes.taskDaily.id;
+          tasksHistory.firstName = taskHistoryRes.user.firstName;
+          tasksHistory.lastName = taskHistoryRes.user.lastName;
           tasksHistory.AccidentId = taskHistoryRes.accidentId;
           tasksHistory.disabledRed =
             taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
           tasksHistoryTmp.push(tasksHistory);
-          var xz = this.tasksHistory.find(x => x.id == tasksHistoryTmp[0].id);
-          xz = tasksHistory;
+          var index = this.tasksHistory.findIndex(
+            x => x.id == tasksHistoryTmp[0].id
+          );
+          this.tasksHistory[index] = tasksHistory;  
+          Vue.set(this.tasksHistory, index, tasksHistory)
         })
         .catch(err => console.log("error", err));
     },
@@ -170,7 +175,7 @@ export default {
             tasksHistory.id = taskHistoryRes.id;
             tasksHistory.taskStatus = taskHistoryRes.taskStatus;
             tasksHistory.task = taskHistoryRes.task;
-            tasksHistory.taskId = taskHistoryRes.id;
+            tasksHistory.taskId = taskHistoryRes.taskDailyId;
             tasksHistory.firstName = taskHistoryRes.firstName;
             tasksHistory.lastName = taskHistoryRes.lastName;
             tasksHistory.AccidentId = taskHistoryRes.accidentId;

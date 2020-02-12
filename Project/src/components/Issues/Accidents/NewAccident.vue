@@ -215,8 +215,6 @@ export default {
           x => (x.floorNumber = 1)
         );
 
-        console.log(this.buildings[0].floors);
-        console.log(this.activeFloor.sectors[0], "sec");
         this.Accident.SectorId = this.activeFloor.sectors[0].id;
       })
       .catch(error => console.log(error));
@@ -346,11 +344,12 @@ export default {
 
           for (let key in tasksRes) {
             const task = tasksRes[key];
-
             this.Types.push(task);
           }
           var gocha = Array.from(this.Types);
+
           var x2 = gocha.find(x => x.id == this.$route.params.id.taskId).task;
+
           this.taskHistoryObject = this.$route.params.id;
           this.Accident.type = x2;
         })
