@@ -69,15 +69,21 @@ export default {
   methods: {
     scroll() {
       window.onscroll = () => {
-        let bottomOfWindow =
+        let currentHeight =
           Math.max(
             window.pageYOffset,
             document.documentElement.scrollTop,
             document.body.scrollTop
-          ) +
-            window.innerHeight ===
-          document.documentElement.offsetHeight;
+          ) + window.innerHeight;
+        let maxHeight = document.documentElement.offsetHeight;
+        let scrollNow = maxHeight - currentHeight;
+        console.log(scrollNow, "S");
+        let bottomOfWindow = scrollNow === 0;
+        // setTimeout(() => {
 
+        //     console.log("2 seconds up, resolving myTimerPromise")
+
+        // }, 2000);
         if (bottomOfWindow) {
           this.getHistoryTest((this.currentPage += 1));
         }
@@ -96,9 +102,9 @@ export default {
 
     updateHistory(taskId) {
       var x = this.tasksHistory.find(x => x.id == taskId);
-      if (this.tasksHistory == "უპრობლემო") {
-        return;
-      }
+      // if (x.taskStatus == "უპრობლემო") {
+      //   return;
+      // }
       this.changeColor();
       this.axios
         .put(
@@ -106,16 +112,43 @@ export default {
           x
         )
         .then(res => {
-          console.log(res);
-          this.getHistory(this.currentPage);
+          this.getHistoryById(x.id);
         })
         .catch(err => {
-          this.getHistory(this.currentPage);
+          this.getHistoryById(x.id);
         });
+    },
+
+    getHistoryById(historyId) {
+      this.axios
+        .get(
+          this.$store.state.baseUrl +
+            "/TaskDailyHistory/GetTaskHistory/" +
+            historyId
+        )
+        .then(res => {
+          var tasksHistoryTmp = [];
+          const taskHistoryRes = res.data;
+          const tasksHistory = {};     
+          tasksHistory.id = taskHistoryRes.id;
+          tasksHistory.taskStatus = taskHistoryRes.taskStatus;
+          tasksHistory.task = taskHistoryRes.task;
+          tasksHistory.taskId = taskHistoryRes.id;
+          tasksHistory.firstName = taskHistoryRes.firstName;
+          tasksHistory.lastName = taskHistoryRes.lastName;
+          tasksHistory.AccidentId = taskHistoryRes.accidentId;
+          tasksHistory.disabledRed =
+            taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
+          tasksHistoryTmp.push(tasksHistory);
+          var xz = this.tasksHistory.find(x => x.id == tasksHistoryTmp[0].id);
+          xz = tasksHistory;
+        })
+        .catch(err => console.log("error", err));
     },
 
     getHistoryTest(currentPage) {
       console.log(currentPage);
+      console.log("Get Request Run");
       this.axios
         .get(
           this.$store.state.baseUrl + "/TaskDailyHistory/GetHistoryByGroup",
@@ -128,6 +161,7 @@ export default {
           }
         )
         .then(res => {
+          console.log("Get Request End", res.data);
           var tasksHistoryTmp = [];
           const tasksHistoryRes = res.data;
           for (let key in tasksHistoryRes) {
@@ -135,10 +169,10 @@ export default {
             const tasksHistory = {};
             tasksHistory.id = taskHistoryRes.id;
             tasksHistory.taskStatus = taskHistoryRes.taskStatus;
-            tasksHistory.task = taskHistoryRes.taskDaily.task;
-            tasksHistory.taskId = taskHistoryRes.taskDaily.id;
-            tasksHistory.firstName = taskHistoryRes.user.firstName;
-            tasksHistory.lastName = taskHistoryRes.user.lastName;
+            tasksHistory.task = taskHistoryRes.task;
+            tasksHistory.taskId = taskHistoryRes.id;
+            tasksHistory.firstName = taskHistoryRes.firstName;
+            tasksHistory.lastName = taskHistoryRes.lastName;
             tasksHistory.AccidentId = taskHistoryRes.accidentId;
             tasksHistory.disabledRed =
               taskHistoryRes.taskStatus == "პრობლემური" ? true : false;
@@ -229,7 +263,7 @@ export default {
   },
 
   created() {
-    this.getHistory(this.currentPage);
+    this.getHistoryTest(this.currentPage);
   },
   mounted() {
     this.scroll();
