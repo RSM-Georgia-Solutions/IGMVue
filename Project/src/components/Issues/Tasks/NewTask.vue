@@ -71,7 +71,7 @@ export default {
     SaveTask() {
       console.log(this.TaskModel);
       this.axios
-        .post(this.$store.state.baseUrl + "/TasksDaily", this.TaskModel)
+        .post(this.$store.state.baseUrl + "/TasksDaily/CreateDailyTask", this.TaskModel)
         .then(res => {
           console.log(res);
           this.$router.push({ name: "Groups" });

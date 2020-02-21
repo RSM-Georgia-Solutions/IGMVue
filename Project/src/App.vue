@@ -11,7 +11,7 @@
 
         <v-btn flat @click="changeBranch">
           <v-icon left>call_split</v-icon>
-          {{userDb.branch.branchName}}
+          {{ userDb.branch.branchName }}
         </v-btn>
 
         <v-list-tile to="/Others">
@@ -31,7 +31,10 @@
     </v-navigation-drawer>
 
     <v-toolbar color="primary" dark>
-      <v-toolbar-side-icon @click="sideNav = !sideNav" class="hidden-lg-and-up"></v-toolbar-side-icon>
+      <v-toolbar-side-icon
+        @click="sideNav = !sideNav"
+        class="hidden-lg-and-up"
+      ></v-toolbar-side-icon>
       <v-toolbar-title class="mr-4" v-if="isLogin">
         <router-link to="/Issues" style="pointer">
           <v-icon>home</v-icon>
@@ -39,9 +42,7 @@
       </v-toolbar-title>
 
       <v-toolbar-items class="hidden-sm-and-down" v-if="isLogin">
-        <v-btn flat to="/Issues">
-          <v-icon left>gavel</v-icon>საკითხები
-        </v-btn>
+        <v-btn flat to="/Issues"> <v-icon left>gavel</v-icon>საკითხები </v-btn>
 
         <v-btn flat left to="/Others">
           <v-icon left>widgets</v-icon>სხვა
@@ -49,7 +50,7 @@
         <v-list-tile></v-list-tile>
         <v-btn flat @click="changeBranch">
           <v-icon left>call_split</v-icon>
-          {{this.userDb.branch.branchName}}
+          {{ this.userDb.branch.branchName }}
         </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
@@ -109,7 +110,6 @@ export default {
       this.axios
         .put(this.$store.state.baseUrl + "/users", this.userDb)
         .then(res => {
-          console.log(res);
           this.getUser();
           window.location.reload();
         })
@@ -143,15 +143,12 @@ export default {
         this.$store.state.token === "undefined" ||
         this.$store.state.token == null
       ) {
-        console.log(false);
         return false;
       }
-      console.log(true);
       return true;
     }
   }
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
