@@ -18,34 +18,39 @@ export default {
         {
           name: "მარაგის შეძენის მოთხოვნა",
 
-          route: "GoodsIssueRequest"
+          route: "GoodsIssueRequest",
         },
 
         {
           name: "მარაგის მიღება",
 
-          route: "GoodsReciept"
+          route: "GoodsReciept",
         },
 
         {
           name: "მარაგის ჩამოწერა ",
 
-          route: "GoodsIssue"
+          route: "GoodsIssue",
         },
         {
           name: "საქონლის სია",
 
-          route: "ItemsMasterData"
+          route: "ItemsMasterData",
         },
 
         {
           name: "საწყობები",
 
-          route: "WareHouses"
-        }
-      ]
+          route: "WareHouses",
+        },
+        {
+          name: "ტრანზაქციების განულება",
+
+          route: "ResetTransactions",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 
